@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+    // Further reading:
+    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    url      = env("DATABASE_URL")
+
+    relationMode = "prisma"
+}
+
+enum AgeGroup {
+    BELOW10   @map("10 below")
+    TO18AND30 @map("18 to 30")
+    TO31AND40 @map("31 to 40")
+    TO41AND50 @map("41 to 50")
+    TO51AND60 @map("51 to 60")
+    ABOVE60   @map("above 60")
+}
+
+enum Gender {
+    MALE
+    FEMALE
+}
+
+enum Kilometer {
+    KM3  @map("3 KM")
+    KM5  @map("5 KM")
+    KM10 @map("10 KM")
+}
+
+enum Municipality {
+    ABUCAY
+    BAGAC
+    BALANGA
+    DINALUPIHAN
+    HERMOSA
+    LIMAY
+    MARIVELES
+    MORONG
+    ORANI
+    ORION
+    PILAR
+    SAMAL
+}
+
+enum ShirtSize {
+    S   @map("SMALL")
+    MD  @map("MEDIUM")
+    L   @map("LARGE")
+    XL  @map("EXTRA LARGE")
+    XXL @map("DOUBLE EXTRA LARGE")
+}
+
+model ParticipantBataan {
+    id               String       @id @default(cuid())
+    ageGroup         AgeGroup
+    gender           Gender
+    birthdate        DateTime
+    email            String       @unique
+    contactNumber    String
+    municipality     Municipality
+    address          String
+    kilometer        Kilometer
+    shirtSize        ShirtSize
+    eventName        String
+    registrationDate DateTime     @default(now())
+    updatedAt        DateTime     @updatedAt
+}
+
+model ParticipantOutsideBataan {
+    id               String       @id @default(cuid())
+    ageGroup         AgeGroup
+    gender           Gender
+    birthdate        DateTime
+    email            String       @unique
+    contactNumber    String
+    municipality     Municipality
+    address          String
+    kilometer        Kilometer
+    shirtSize        ShirtSize
+    eventName        String
+    registrationDate DateTime     @default(now())
+    updatedAt        DateTime     @updatedAt
+}
+
+model Example {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Necessary for Next auth
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
