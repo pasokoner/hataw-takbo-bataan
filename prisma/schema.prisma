@@ -59,36 +59,32 @@ enum ShirtSize {
     XXL @map("DOUBLE EXTRA LARGE")
 }
 
-model ParticipantBataan {
-    id               String       @id @default(cuid())
-    ageGroup         AgeGroup
-    gender           Gender
-    birthdate        DateTime
-    email            String       @unique
-    contactNumber    String
-    municipality     Municipality
-    address          String
-    kilometer        Kilometer
-    shirtSize        ShirtSize
-    eventName        String
-    registrationDate DateTime     @default(now())
-    updatedAt        DateTime     @updatedAt
+model Participant {
+    id                     String        @id @default(cuid())
+    firstName              String
+    lastName               String
+    ageGroup               AgeGroup
+    gender                 Gender
+    birthdate              DateTime
+    email                  String?       @unique
+    contactNumber          String
+    municipality           Municipality?
+    address                String
+    kilometer              Kilometer
+    shirtSize              ShirtSize
+    emergencyContact       String
+    emergencyContactNumber String
+    registrationDate       DateTime      @default(now())
+    updatedAt              DateTime      @updatedAt
+    event                  Event         @relation(fields: [eventId], references: [id])
+    eventId                String
 }
 
-model ParticipantOutsideBataan {
-    id               String       @id @default(cuid())
-    ageGroup         AgeGroup
-    gender           Gender
-    birthdate        DateTime
-    email            String       @unique
-    contactNumber    String
-    municipality     Municipality
-    address          String
-    kilometer        Kilometer
-    shirtSize        ShirtSize
-    eventName        String
-    registrationDate DateTime     @default(now())
-    updatedAt        DateTime     @updatedAt
+model Event {
+    id          String        @id @default(cuid())
+    name        String
+    startDate   DateTime
+    Participant Participant[]
 }
 
 model Example {
