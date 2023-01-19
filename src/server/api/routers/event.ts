@@ -17,8 +17,20 @@ export const eventRouter = createTRPCRouter({
         where: {
           id: eventId,
         },
+        include: {
+          kilometer: {
+            include: {
+              participant: true,
+            },
+          },
+        },
       });
 
       return data;
     }),
+  // getAll: publicProcedure.query(async ({ ctx }) => {
+  //   const { prisma } = ctx;
+
+  //   return;
+  // }),
 });
