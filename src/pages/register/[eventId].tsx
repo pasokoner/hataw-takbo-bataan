@@ -17,14 +17,14 @@ const Register: NextPage = () => {
 
   if (!eventData) {
     return (
-      <div className="mx-auto pt-20">
+      <div className="mx-auto pt-6 md:pt-12">
         <p className="text-3xl">Event not found!</p>
       </div>
     );
   }
 
   return (
-    <div className="px-4 pt-12 pb-24">
+    <div className="px-4 pt-6 pb-24 md:pt-12">
       <h2 className="mb-4 text-2xl">Participant Details</h2>
       <RegistrationForm eventId={eventData.id} eventName={eventData.name} />
     </div>

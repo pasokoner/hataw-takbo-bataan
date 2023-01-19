@@ -1,22 +1,17 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import dayjs from "dayjs";
 
-import {
-  AgeGroup,
-  Gender,
-  Kilometer,
-  Municipality,
-  ShirtSize,
-} from "@prisma/client";
+import { AgeGroup, Gender, Municipality, ShirtSize } from "@prisma/client";
 import { type z } from "zod";
 import { type participantSchema } from "../server/api/routers/participantBataan";
 import { api } from "../utils/api";
 
+import { distances } from "../utils/constant";
+
 import Modal from "./Modal";
-import ScreenContainer from "../layouts/ScreenContainer";
 
 type Props = {
   eventId: string;
@@ -28,7 +23,22 @@ type ParticipantBataan = z.infer<typeof participantSchema>;
 type ParticipantOutsideBataan = Omit<ParticipantBataan, "municipality">;
 
 const RegistrationForm = ({ eventId, eventName }: Props) => {
-  const { mutate } = api.participant.register.useMutation();
+  const [error, setError] = useState("");
+
+  const { mutate } = api.participant.register.useMutation({
+    onSuccess: () => {
+      setErrorOptions("");
+      setError("");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error.message.includes("constraint")) {
+        setError("Seems like you are already registered");
+      } else {
+        setError("Seems like there is an error - Sorry for inconvenience");
+      }
+    },
+  });
 
   const { register, handleSubmit, watch } = useForm<
     ParticipantBataan | ParticipantOutsideBataan
@@ -37,11 +47,18 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
   const onSubmit: SubmitHandler<
     ParticipantBataan | ParticipantOutsideBataan
   > = (data) => {
+    if (selectedOptions.length === 0) {
+      setErrorOptions("Pick atleast one option");
+      if (firstCheckbox && firstCheckbox.current) firstCheckbox.current.focus();
+      return;
+    }
+
     if (data) {
       mutate({
         ...data,
         birthdate: dayjs(data.birthdate).toDate(),
-        eventId,
+        eventId: eventId,
+        distances: selectedOptions,
       });
     }
   };
@@ -50,11 +67,28 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
   const [acceptAgreement, setAcceptAgreement] = useState(false);
   const [showAgreement, setShowAgreement] = useState(false);
 
+  const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
+  const [errorOptions, setErrorOptions] = useState("");
+  const firstCheckbox = useRef<HTMLInputElement>(null);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target as HTMLInputElement;
+    if (event.target.checked) {
+      setSelectedOptions([...selectedOptions, parseInt(value)]);
+    } else {
+      setSelectedOptions(
+        selectedOptions.filter((option) => option !== parseInt(value))
+      );
+    }
+  };
+
   const handleToggleAddress = () => {
     setOutsideBataan((prevState) => !prevState);
   };
 
   const toggleClass = "transform translate-x-6 bg-blue  ";
+
+  console.log(selectedOptions);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">
@@ -99,13 +133,21 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         <label htmlFor="email">
           Email <span className="text-slate-500">(Optional)</span>
         </label>
-        <input type="text" id="email" {...register("email")} />
+        <input
+          type="text"
+          id="email"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          title={`Please include an '@' in the email address.`}
+          {...register("email")}
+        />
       </div>
       <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
         <label htmlFor="contactNumber">Contact Number</label>
         <input
           type="text"
           id="contactNumber"
+          placeholder="Starts with +63 / 09"
+          pattern="^(09|\+639)[0-9]{9}$"
           required
           {...register("contactNumber")}
         />
@@ -156,7 +198,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
       <div className="col-span-2 border-b-2 py-3"></div>
 
-      <div className="col-span-2 flex flex-col gap-2">
+      {/* <div className="col-span-2 flex flex-col gap-2">
         <label htmlFor="kilometer">Kilometer/s</label>
         <select id="kilometer" required {...register("kilometer")}>
           <option value={""}>Choose...</option>
@@ -166,6 +208,38 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
             </option>
           ))}
         </select>
+      </div> */}
+      <div className="col-span-2 flex flex-col gap-2">
+        <h2>Kilometer</h2>
+        <div className="flex flex-wrap gap-4">
+          {distances.map((option) => {
+            return (
+              <div className="flex items-center" key={option.value}>
+                <input
+                  id={option.label}
+                  type="checkbox"
+                  value={option.value}
+                  ref={firstCheckbox}
+                  checked={selectedOptions.some(
+                    (selectedOption) => selectedOption === option.value
+                  )}
+                  onChange={handleCheckboxChange}
+                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                />
+                <label
+                  htmlFor={option.label}
+                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                >
+                  {option.label}
+                </label>
+              </div>
+            );
+          })}
+        </div>
+
+        {errorOptions && (
+          <div className="text-sm text-red-600">{errorOptions}</div>
+        )}
       </div>
 
       <div className="col-span-2 flex flex-col gap-2">
@@ -182,8 +256,6 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
       <div className="col-span-2 border-b-2 py-3"></div>
 
-      {/* <Modal show={true} /> */}
-
       <div className="col-span-2 flex flex-col gap-2">
         <label htmlFor="emergencyContact">In case of emergency, contact</label>
         <input
@@ -199,6 +271,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         <input
           type="text"
           id="emergencyContactNumber"
+          pattern="^(09|\+639)[0-9]{9}$"
           required
           {...register("emergencyContactNumber")}
         />
@@ -211,7 +284,9 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         }}
       >
         <div className="flex flex-col gap-4 p-4">
-          <h2 className="text-2xl">LIABILITY WAIVER AND RACE AGREEMENT: </h2>
+          <h2 className="text-xl md:text-2xl">
+            LIABILITY WAIVER AND RACE AGREEMENT:{" "}
+          </h2>
           <p>
             <span className="ml-10"></span>I attest that I am physically and
             mentally fit to participate in the Hataw Takbo, Bataan ({eventName})
@@ -243,14 +318,21 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
             <span className="ml-10"></span>I agree to abide by any decision of
             the race official relative to any aspect of my participation in this
             event. I attest that I have read the rules of the race, understood
-            it and agree to abide by them. Participants Signature:
-            _____________________ (parents must sign if participant is below 18
-            years old) In case of emergency, contact:{" "}
+            it and agree to abide by them.
+          </p>
+          <p>
+            Participants Signature: _____________________ (parents must sign if
+            participant is below 18 years old)
+          </p>
+          <p>
+            In case of emergency, contact:{" "}
             <span className="underline">
               {watch("emergencyContact")
                 ? watch("emergencyContact")
                 : "_____________________"}
             </span>{" "}
+          </p>
+          <p>
             Contact No.:{" "}
             <span className="underline">
               {watch("emergencyContactNumber")
@@ -280,6 +362,8 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
       >
         LIABILITY WAIVER AND RACE AGREEMENT
       </button>
+
+      {error && <div className="text-sm text-red-600">{error}</div>}
 
       <button
         type="submit"
