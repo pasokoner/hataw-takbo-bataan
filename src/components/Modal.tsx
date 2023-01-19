@@ -37,7 +37,7 @@ export default function Modal(props: Props) {
         className="fixed inset-0 bg-black opacity-25"
         onClick={handleCloseClick}
       ></div>
-      <div className="opacity-85 fixed inset-80 top-10 bottom-auto justify-center overflow-y-auto overflow-x-hidden rounded-md bg-white outline-none focus:outline-none md:h-auto">
+      <div className="opacity-85 fixed inset-10 justify-center overflow-y-auto overflow-x-hidden rounded-md bg-white outline-none focus:outline-none lg:inset-40 lg:bottom-auto">
         {children}
       </div>
     </>

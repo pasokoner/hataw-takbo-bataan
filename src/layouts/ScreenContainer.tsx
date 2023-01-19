@@ -16,7 +16,9 @@ const ScreenContainer = <E extends React.ElementType = "div">({
   const Component = as || "div";
 
   return (
-    <Component className={`${className} max-w-screen-xl`}>{children}</Component>
+    <Component className={`${className} max-w-screen-2xl`}>
+      {children}
+    </Component>
   );
 };
 

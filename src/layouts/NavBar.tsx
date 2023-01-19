@@ -8,16 +8,16 @@ const NavBar: React.FC = () => {
     <header className="w-full">
       <ScreenContainer
         as="nav"
-        className="mx-auto flex items-center justify-between border-b-2 px-16 py-4"
+        className="mx-auto flex items-center justify-between border-b-2 px-8 py-4 md:px-16"
       >
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center  gap-2">
           <Image
             src={IconHatawBataan}
             height={50}
             width={50}
             alt="Hataw Bataan Icon"
           />
-          <h1 className="text-3xl font-semibold">
+          <h1 className="text-xl font-semibold md:text-3xl">
             <span className="text-[#0062ad]">Hataw </span>
             <span className="text-[#d33d49]">Takbo </span>
             <span className="text-[#0d632b]">Bataan</span>
