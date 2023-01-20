@@ -4,7 +4,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 
 import dayjs from "dayjs";
 
-import { AgeGroup, Gender, Municipality, ShirtSize } from "@prisma/client";
+import { Gender, Municipality, ShirtSize } from "@prisma/client";
 import { type z } from "zod";
 import { type participantSchema } from "../server/api/routers/participantBataan";
 import { api } from "../utils/api";
@@ -91,6 +91,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
   console.log(selectedOptions);
 
   return (
+    /* eslint-disable @typescript-eslint/no-misused-promises */
     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">
       {/* [&>*]:flex [&>*]:flex-col [&>*]:gap-2 */}
 
@@ -103,17 +104,6 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         <input type="text" id="lastName" required {...register("lastName")} />
       </div>
 
-      <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
-        <label htmlFor="ageGroup">Age Group</label>
-        <select id="ageGroup" required {...register("ageGroup")}>
-          <option value={""}>Select Age group</option>
-          {Object.keys(AgeGroup).map((group) => (
-            <option key={group} value={group}>
-              {group}
-            </option>
-          ))}
-        </select>
-      </div>
       <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
         <label htmlFor="gender">Gender</label>
         <select id="gender" required {...register("gender")}>
@@ -271,6 +261,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         <input
           type="text"
           id="emergencyContactNumber"
+          placeholder="Starts with +63 / 09"
           pattern="^(09|\+639)[0-9]{9}$"
           required
           {...register("emergencyContactNumber")}

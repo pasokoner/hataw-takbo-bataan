@@ -2,6 +2,7 @@ import React from "react";
 import ScreenContainer from "./ScreenContainer";
 import Image from "next/image";
 import IconHatawBataan from "../assets/icon-hataw-bataan.webp";
+import Link from "next/link";
 
 const NavBar: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const NavBar: React.FC = () => {
         as="nav"
         className="mx-auto flex items-center justify-between border-b-2 px-8 py-4 md:px-16"
       >
-        <div className="flex items-center  gap-2">
+        <Link href={"/"} className="flex items-center  gap-2">
           <Image
             src={IconHatawBataan}
             height={50}
@@ -22,7 +23,7 @@ const NavBar: React.FC = () => {
             <span className="text-[#d33d49]">Takbo </span>
             <span className="text-[#0d632b]">Bataan</span>
           </h1>
-        </div>
+        </Link>
 
         {/* <button className="rounded-md border-2 px-6 py-2 text-sm">Login</button> */}
       </ScreenContainer>
