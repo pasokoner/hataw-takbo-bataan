@@ -1,18 +1,11 @@
-import { z } from "zod";
+import { number, string, z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import {
-  AgeGroup,
-  Gender,
-  Municipality,
-  ShirtSize,
-  Prisma,
-} from "@prisma/client";
+import { Gender, Municipality, ShirtSize, Prisma } from "@prisma/client";
 
 export const participantSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
-  ageGroup: z.nativeEnum(AgeGroup),
   gender: z.nativeEnum(Gender),
   birthdate: z.date(),
   email: z.string().optional(),
@@ -99,5 +92,72 @@ export const participantRouter = createTRPCRouter({
       //     "It seems like there is an error - Registration failed!"
       //   );
       // });
+    }),
+  check: publicProcedure
+    .input(
+      z.object({
+        kilometerId: string(),
+        timeFinished: z.date(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { prisma } = ctx;
+      const { kilometerId, timeFinished } = input;
+      // throw new Error("This participant already has a record");
+
+      await prisma.$transaction(async (tx) => {
+        const data = await tx.kilometer.findFirst({
+          where: {
+            id: kilometerId,
+          },
+        });
+
+        if (data?.timeFinished) {
+          throw new Error("This participant already has a record");
+        }
+
+        return await tx.kilometer.update({
+          where: {
+            id: kilometerId,
+          },
+          data: {
+            timeFinished: timeFinished,
+          },
+        });
+      });
+    }),
+
+  manualCheck: publicProcedure
+    .input(
+      z.object({
+        participantId: number(),
+        eventId: string(),
+        distance: z.number(),
+        timeFinished: z.date(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { prisma } = ctx;
+      const { timeFinished, ...excess } = input;
+      // throw new Error("This participant already has a record");
+
+      await prisma.$transaction(async (tx) => {
+        const data = await tx.kilometer.findFirst({
+          where: excess,
+        });
+
+        if (data?.timeFinished) {
+          throw new Error("This participant already has a record");
+        }
+
+        return await tx.kilometer.update({
+          where: {
+            id: data?.id,
+          },
+          data: {
+            timeFinished: timeFinished,
+          },
+        });
+      });
     }),
 });
