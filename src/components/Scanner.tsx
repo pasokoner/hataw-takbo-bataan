@@ -1,10 +1,13 @@
-import Link from "next/link";
-
 import { useEffect, useCallback, useState } from "react";
 
 import QrScanner from "qr-scanner";
+import { Event } from "@prisma/client";
 
-const Scanner = () => {
+type Props = {
+  updateParticipant: (cameraResult: string, timeFinished: Date) => void;
+};
+
+const Scanner = ({ updateParticipant }: Props) => {
   const [cameraResult, setCameraResult] = useState("");
 
   const qrScanner = useCallback(() => {
@@ -23,6 +26,7 @@ const Scanner = () => {
   useEffect(() => {
     const myScanner = qrScanner();
 
+    /* eslint-disable @typescript-eslint/no-floating-promises */
     myScanner.start();
 
     return () => {
@@ -30,7 +34,14 @@ const Scanner = () => {
     };
   }, [qrScanner]);
 
-  return <video id="video-feed" className="h-[80] w-screen"></video>;
+  useEffect(() => {
+    const now = new Date();
+    console.log(cameraResult);
+    // updateParticipant(cameraResult, now);
+    updateParticipant(cameraResult, now);
+  }, [cameraResult]);
+
+  return <video id="video-feed" className="mb-4 w-screen"></video>;
 };
 
 export default Scanner;
