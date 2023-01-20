@@ -4,8 +4,9 @@ import { useStopwatch } from "react-timer-hook";
 import { CiStop1, CiPlay1, CiPause1 } from "react-icons/ci";
 
 const Stopwatch = () => {
-  const { seconds, minutes, hours, days, isRunning, start, pause } =
-    useStopwatch({ autoStart: false });
+  const { seconds, minutes, hours, isRunning, start, pause } = useStopwatch({
+    autoStart: false,
+  });
 
   return (
     <div>
