@@ -3,6 +3,8 @@ import React from "react";
 import { type Event } from "@prisma/client";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
+import { AiOutlineEnter } from "react-icons/ai";
+
 type Props = {
   manualUpdate: (query: string, timeFinished: Date, eventData: Event) => void;
   eventData: Event;
@@ -32,7 +34,7 @@ const ManualScanner = ({ manualUpdate, eventData }: Props) => {
         type="submit"
         className="rounded-md border-2 py-2 px-4 transition-all active:translate-y-1"
       >
-        Enter Participant
+        <AiOutlineEnter />
       </button>
     </form>
   );
