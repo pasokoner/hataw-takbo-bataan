@@ -16,6 +16,7 @@ const ScreenContainer = <E extends React.ElementType = "div">({
   const Component = as || "div";
 
   return (
+    //eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     <Component className={`${className} max-w-screen-2xl`}>
       {children}
     </Component>
