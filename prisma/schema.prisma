@@ -16,24 +16,18 @@ datasource db {
     relationMode = "prisma"
 }
 
-enum AgeGroup {
-    BELOW10   @map("10 below")
-    TO18AND30 @map("18 to 30")
-    TO31AND40 @map("31 to 40")
-    TO41AND50 @map("41 to 50")
-    TO51AND60 @map("51 to 60")
-    ABOVE60   @map("above 60")
-}
+// enum AgeGroup {
+//     BELOW10   @map("10 below")
+//     TO18AND30 @map("18 to 30")
+//     TO31AND40 @map("31 to 40")
+//     TO41AND50 @map("41 to 50")
+//     TO51AND60 @map("51 to 60")
+//     ABOVE60   @map("above 60")
+// }
 
 enum Gender {
     MALE
     FEMALE
-}
-
-enum Kilometer {
-    KM3  @map("3 KM")
-    KM5  @map("5 KM")
-    KM10 @map("10 KM")
 }
 
 enum Municipality {
@@ -61,30 +55,54 @@ enum ShirtSize {
 
 model Participant {
     id                     String        @id @default(cuid())
+    registrationNumber     Int           @unique
     firstName              String
     lastName               String
-    ageGroup               AgeGroup
     gender                 Gender
-    birthdate              DateTime
+    birthdate              DateTime?
     email                  String?       @unique
-    contactNumber          String
+    contactNumber          String        @unique
     municipality           Municipality?
     address                String
-    kilometer              Kilometer
+    kilometers             Kilometer[]
     shirtSize              ShirtSize
     emergencyContact       String
     emergencyContactNumber String
     registrationDate       DateTime      @default(now())
     updatedAt              DateTime      @updatedAt
-    event                  Event         @relation(fields: [eventId], references: [id])
+    event                  Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
     eventId                String
+
+    @@unique([eventId, firstName, lastName, contactNumber])
+}
+
+model Kilometer {
+    id                 String       @id @default(cuid())
+    distance           Int
+    timeFinished       DateTime?
+    participant        Participant? @relation(fields: [registrationNumber], references: [registrationNumber], onDelete: Cascade)
+    registrationNumber Int?
+    event              Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+    eventId            String
+
+    @@unique([eventId, registrationNumber, distance])
 }
 
 model Event {
-    id          String        @id @default(cuid())
-    name        String
-    startDate   DateTime
-    Participant Participant[]
+    id                String        @id @default(cuid())
+    name              String
+    registerFrom      DateTime
+    registerTo        DateTime
+    scheduleTimeStart DateTime
+    timeStart3km      DateTime?
+    timeStart5km      DateTime?
+    timeStart10km     DateTime?
+    raceFinished3km   Boolean       @default(false)
+    raceFinished5km   Boolean       @default(false)
+    raceFinished10km  Boolean       @default(false)
+    cameraPassword    String        @default("hatawbataan")
+    participant       Participant[]
+    kilometer         Kilometer[]
 }
 
 model Example {
