@@ -1,9 +1,11 @@
 import { type NextPage } from "next";
 import Link from "next/link";
-import { api } from "../../utils/api";
 import Image from "next/image";
+import { api } from "../../utils/api";
+
 import dayjs from "dayjs";
 import Title from "../../components/Title";
+import { GoPrimitiveDot } from "react-icons/go";
 
 const Event: NextPage = () => {
   const { data: events } = api.event.getAll.useQuery();
@@ -15,41 +17,108 @@ const Event: NextPage = () => {
       <Title value="List of all events" />
       <div className="grid grid-cols-6 gap-4 pt-6">
         {events &&
-          events.map(({ id, scheduleTimeStart, name, participant }) => (
-            <div
-              key={id}
-              className="col-span-6 w-full sm:col-span-3 lg:col-span-2"
-            >
-              <div className="rounded-md bg-km10 p-2">
-                <div className="h-28 bg-km3"></div>
-                <div className="bg-white py-6 px-4">
-                  <h3 className="mb-4 text-3xl">{name}</h3>
-                  <div className="mb-4">
-                    <p>
-                      {dayjs(scheduleTimeStart).format("dddd")},{" "}
-                      {dayjs(scheduleTimeStart).format("MMMM")}{" "}
-                      {dayjs(scheduleTimeStart).format("DD")}{" "}
-                      <span className="font-black">&#183; </span>
-                      {dayjs(scheduleTimeStart).format("h")}
-                      {" : "}
-                      {dayjs(scheduleTimeStart).format("mm")}{" "}
-                      {dayjs(scheduleTimeStart).format("A")}{" "}
-                    </p>
-                    <p>
-                      No. of participants{" "}
-                      {participant ? participant.length : "0"}
-                    </p>
-                  </div>
+          events.map(
+            ({
+              id,
+              scheduleTimeStart,
+              name,
+              participant,
+              registerFrom,
+              registerTo,
+              timeStart10km,
+              timeStart3km,
+              timeStart5km,
+            }) => {
+              const registrationExpiration =
+                registerTo.getTime() - registerFrom.getTime();
 
-                  <Link href={`/register/${id}`}>
-                    <div className="w-full border-2 py-4 text-center">
-                      REGISTER
+              const ongoingEvent =
+                timeStart3km || timeStart5km || timeStart10km;
+
+              const eventFinished =
+                timeStart3km && timeStart5km && timeStart10km;
+
+              return (
+                <div
+                  key={id}
+                  className="col-span-6 w-full sm:col-span-3 lg:col-span-2"
+                >
+                  <div className="rounded-md bg-km10 p-2">
+                    <div className="relative h-28 bg-km3">
+                      <div className="absolute top-2 left-2 z-10 rounded-lg bg-white p-1 opacity-70">
+                        {!eventFinished &&
+                          !ongoingEvent &&
+                          registrationExpiration > 0 && (
+                            <div className="flex items-center gap-1 text-xs">
+                              LIVE REGISTRATION{" "}
+                              <GoPrimitiveDot className="text-red-600" />
+                            </div>
+                          )}
+                        {!eventFinished &&
+                          !ongoingEvent &&
+                          registrationExpiration <= 0 && (
+                            <div className="flex items-center gap-1 text-xs">
+                              CLOSED REGISTRATION{" "}
+                              <GoPrimitiveDot className="text-slate-600" />
+                            </div>
+                          )}
+
+                        {!eventFinished &&
+                          ongoingEvent &&
+                          registrationExpiration <= 0 && (
+                            <div className="flex items-center gap-1 text-xs">
+                              EVENT ONGOING{" "}
+                              <GoPrimitiveDot className="text-yellow-600" />
+                            </div>
+                          )}
+
+                        {eventFinished &&
+                          ongoingEvent &&
+                          registrationExpiration <= 0 && (
+                            <div className="flex items-center gap-1 text-xs">
+                              EVENT ENDED{" "}
+                              <GoPrimitiveDot className="text-emerald-600" />
+                            </div>
+                          )}
+                      </div>{" "}
+                      <Image
+                        src={
+                          "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1173&q=80"
+                        }
+                        alt=""
+                        fill
+                      />
                     </div>
-                  </Link>
+                    <div className="bg-white py-6 px-4">
+                      <h3 className="mb-4 text-3xl">{name}</h3>
+                      <div className="mb-4">
+                        <p>
+                          {dayjs(scheduleTimeStart).format("dddd")},{" "}
+                          {dayjs(scheduleTimeStart).format("MMMM")}{" "}
+                          {dayjs(scheduleTimeStart).format("DD")}{" "}
+                          <span className="font-black">&#183; </span>
+                          {dayjs(scheduleTimeStart).format("h")}
+                          {" : "}
+                          {dayjs(scheduleTimeStart).format("mm")}{" "}
+                          {dayjs(scheduleTimeStart).format("A")}{" "}
+                        </p>
+                        <p>
+                          No. of participants{" "}
+                          {participant ? participant.length : "0"}
+                        </p>
+                      </div>
+
+                      <Link href={`/register/${id}`}>
+                        <div className="mb-2 w-full border-2 py-4 text-center">
+                          REGISTER
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              );
+            }
+          )}
       </div>
     </div>
   );

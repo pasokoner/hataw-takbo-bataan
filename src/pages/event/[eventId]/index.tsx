@@ -53,7 +53,7 @@ const SingeEvent: NextPage = () => {
         Welcome to {eventData.name}
       </h2> */}
       <div className="mx-auto grid grid-cols-6 gap-4">
-        <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md bg-km3 p-3 font-semibold md:col-span-3 lg:col-span-2">
+        <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md bg-km3 p-3 font-semibold text-white md:col-span-3 lg:col-span-2">
           <h2 className="text-5xl">3 KM</h2>
           {/* <CustomClock /> */}
 
@@ -68,7 +68,7 @@ const SingeEvent: NextPage = () => {
 
           {eventData.timeStart3km && (
             <Link href={"/"}>
-              <div className=" border-2 border-dashed border-black p-2 text-xl font-semibold">
+              <div className="border-2 border-dashed border-black p-2 text-xl font-semibold">
                 {eventData.raceFinished3km ? (
                   <div className="flex items-center justify-center gap-2">
                     CHECK STATUS{" "}
