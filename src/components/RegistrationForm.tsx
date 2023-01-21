@@ -11,7 +11,13 @@ import { api } from "../utils/api";
 
 import { distances } from "../utils/constant";
 
+import html2canvas from "html2canvas";
+
 import Modal from "./Modal";
+
+import { RiLoader5Fill } from "react-icons/ri";
+import { AiOutlineCopy } from "react-icons/ai";
+import QrMaker from "./QrMaker";
 
 type Props = {
   eventId: string;
@@ -25,13 +31,20 @@ type ParticipantOutsideBataan = Omit<ParticipantBataan, "municipality">;
 const RegistrationForm = ({ eventId, eventName }: Props) => {
   const [error, setError] = useState("");
 
-  const { mutate } = api.participant.register.useMutation({
+  const { mutate, isLoading } = api.participant.register.useMutation({
     onSuccess: () => {
+      setSelectedOptions([]);
       setErrorOptions("");
       setError("");
+      reset();
+      // setDetails({
+      //   id: data?.id,
+      //   registrationNumber: data?.registrationNumber,
+      // });
+      setShowDetails(true);
     },
+
     onError: (error) => {
-      console.log(error);
       if (error.message.includes("constraint")) {
         setError("Seems like you are already registered");
       } else {
@@ -40,7 +53,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
     },
   });
 
-  const { register, handleSubmit, watch } = useForm<
+  const { register, handleSubmit, watch, reset } = useForm<
     ParticipantBataan | ParticipantOutsideBataan
   >();
 
@@ -54,18 +67,30 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
     }
 
     if (data) {
+      const { address, firstName, lastName, emergencyContact, email } = data;
       mutate({
         ...data,
         birthdate: dayjs(data.birthdate).toDate(),
         eventId: eventId,
         distances: selectedOptions,
+        address: address.trim().toUpperCase(),
+        firstName: firstName.trim().toUpperCase(),
+        lastName: lastName.trim().toUpperCase(),
+        emergencyContact: emergencyContact.trim().toUpperCase(),
+        email: email?.trim().toLowerCase(),
       });
     }
   };
 
   const [outsideBataan, setOutsideBataan] = useState(false);
   const [acceptAgreement, setAcceptAgreement] = useState(false);
+  const [details, setDetails] = useState<{
+    registrationNumber: number;
+    id: string;
+  } | null>();
   const [showAgreement, setShowAgreement] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const qrRef = useRef<HTMLDivElement>(null);
 
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
   const [errorOptions, setErrorOptions] = useState("");
@@ -87,10 +112,27 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
     setOutsideBataan((prevState) => !prevState);
   };
 
+  const handleDownloadImage = async () => {
+    const element = qrRef.current;
+    const canvas = await html2canvas(element as HTMLDivElement);
+
+    const data = canvas.toDataURL("image/jpg");
+    const link = document.createElement("a");
+
+    if (typeof link.download === "string") {
+      link.href = data;
+      link.download = "image.jpg";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(data);
+    }
+  };
+
   const toggleClass = "transform translate-x-6 bg-blue  ";
-
-  console.log(selectedOptions);
-
+  console.log(details);
   return (
     /* eslint-disable @typescript-eslint/no-misused-promises */
     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">
@@ -98,11 +140,23 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
       <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
         <label htmlFor="firstName">First Name</label>
-        <input type="text" id="firstName" required {...register("firstName")} />
+        <input
+          type="text"
+          id="firstName"
+          required
+          {...register("firstName")}
+          className="uppercase"
+        />
       </div>
       <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
         <label htmlFor="lastName">Last Name</label>
-        <input type="text" id="lastName" required {...register("lastName")} />
+        <input
+          type="text"
+          id="lastName"
+          required
+          {...register("lastName")}
+          className="uppercase"
+        />
       </div>
 
       <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
@@ -130,6 +184,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
           pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
           title={`Please include an '@' in the email address.`}
           {...register("email")}
+          className="uppercase"
         />
       </div>
       <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
@@ -254,6 +309,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
           id="emergencyContact"
           required
           {...register("emergencyContact")}
+          className="uppercase"
         />
       </div>
 
@@ -270,15 +326,13 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
       </div>
 
       <Modal
+        title="LIABILITY WAIVER AND RACE AGREEMENT"
         show={showAgreement}
         onClose={() => {
           setShowAgreement(false);
         }}
       >
-        <div className="flex flex-col gap-4 p-4">
-          <h2 className="text-xl md:text-2xl">
-            LIABILITY WAIVER AND RACE AGREEMENT:{" "}
-          </h2>
+        <div className="flex flex-col gap-4 p-4 text-sm md:text-lg">
           <p>
             <span className="ml-10"></span>I attest that I am physically and
             mentally fit to participate in the Hataw Takbo, Bataan ({eventName})
@@ -345,6 +399,49 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         </div>
       </Modal>
 
+      <Modal
+        title="Registration Success!"
+        onClose={() => {
+          setShowDetails(false);
+        }}
+        show={showDetails}
+      >
+        <div className="rounded border border-slate-400 bg-slate-100 px-4 py-3 text-slate-700">
+          <h4 className="mb-2 text-xl">
+            Registration No.{" "}
+            <span className="font-semibold">{details?.registrationNumber}</span>{" "}
+          </h4>
+          <div className="flex flex-col sm:flex-row">
+            <div className="mb-2 flex flex-col items-center justify-center sm:mr-4">
+              <div className="w-28">
+                <div ref={qrRef} className="flex justify-center p-1">
+                  <QrMaker value={details?.id as string} size={10} />
+                </div>
+                <button
+                  onClick={async () => {
+                    await handleDownloadImage();
+                    setDetails(null);
+                  }}
+                  className="mt-2 w-full rounded-md border-2 border-slate-500 py-1 hover:border-slate-400 hover:text-slate-400"
+                >
+                  Copy <AiOutlineCopy className="inline" />
+                </button>
+              </div>
+            </div>
+            <p className="">
+              ** Please remember your{" "}
+              <span className="text-red-400 underline">Registration No. </span>{" "}
+              and take a screenshot of{" "}
+              <span className="text-red-400 underline">this QR code</span> and
+              use it as your identification when claiming your certification. It
+              serves as a unique identifier and is required to verify your
+              eligibility. You can also use it to view and edit your
+              registration details. **
+            </p>
+          </div>
+        </div>
+      </Modal>
+
       <button
         type="button"
         onClick={() => {
@@ -357,13 +454,23 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
       {error && <div className="text-sm text-red-600">{error}</div>}
 
-      <button
-        type="submit"
-        disabled={!acceptAgreement}
-        className={`col-span-2 rounded-md border-2 bg-[#0062ad] p-2 text-white hover:bg-[#0d6cb5] disabled:opacity-60`}
-      >
-        Submit
-      </button>
+      {!isLoading && (
+        <button
+          type="submit"
+          disabled={!acceptAgreement}
+          className={`col-span-2 rounded-md border-2 bg-[#0062ad] p-2 text-white hover:bg-[#0d6cb5] disabled:opacity-60`}
+        >
+          Submit
+        </button>
+      )}
+      {isLoading && (
+        <button
+          disabled
+          className={`col-span-2 flex justify-center rounded-md border-2 bg-[#0062ad] p-2 text-white hover:bg-[#0d6cb5] disabled:opacity-60`}
+        >
+          <RiLoader5Fill className="animate-spin text-center text-2xl" />
+        </button>
+      )}
     </form>
   );
 };

@@ -16,6 +16,20 @@ module.exports = {
         km5: "#EB1C24",
         km10: "#2D3091",
       },
+
+      // animation: {
+      //   "animate-spin": "spin 1s linear infinite",
+      // },
+      // keyframes: {
+      //   pulse: {
+      //     "0%": {
+      //       transform: "rotate(0deg)",
+      //     },
+      //     "100%": {
+      //       transform: "rotate(360deg)",
+      //     },
+      //   },
+      // },
     },
   },
   plugins: [],
