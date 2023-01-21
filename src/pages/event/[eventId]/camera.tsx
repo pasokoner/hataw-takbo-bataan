@@ -322,7 +322,7 @@ const Camera: NextPage = () => {
     const interval = setInterval(() => {
       /*eslint-disable @typescript-eslint/no-floating-promises*/
       refetch();
-    }, 7000);
+    }, 15000);
     return () => clearInterval(interval);
   }, [refetch]);
 

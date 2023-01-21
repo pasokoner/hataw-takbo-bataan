@@ -1,7 +1,13 @@
 import { number, string, z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { Gender, Municipality, ShirtSize, Prisma } from "@prisma/client";
+import {
+  Gender,
+  Municipality,
+  ShirtSize,
+  Prisma,
+  Participant,
+} from "@prisma/client";
 
 export const participantSchema = z.object({
   firstName: z.string(),
@@ -74,6 +80,15 @@ export const participantRouter = createTRPCRouter({
           }
           throw e;
         }
+      });
+    }),
+  findById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      return await ctx.prisma.participant.findFirst({
+        where: {
+          id: input.id,
+        },
       });
     }),
   check: publicProcedure

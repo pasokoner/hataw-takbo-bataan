@@ -24,6 +24,40 @@ const Register: NextPage = () => {
     );
   }
 
+  if (
+    !eventData.raceFinished10km &&
+    !eventData.raceFinished5km &&
+    !eventData.raceFinished3km &&
+    eventData.registerTo.getTime() - eventData.registerFrom.getDate() <= 0
+  ) {
+    return (
+      <div
+        className="mt-6 rounded border border-red-400 bg-red-100 py-3 px-4 text-red-700"
+        role="alert"
+      >
+        <p className="font-bold">Event Notice!</p>
+        <span className="block sm:inline">Registration has already ended</span>
+      </div>
+    );
+  }
+
+  if (
+    eventData.raceFinished10km &&
+    eventData.raceFinished5km &&
+    eventData.raceFinished3km &&
+    eventData.registerTo.getTime() - eventData.registerFrom.getDate() <= 0
+  ) {
+    return (
+      <div
+        className="mt-6 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
+        role="alert"
+      >
+        <p className="font-bold">Event Notice!</p>
+        <span className="block sm:inline">Event has already ended</span>
+      </div>
+    );
+  }
+
   return (
     <div className="px-4 pt-6 pb-24">
       <Title value={`${eventData.name} Registration`} />
