@@ -12,7 +12,7 @@ module.exports = {
       },
       colors: {
         primary: "#0062ad",
-        km3: "#FEC401",
+        km3: "#0D632B",
         km5: "#EB1C24",
         km10: "#2D3091",
       },
