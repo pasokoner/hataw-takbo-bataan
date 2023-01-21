@@ -337,7 +337,11 @@ const Camera: NextPage = () => {
   }, [showMessage]);
 
   useEffect(() => {
-    if (savedRecords.length !== 0) {
+    if (
+      savedRecords.length !== 0 &&
+      eventData &&
+      cameraPassword !== eventData.cameraPassword
+    ) {
       if (
         savedRecords[0] &&
         savedRecords[0].distance &&
@@ -360,7 +364,7 @@ const Camera: NextPage = () => {
         });
       }
     }
-  }, [ongoingRequest]);
+  }, [ongoingRequest, cameraPassword]);
 
   if (isLoading) {
     return <></>;
