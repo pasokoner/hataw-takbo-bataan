@@ -12,7 +12,7 @@ const Snackbar = ({ message, type, onClose }: Props) => {
   if (type === "error") {
     return (
       <div
-        className="fixed inset-0  top-auto bottom-2 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
+        className="fixed inset-0  top-2 bottom-auto rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
         role="alert"
       >
         <p className="font-bold">Error</p>

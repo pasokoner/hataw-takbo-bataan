@@ -74,7 +74,8 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target as HTMLInputElement;
     if (event.target.checked) {
-      setSelectedOptions([...selectedOptions, parseInt(value)]);
+      // setSelectedOptions([...selectedOptions, parseInt(value)]);
+      setSelectedOptions([parseInt(value)]);
     } else {
       setSelectedOptions(
         selectedOptions.filter((option) => option !== parseInt(value))
@@ -136,8 +137,8 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         <input
           type="text"
           id="contactNumber"
-          placeholder="Starts with +63 / 09"
-          pattern="^(09|\+639)[0-9]{9}$"
+          placeholder="09XXXXXXXXX"
+          pattern="^(09)[0-9]{9}$"
           required
           {...register("contactNumber")}
         />
@@ -147,7 +148,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
       {/*   Switch Container */}
       <div className="col-span-2 flex items-center gap-4">
-        <p>Outside From Bataan:</p>
+        <p>Outside Bataan:</p>
         <div
           className="h-5 w-12 cursor-pointer items-center rounded-full bg-gray-400 p-1 md:h-7 md:w-14"
           onClick={handleToggleAddress}
@@ -261,8 +262,8 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         <input
           type="text"
           id="emergencyContactNumber"
-          placeholder="Starts with +63 / 09"
-          pattern="^(09|\+639)[0-9]{9}$"
+          placeholder="09XXXXXXXXX"
+          pattern="^(09)[0-9]{9}$"
           required
           {...register("emergencyContactNumber")}
         />

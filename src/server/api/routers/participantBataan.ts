@@ -25,73 +25,56 @@ export const participantRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       const { prisma } = ctx;
 
-      const {
-        distances,
-        firstName,
-        lastName,
-        emergencyContact,
-        ...removeDistances
-      } = input;
+      const { distances, firstName, lastName, emergencyContact, ...excess } =
+        input;
 
       const distancesF = distances.map((distance) => {
         return {
-          eventId: removeDistances.eventId,
+          eventId: excess.eventId,
           distance: distance,
         };
       });
 
-      try {
-        const data = await prisma.participant.create({
-          data: {
-            ...removeDistances,
-            firstName: firstName.trim().toLocaleUpperCase(),
-            lastName: lastName.trim().toLocaleUpperCase(),
-            emergencyContact: emergencyContact.trim().toLocaleUpperCase(),
-            kilometers: {
-              create: [...distancesF],
+      await prisma.$transaction(async (tx) => {
+        try {
+          const data = await tx.participant.findMany({
+            where: {
+              eventId: excess.eventId,
             },
-          },
-        });
 
-        return data;
-      } catch (e) {
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          // The .code property can be accessed in a type-safe manner
-          if (e.code === "P2002") {
-            console.log(
-              "There is a unique constraint violation, a new user cannot be created with this email"
-            );
+            orderBy: {
+              registrationNumber: "desc",
+            },
+
+            take: 1,
+          });
+
+          return await tx.participant.create({
+            data: {
+              ...excess,
+              firstName: firstName.trim().toLocaleUpperCase(),
+              lastName: lastName.trim().toLocaleUpperCase(),
+              emergencyContact: emergencyContact.trim().toLocaleUpperCase(),
+              registrationNumber: data[0]?.registrationNumber
+                ? data[0]?.registrationNumber + 1
+                : 30,
+              kilometers: {
+                create: [...distancesF],
+              },
+            },
+          });
+        } catch (e) {
+          if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            // The .code property can be accessed in a type-safe manner
+            if (e.code === "P2002") {
+              console.log(
+                "There is a unique constraint violation, a new user cannot be created with this email"
+              );
+            }
           }
+          throw e;
         }
-        throw e;
-      }
-
-      // WHY THE FCK DID I DO THIS?
-      // await prisma.$transaction(async (tx) => {
-      //   const participant = await tx.participant.create({
-      //     data: removeDistances,
-      //   });
-
-      //   const { id, eventId } = participant;
-
-      //   if (id && eventId) {
-      //     const distancesF = distances.map((distance) => {
-      //       return {
-      //         participantId: id,
-      //         eventId: eventId,
-      //         distance: distance,
-      //       };
-      //     });
-
-      //     await tx.kilometer.createMany({
-      //       data: distancesF,
-      //     });
-      //   }
-
-      //   throw new Error(
-      //     "It seems like there is an error - Registration failed!"
-      //   );
-      // });
+      });
     }),
   check: publicProcedure
     .input(
@@ -103,7 +86,6 @@ export const participantRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       const { prisma } = ctx;
       const { kilometerId, timeFinished } = input;
-      // throw new Error("This participant already has a record");
 
       await prisma.$transaction(async (tx) => {
         const data = await tx.kilometer.findFirst({
@@ -130,7 +112,7 @@ export const participantRouter = createTRPCRouter({
   manualCheck: publicProcedure
     .input(
       z.object({
-        participantId: number(),
+        registrationNumber: number(),
         eventId: string(),
         distance: z.number(),
         timeFinished: z.date(),
