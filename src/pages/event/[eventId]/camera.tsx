@@ -38,16 +38,13 @@ const Camera: NextPage = () => {
   const { query } = useRouter();
   const { eventId } = query;
 
-  const {
-    data: eventData,
-    isLoading,
-    refetch,
-  } = api.event.details.useQuery(
+  const { data: eventData, isLoading } = api.event.details.useQuery(
     {
       eventId: eventId as string,
     },
     {
       refetchOnWindowFocus: false,
+      refetchInterval: 15000,
     }
   );
 
@@ -318,13 +315,13 @@ const Camera: NextPage = () => {
     setSuccessMessage("");
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      /*eslint-disable @typescript-eslint/no-floating-promises*/
-      refetch();
-    }, 15000);
-    return () => clearInterval(interval);
-  }, [refetch]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     /*eslint-disable @typescript-eslint/no-floating-promises*/
+  //     refetch();
+  //   }, 15000);
+  //   return () => clearInterval(interval);
+  // }, [refetch]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -340,7 +337,7 @@ const Camera: NextPage = () => {
     if (
       savedRecords.length !== 0 &&
       eventData &&
-      cameraPassword !== eventData.cameraPassword
+      cameraPassword === eventData.cameraPassword
     ) {
       if (
         savedRecords[0] &&
@@ -397,6 +394,7 @@ const Camera: NextPage = () => {
   }
 
   console.log(errorRecords);
+  console.log(savedRecords);
 
   return (
     <div className="pt-6">
