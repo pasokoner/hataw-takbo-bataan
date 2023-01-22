@@ -152,7 +152,7 @@ const SingeEvent: NextPage = () => {
               </div>
             </Link>
           )}
-          <div className="w-full border-b-2 border-double border-b-slate-100"></div>
+          <div className="mt-auto w-full border-b-2 border-double border-b-slate-100"></div>
           <p className="text-xl font-medium">Registered Participants</p>
           <p className="text-3xl font-medium">
             {filterParticipants(10, eventData.kilometer)}
@@ -164,3 +164,25 @@ const SingeEvent: NextPage = () => {
 };
 
 export default SingeEvent;
+
+import { getSession, signOut } from "next-auth/react";
+import type { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (!session || session.user?.role !== "ADMIN") {
+    /* eslint-disable @typescript-eslint/no-floating-promises */
+    signOut();
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};

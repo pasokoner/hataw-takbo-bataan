@@ -7,8 +7,15 @@ import dayjs from "dayjs";
 import Title from "../../components/Title";
 import { GoPrimitiveDot } from "react-icons/go";
 
+import { useSession } from "next-auth/react";
+
+import { BiCog } from "react-icons/bi";
+import { BsJoystick } from "react-icons/bs";
+
 const Event: NextPage = () => {
   const { data: events } = api.event.getAll.useQuery();
+
+  const { data: sessionData } = useSession();
 
   console.log(events);
 
@@ -113,6 +120,13 @@ const Event: NextPage = () => {
                           REGISTER
                         </div>
                       </Link>
+                      {sessionData && sessionData.user?.role === "ADMIN" && (
+                        <Link href={`/event/${id}`}>
+                          <div className="mb-2 flex w-full items-center justify-center gap-1 border-2 py-4">
+                            EVENT CONTROL <BsJoystick />
+                          </div>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

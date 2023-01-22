@@ -2,6 +2,8 @@ import { type NextPage } from "next";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { getSession } from "next-auth/react";
+import type { GetServerSideProps } from "next";
 
 import { api } from "../../../utils/api";
 
@@ -80,3 +82,20 @@ const Config: NextPage = () => {
 };
 
 export default Config;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (!session || session.user?.role !== "ADMIN") {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};

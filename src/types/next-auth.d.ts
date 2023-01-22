@@ -7,6 +7,17 @@ declare module "next-auth" {
   interface Session {
     user?: {
       id: string;
+      role: "ADMIN" | null;
     } & DefaultSession["user"];
+  }
+
+  interface User {
+    role: "ADMIN" | null;
+  }
+}
+
+declare module "next-auth/adapters" {
+  interface AdapterUser {
+    role: "ADMIN" | null;
   }
 }

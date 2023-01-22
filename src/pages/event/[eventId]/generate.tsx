@@ -73,8 +73,6 @@ const Generate: NextPage = () => {
     );
   }
 
-  console.log(bibCanvas);
-
   let bibColor = "";
   let bibNumber = "0000";
 
@@ -156,3 +154,23 @@ const Generate: NextPage = () => {
 };
 
 export default Generate;
+
+import { getSession } from "next-auth/react";
+import type { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (!session || session.user?.role !== "ADMIN") {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};

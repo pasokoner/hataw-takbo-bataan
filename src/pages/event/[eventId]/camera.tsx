@@ -385,8 +385,6 @@ const Camera: NextPage = () => {
     );
   }
 
-  console.log(errorRecords);
-  console.log(savedRecords);
 
   return (
     <div className="pt-6">
