@@ -2,7 +2,7 @@ import QRimage from "react-qr-image";
 
 type Props = {
   value: string;
-  size: number;
+  size?: number;
 };
 
 const QrMaker = ({ value, size }: Props) => {

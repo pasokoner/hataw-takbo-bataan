@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Poppins", ...defaultTheme.fontFamily.sans],
+        roboto: ["Roboto", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         primary: "#0062ad",
