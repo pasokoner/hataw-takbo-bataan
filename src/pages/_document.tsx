@@ -4,6 +4,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
+        <meta name="google" content="notranslate" />
         <title>Hataw Takbo Bataan</title>
       </Head>
       <body>
