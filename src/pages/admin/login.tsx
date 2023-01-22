@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       redirect: {
         destination: "/",
-        permanent: false,
+        permanent: true,
       },
     };
   }
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       redirect: {
         destination: "/event",
-        permanent: false,
+        permanent: true,
       },
     };
   }
