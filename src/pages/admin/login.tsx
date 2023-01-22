@@ -27,9 +27,8 @@ export default Login;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
 
-  if (session && session.user?.role !== "ADMIN") {
+  if (session) {
     /* eslint-disable @typescript-eslint/no-floating-promises */
-    signOut();
     return {
       redirect: {
         destination: "/",
@@ -38,16 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  if (session && session.user?.role === "ADMIN") {
-    return {
-      redirect: {
-        destination: "/event",
-        permanent: true,
-      },
-    };
-  }
-
   return {
-    props: { session },
+    props: {},
   };
 };
