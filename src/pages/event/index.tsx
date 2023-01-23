@@ -13,11 +13,56 @@ import { BiCog } from "react-icons/bi";
 import { BsJoystick } from "react-icons/bs";
 
 const Event: NextPage = () => {
-  const { data: events } = api.event.getAll.useQuery();
+  const { data: events, isLoading } = api.event.getAll.useQuery();
 
   const { data: sessionData } = useSession();
 
   console.log(events);
+
+  if (isLoading) {
+    return (
+      <div className="pt-6">
+        <Title value="List of all events" />
+        <div className="grid grid-cols-6 gap-4 pt-6">
+          <div className="col-span-6 w-full animate-pulse rounded-md border border-slate-400 p-4 shadow sm:col-span-3 lg:col-span-2">
+            <div className="">
+              <div className="mb-2 h-36 rounded-md border-2 border-slate-400"></div>
+              <div className="mb-2 space-y-6 py-1">
+                <div className="h-2 rounded bg-slate-400"></div>
+                <div className="h-2 rounded bg-slate-400"></div>
+                <div className="h-2 rounded bg-slate-400"></div>
+              </div>
+              <div className="h-14 rounded-md bg-slate-200 py-4"></div>
+            </div>
+          </div>
+
+          <div className="col-span-6 w-full animate-pulse rounded-md border border-slate-300 p-4 shadow sm:col-span-3 lg:col-span-2">
+            <div className="">
+              <div className="mb-2 h-36 rounded-md border-2 border-slate-300"></div>
+              <div className="mb-2 space-y-6 py-1">
+                <div className="h-2 rounded bg-slate-300"></div>
+                <div className="h-2 rounded bg-slate-300"></div>
+                <div className="h-2 rounded bg-slate-300"></div>
+              </div>
+              <div className="h-14 rounded-md bg-slate-200 py-4"></div>
+            </div>
+          </div>
+
+          <div className="col-span-6 w-full animate-pulse rounded-md border border-slate-300 p-4 shadow sm:col-span-3 lg:col-span-2">
+            <div className="">
+              <div className="mb-2 h-36 rounded-md border-2 border-slate-300"></div>
+              <div className="mb-2 space-y-6 py-1">
+                <div className="h-2 rounded bg-slate-300"></div>
+                <div className="h-2 rounded bg-slate-300"></div>
+                <div className="h-2 rounded bg-slate-300"></div>
+              </div>
+              <div className="h-14 rounded-md bg-slate-200 py-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-6">
