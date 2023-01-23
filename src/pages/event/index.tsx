@@ -70,14 +70,14 @@ const Event: NextPage = () => {
                             </div>
                           )}
 
-                        {!eventFinished && ongoingEvent && 0 && (
+                        {!eventFinished && ongoingEvent && (
                           <div className="flex items-center gap-1 text-xs">
                             EVENT ONGOING{" "}
                             <GoPrimitiveDot className="text-yellow-600" />
                           </div>
                         )}
 
-                        {eventFinished && ongoingEvent && 0 && (
+                        {eventFinished && ongoingEvent && (
                           <div className="flex items-center gap-1 text-xs">
                             EVENT ENDED{" "}
                             <GoPrimitiveDot className="text-emerald-600" />
