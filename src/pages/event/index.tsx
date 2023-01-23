@@ -70,23 +70,19 @@ const Event: NextPage = () => {
                             </div>
                           )}
 
-                        {!eventFinished &&
-                          ongoingEvent &&
-                          registrationExpiration <= 0 && (
-                            <div className="flex items-center gap-1 text-xs">
-                              EVENT ONGOING{" "}
-                              <GoPrimitiveDot className="text-yellow-600" />
-                            </div>
-                          )}
+                        {!eventFinished && ongoingEvent && 0 && (
+                          <div className="flex items-center gap-1 text-xs">
+                            EVENT ONGOING{" "}
+                            <GoPrimitiveDot className="text-yellow-600" />
+                          </div>
+                        )}
 
-                        {eventFinished &&
-                          ongoingEvent &&
-                          registrationExpiration <= 0 && (
-                            <div className="flex items-center gap-1 text-xs">
-                              EVENT ENDED{" "}
-                              <GoPrimitiveDot className="text-emerald-600" />
-                            </div>
-                          )}
+                        {eventFinished && ongoingEvent && 0 && (
+                          <div className="flex items-center gap-1 text-xs">
+                            EVENT ENDED{" "}
+                            <GoPrimitiveDot className="text-emerald-600" />
+                          </div>
+                        )}
                       </div>{" "}
                       <Image
                         src={

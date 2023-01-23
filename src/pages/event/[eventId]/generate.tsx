@@ -118,7 +118,9 @@ const Generate: NextPage = () => {
 
       <div className="row-span-3 grid grid-rows-6">
         <p className="row-span-4 text-center text-8xl font-bold">{bibNumber}</p>
-        <p className="row-span-2 text-center font-semibold">10KM</p>
+        <p className="row-span-2 text-center font-semibold">
+          {bibCanvas?.registrationNumber}KM
+        </p>
       </div>
 
       <div className="row-span-1 grid grid-cols-5 border-t-2 border-solid border-black">

@@ -68,11 +68,11 @@ const SingeEvent: NextPage = () => {
 
           {eventData.timeStart3km && (
             <Link href={"/"}>
-              <div className="border-2 border-dashed border-black p-2 text-xl font-semibold">
+              <div className="border-2 border-dashed border-white p-2 text-xl font-semibold">
                 {eventData.raceFinished3km ? (
                   <div className="flex items-center justify-center gap-2">
                     CHECK STATUS{" "}
-                    <GiCheckeredFlag className="text-4xl text-black" />
+                    <GiCheckeredFlag className="text-4xl text-white" />
                   </div>
                 ) : (
                   <div className="flex items-center justify-center">
