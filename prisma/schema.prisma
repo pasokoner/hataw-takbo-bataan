@@ -55,35 +55,36 @@ enum ShirtSize {
 
 model Participant {
     id                     String        @id @default(cuid())
-    registrationNumber     Int           @unique
+    registrationNumber     Int
     firstName              String
     lastName               String
     gender                 Gender
     birthdate              DateTime?
-    email                  String?       @unique
-    contactNumber          String        @unique
+    email                  String?
+    contactNumber          String
     municipality           Municipality?
-    address                String
+    address                String?
     kilometers             Kilometer[]
     shirtSize              ShirtSize
-    emergencyContact       String
-    emergencyContactNumber String
+    emergencyContact       String?
+    emergencyContactNumber String?
     registrationDate       DateTime      @default(now())
     updatedAt              DateTime      @updatedAt
     event                  Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
     eventId                String
 
-    @@unique([eventId, firstName, lastName, contactNumber])
+    @@unique([eventId, firstName, lastName, birthdate])
 }
 
 model Kilometer {
-    id                 String       @id @default(cuid())
+    id                 String      @id @default(cuid())
     distance           Int
     timeFinished       DateTime?
-    participant        Participant? @relation(fields: [registrationNumber], references: [registrationNumber], onDelete: Cascade)
-    registrationNumber Int?
-    event              Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+    registrationNumber Int
     eventId            String
+    participantId      String
+    participant        Participant @relation(fields: [participantId], references: [id])
+    event              Event       @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
     @@unique([eventId, registrationNumber, distance])
 }
