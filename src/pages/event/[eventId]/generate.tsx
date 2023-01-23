@@ -53,7 +53,7 @@ const Generate: NextPage = () => {
   useEffect(() => {
     if (bibCanvas) {
       /* eslint-disable @typescript-eslint/no-floating-promises */
-      handleDownloadImage(bibCanvas?.registrationNumber as number);
+      handleDownloadImage(bibCanvas.registrationNumber);
     }
     if (bibData && printStart < bibData.length) {
       setBibCanvas(bibData[printStart]);
@@ -119,7 +119,7 @@ const Generate: NextPage = () => {
       <div className="row-span-3 grid grid-rows-6">
         <p className="row-span-4 text-center text-8xl font-bold">{bibNumber}</p>
         <p className="row-span-2 text-center font-semibold">
-          {bibCanvas?.registrationNumber}KM
+          {bibCanvas?.distance}KM
         </p>
       </div>
 

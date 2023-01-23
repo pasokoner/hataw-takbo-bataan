@@ -37,7 +37,7 @@ export const eventRouter = createTRPCRouter({
       },
 
       include: {
-        participant: true,
+        _count: true,
       },
     });
   }),

@@ -17,6 +17,8 @@ const Event: NextPage = () => {
 
   const { data: sessionData } = useSession();
 
+  console.log(events);
+
   if (isLoading) {
     return (
       <div className="pt-6">
@@ -72,7 +74,7 @@ const Event: NextPage = () => {
               id,
               scheduleTimeStart,
               name,
-              participant,
+              _count,
               registerFrom,
               registerTo,
               timeStart10km,
@@ -148,10 +150,7 @@ const Event: NextPage = () => {
                           {dayjs(scheduleTimeStart).format("mm")}{" "}
                           {dayjs(scheduleTimeStart).format("A")}{" "}
                         </p>
-                        <p>
-                          No. of participants{" "}
-                          {participant ? participant.length : "0"}
-                        </p>
+                        <p>No. of participants {_count.participant}</p>
                       </div>
 
                       <Link href={`/register/${id}`}>

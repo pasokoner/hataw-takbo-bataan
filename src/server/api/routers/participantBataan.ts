@@ -34,13 +34,6 @@ export const participantRouter = createTRPCRouter({
       const { distances, firstName, lastName, emergencyContact, ...excess } =
         input;
 
-      const distancesF = distances.map((distance) => {
-        return {
-          eventId: excess.eventId,
-          distance: distance,
-        };
-      });
-
       await prisma.$transaction(async (tx) => {
         try {
           const data = await tx.participant.findMany({
@@ -55,6 +48,16 @@ export const participantRouter = createTRPCRouter({
             take: 1,
           });
 
+          const distancesF = distances.map((distance) => {
+            return {
+              eventId: excess.eventId,
+              distance: distance,
+              registrationNumber: data[0]?.registrationNumber
+                ? data[0]?.registrationNumber + 1
+                : 27,
+            };
+          });
+
           return await tx.participant.create({
             data: {
               ...excess,
@@ -63,7 +66,7 @@ export const participantRouter = createTRPCRouter({
               emergencyContact: emergencyContact.trim().toLocaleUpperCase(),
               registrationNumber: data[0]?.registrationNumber
                 ? data[0]?.registrationNumber + 1
-                : 30,
+                : 27,
               kilometers: {
                 create: [...distancesF],
               },
