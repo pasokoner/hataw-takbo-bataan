@@ -42,3 +42,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 hermosa.json
+/prisma/seed.ts
