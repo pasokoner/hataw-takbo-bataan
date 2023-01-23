@@ -132,7 +132,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
   };
 
   const toggleClass = "transform translate-x-6 bg-blue  ";
-  console.log(details);
+
   return (
     /* eslint-disable @typescript-eslint/no-misused-promises */
     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">

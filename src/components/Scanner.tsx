@@ -36,7 +36,7 @@ const Scanner = ({ updateParticipant }: Props) => {
 
   useEffect(() => {
     const now = new Date();
-    console.log(cameraResult);
+
     // updateParticipant(cameraResult, now);
     updateParticipant(cameraResult, now);
   }, [cameraResult]);

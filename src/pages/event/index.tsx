@@ -17,8 +17,6 @@ const Event: NextPage = () => {
 
   const { data: sessionData } = useSession();
 
-  console.log(events);
-
   if (isLoading) {
     return (
       <div className="pt-6">

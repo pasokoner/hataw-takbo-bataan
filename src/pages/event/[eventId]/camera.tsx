@@ -385,7 +385,6 @@ const Camera: NextPage = () => {
     );
   }
 
-
   return (
     <div className="pt-6">
       <div className="mb-4 grid grid-cols-6 gap-3">
@@ -474,7 +473,6 @@ const Camera: NextPage = () => {
                     setErrorRecords((prevState) =>
                       prevState.filter(({ id: idC }) => record.id !== idC)
                     );
-                    console.log(record);
                     setSavedRecords((prevState) => [
                       ...prevState,
                       { ...record, status: "standby" },
