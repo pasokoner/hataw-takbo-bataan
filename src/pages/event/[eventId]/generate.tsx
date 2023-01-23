@@ -80,7 +80,7 @@ const Generate: NextPage = () => {
     bibColor = "bg-km3";
     bibNumber =
       "30" +
-      bibNumber.slice(0, bibCanvas.registrationNumber.toString().length) +
+      bibNumber.slice(0, 4 - bibCanvas.registrationNumber.toString().length) +
       bibCanvas.registrationNumber.toString();
   } else if (
     bibCanvas &&
@@ -90,7 +90,7 @@ const Generate: NextPage = () => {
     bibColor = "bg-km5";
     bibNumber =
       "50" +
-      bibNumber.slice(0, bibCanvas.registrationNumber.toString().length) +
+      bibNumber.slice(0, 4 - bibCanvas.registrationNumber.toString().length) +
       bibCanvas.registrationNumber.toString();
   } else if (
     bibCanvas &&
@@ -100,7 +100,7 @@ const Generate: NextPage = () => {
     bibColor = "bg-km10";
     bibNumber =
       "10" +
-      bibNumber.slice(0, bibCanvas.registrationNumber.toString().length) +
+      bibNumber.slice(0, 4 - bibCanvas.registrationNumber.toString().length) +
       bibCanvas.registrationNumber.toString();
   }
 
