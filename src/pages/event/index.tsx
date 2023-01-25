@@ -17,8 +17,6 @@ const Event: NextPage = () => {
 
   const { data: sessionData } = useSession();
 
-  console.log(events);
-
   if (isLoading) {
     return (
       <div className="pt-6">
@@ -153,7 +151,7 @@ const Event: NextPage = () => {
                         <p>No. of participants {_count.participant}</p>
                       </div>
 
-                      <Link href={`/register/${id}`}>
+                      <Link href={`/event/${id}/register`}>
                         <div className="mb-2 w-full border-2 py-4 text-center">
                           REGISTER
                         </div>

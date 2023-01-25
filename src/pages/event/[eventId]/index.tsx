@@ -21,6 +21,7 @@ const SingeEvent: NextPage = () => {
     refetch,
   } = api.event.details.useQuery({
     eventId: eventId as string,
+    includeKM: true,
   });
 
   if (isLoading) {
@@ -46,6 +47,8 @@ const SingeEvent: NextPage = () => {
 
     return filteredParticipants.length;
   };
+
+  console.log(eventData);
 
   return (
     <div className="py-6">

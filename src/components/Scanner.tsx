@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from "react";
 
 import QrScanner from "qr-scanner";
-import { Event } from "@prisma/client";
+import { error } from "console";
 
 type Props = {
   updateParticipant: (cameraResult: string, timeFinished: Date) => void;
@@ -14,11 +14,13 @@ const Scanner = ({ updateParticipant }: Props) => {
     return new QrScanner(
       document.getElementById("video-feed") as HTMLVideoElement,
       (result: { data: string }) => {
-        setCameraResult(result.data);
+        // setCameraResult(result.data);
+        console.log(result.data);
       },
       {
         /* your options or returnDetailedScanResult: true if you're not specifying any other options */
         highlightScanRegion: true,
+        returnDetailedScanResult: true,
       }
     );
   }, [setCameraResult]);

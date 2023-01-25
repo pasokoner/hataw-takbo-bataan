@@ -10,9 +10,10 @@ import { api } from "../../../utils/api";
 const Config: NextPage = () => {
   const { query } = useRouter();
   const { eventId } = query;
-
+ 
   const { data: eventData, isLoading } = api.event.details.useQuery({
     eventId: eventId as string,
+    includeKM: false
   });
 
   const { mutate } = api.event.config.useMutation({

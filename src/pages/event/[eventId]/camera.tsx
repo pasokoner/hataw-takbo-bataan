@@ -41,6 +41,7 @@ const Camera: NextPage = () => {
   const { data: eventData, isLoading } = api.event.details.useQuery(
     {
       eventId: eventId as string,
+      includeKM: false,
     },
     {
       refetchOnWindowFocus: false,
