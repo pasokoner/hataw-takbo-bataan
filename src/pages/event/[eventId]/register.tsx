@@ -1,16 +1,26 @@
-import { type NextPage } from "next";
-import RegistrationForm from "../../components/RegistrationForm";
+import RegistrationForm from "../../../components/RegistrationForm";
 import { useRouter } from "next/router";
-import { api } from "../../utils/api";
-import Title from "../../components/Title";
+import { api } from "../../../utils/api";
+import Title from "../../../components/Title";
 
-const Register: NextPage = () => {
+const Register = () => {
   const { query } = useRouter();
   const { eventId } = query;
 
   const { data: eventData, isLoading } = api.event.details.useQuery({
     eventId: eventId as string,
+    includeKM: false,
   });
+
+  // const { data: participantData } = api.participant.getAll.useQuery({
+  //   eventId: eventId as string,
+  // });
+
+  // if (participantData) {
+  //   console.log(
+  //     participantData.filter(({ _count }) => _count.kilometers === 0)
+  //   );
+  // }
 
   if (isLoading) {
     return <></>;
@@ -28,7 +38,7 @@ const Register: NextPage = () => {
     !eventData.raceFinished10km &&
     !eventData.raceFinished5km &&
     !eventData.raceFinished3km &&
-    eventData.registerTo.getTime() - eventData.registerFrom.getDate() <= 0
+    eventData.registerTo.getTime() - eventData.registerFrom.getTime() <= 0
   ) {
     return (
       <div
@@ -45,7 +55,7 @@ const Register: NextPage = () => {
     eventData.raceFinished10km &&
     eventData.raceFinished5km &&
     eventData.raceFinished3km &&
-    eventData.registerTo.getTime() - eventData.registerFrom.getDate() <= 0
+    eventData.registerTo.getTime() - eventData.registerFrom.getTime() <= 0
   ) {
     return (
       <div

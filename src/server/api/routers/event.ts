@@ -7,11 +7,12 @@ export const eventRouter = createTRPCRouter({
     .input(
       z.object({
         eventId: z.string(),
+        includeKM: z.boolean(),
       })
     )
     .query(async ({ input, ctx }) => {
       const { prisma } = ctx;
-      const { eventId } = input;
+      const { eventId, includeKM } = input;
 
       const data = await prisma.event.findFirst({
         where: {
@@ -20,7 +21,7 @@ export const eventRouter = createTRPCRouter({
         include: {
           kilometer: {
             include: {
-              participant: true,
+              participant: includeKM,
             },
           },
         },

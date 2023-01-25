@@ -32,15 +32,15 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
   const [error, setError] = useState("");
 
   const { mutate, isLoading } = api.participant.register.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       setSelectedOptions([]);
       setErrorOptions("");
       setError("");
       reset();
-      // setDetails({
-      //   id: data?.id,
-      //   registrationNumber: data?.registrationNumber,
-      // });
+      setDetails({
+        id: data?.id,
+        registrationNumber: data?.registrationNumber,
+      });
       setShowDetails(true);
     },
 
@@ -424,7 +424,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
                   }}
                   className="mt-2 w-full rounded-md border-2 border-slate-500 py-1 hover:border-slate-400 hover:text-slate-400"
                 >
-                  Copy <AiOutlineCopy className="inline" />
+                  SAVE <AiOutlineCopy className="inline" />
                 </button>
               </div>
             </div>
