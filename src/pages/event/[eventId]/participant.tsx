@@ -42,8 +42,6 @@ const Participant: NextPage = () => {
     }
   );
 
-  console.log(eventData);
-
   const { mutate, isLoading: isUpdating } = api.participant.update.useMutation({
     onSuccess(data) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
