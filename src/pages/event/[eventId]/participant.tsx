@@ -476,7 +476,7 @@ const Participant: NextPage = () => {
                     {participant.kilometers[0].distance} KM
                   </p>
                 </div>
-                <div className="absolute top-[348px] right-[140px] left-[560px]">
+                <div className="absolute top-[348px] right-[100px] left-[560px]">
                   <p className="text-[13px] font-medium">
                     {eventData.timeStart5km &&
                     participant.kilometers[0].distance === 5
@@ -504,7 +504,7 @@ const Participant: NextPage = () => {
                             1000) %
                           60
                         )
-                          .toFixed(2)
+                          .toFixed(0)
                           .toString()
                           .padStart(2, "0")}`
                       : "00:00:00"}
@@ -543,7 +543,7 @@ const Participant: NextPage = () => {
                     {participant.kilometers[0].distance} KM
                   </p>
                 </div>
-                <div className="absolute top-[261px] right-[100px] left-[420px]">
+                <div className="absolute top-[261px] right-[60px] left-[420px]">
                   <p className="text-[10px] font-medium">
                     {eventData.timeStart5km &&
                     participant.kilometers[0].distance === 5
@@ -557,19 +557,21 @@ const Participant: NextPage = () => {
                           .toFixed(0)
                           .toString()
                           .padStart(2, "0")}:${(
-                          (participant.kilometers[0].timeFinished.getTime() -
+                          ((participant.kilometers[0].timeFinished.getTime() -
                             eventData.timeStart5km.getTime()) /
-                          1000 /
+                            1000 /
+                            60) %
                           60
                         )
                           .toFixed(0)
                           .toString()
                           .padStart(2, "0")}:${(
-                          (participant.kilometers[0].timeFinished.getTime() -
+                          ((participant.kilometers[0].timeFinished.getTime() -
                             eventData.timeStart5km.getTime()) /
-                          1000
+                            1000) %
+                          60
                         )
-                          .toFixed(2)
+                          .toFixed(0)
                           .toString()
                           .padStart(2, "0")}`
                       : "00:00:00"}
@@ -609,7 +611,7 @@ const Participant: NextPage = () => {
                     {participant.kilometers[0].distance} KM
                   </p>
                 </div>
-                <div className="absolute top-[218px] right-[90px] left-[350px]">
+                <div className="absolute top-[218px] right-[50px] left-[350px]">
                   <p className="text-[8px] font-medium">
                     {eventData.timeStart5km &&
                     participant.kilometers[0].distance === 5
@@ -623,19 +625,21 @@ const Participant: NextPage = () => {
                           .toFixed(0)
                           .toString()
                           .padStart(2, "0")}:${(
-                          (participant.kilometers[0].timeFinished.getTime() -
+                          ((participant.kilometers[0].timeFinished.getTime() -
                             eventData.timeStart5km.getTime()) /
-                          1000 /
+                            1000 /
+                            60) %
                           60
                         )
                           .toFixed(0)
                           .toString()
                           .padStart(2, "0")}:${(
-                          (participant.kilometers[0].timeFinished.getTime() -
+                          ((participant.kilometers[0].timeFinished.getTime() -
                             eventData.timeStart5km.getTime()) /
-                          1000
+                            1000) %
+                          60
                         )
-                          .toFixed(2)
+                          .toFixed(0)
                           .toString()
                           .padStart(2, "0")}`
                       : "00:00:00"}
@@ -674,7 +678,7 @@ const Participant: NextPage = () => {
                     {participant.kilometers[0].distance} KM
                   </p>
                 </div>
-                <div className="absolute top-[131px] right-[65px] left-[211px]">
+                <div className="absolute top-[131px] right-[40px] left-[211px]">
                   <p className="text-[4px] font-medium">
                     {eventData.timeStart5km &&
                     participant.kilometers[0].distance === 5
@@ -688,19 +692,21 @@ const Participant: NextPage = () => {
                           .toFixed(0)
                           .toString()
                           .padStart(2, "0")}:${(
-                          (participant.kilometers[0].timeFinished.getTime() -
+                          ((participant.kilometers[0].timeFinished.getTime() -
                             eventData.timeStart5km.getTime()) /
-                          1000 /
+                            1000 /
+                            60) %
                           60
                         )
                           .toFixed(0)
                           .toString()
                           .padStart(2, "0")}:${(
-                          (participant.kilometers[0].timeFinished.getTime() -
+                          ((participant.kilometers[0].timeFinished.getTime() -
                             eventData.timeStart5km.getTime()) /
-                          1000
+                            1000) %
+                          60
                         )
-                          .toFixed(2)
+                          .toFixed(0)
                           .toString()
                           .padStart(2, "0")}`
                       : "00:00:00"}
