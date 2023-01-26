@@ -29,9 +29,11 @@ const SingeEvent: NextPage = () => {
 
   if (!eventData) {
     return (
-      <div className="mx-auto pt-20">
-        <p className="text-3xl">Event not found!</p>
-      </div>
+      <ScreenContainer className="mx-auto px-8 md:px-16">
+        <div className="mx-auto pt-20">
+          <p className="text-3xl">Event not found!</p>
+        </div>
+      </ScreenContainer>
     );
   }
 
@@ -47,10 +49,8 @@ const SingeEvent: NextPage = () => {
     return filteredParticipants.length;
   };
 
-  console.log(eventData);
-
   return (
-    <div className="py-6">
+    <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
       {/* <h2 className="text-center text-6xl font-semibold">
         Welcome to {eventData.name}
       </h2> */}
@@ -177,7 +177,7 @@ const SingeEvent: NextPage = () => {
           </p>
         </div>
       </div>
-    </div>
+    </ScreenContainer>
   );
 };
 
@@ -185,6 +185,7 @@ export default SingeEvent;
 
 import { getSession, signOut } from "next-auth/react";
 import type { GetServerSideProps } from "next";
+import ScreenContainer from "../../../layouts/ScreenContainer";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);

@@ -15,7 +15,6 @@ const Scanner = ({ updateParticipant }: Props) => {
       document.getElementById("video-feed") as HTMLVideoElement,
       (result: { data: string }) => {
         setCameraResult(result.data);
-        console.log(result.data);
       },
       {
         /* your options or returnDetailedScanResult: true if you're not specifying any other options */

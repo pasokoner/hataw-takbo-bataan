@@ -6,14 +6,15 @@ import { getSession } from "next-auth/react";
 import type { GetServerSideProps } from "next";
 
 import { api } from "../../../utils/api";
+import ScreenContainer from "../../../layouts/ScreenContainer";
 
 const Config: NextPage = () => {
   const { query } = useRouter();
   const { eventId } = query;
- 
+
   const { data: eventData, isLoading } = api.event.details.useQuery({
     eventId: eventId as string,
-    includeKM: false
+    includeKM: false,
   });
 
   const { mutate } = api.event.config.useMutation({
@@ -34,9 +35,11 @@ const Config: NextPage = () => {
 
   if (!eventData) {
     return (
-      <div className="mx-auto pt-20">
-        <p className="text-3xl">Event not found!</p>
-      </div>
+      <ScreenContainer className="mx-auto px-8 md:px-16">
+        <div className="mx-auto pt-20">
+          <p className="text-3xl">Event not found!</p>
+        </div>
+      </ScreenContainer>
     );
   }
 
@@ -45,7 +48,7 @@ const Config: NextPage = () => {
   };
 
   return (
-    <div className="pt-6">
+    <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
       <h2 className="mb-4 text-4xl">Event Configuration - {eventData.name}</h2>
       {/* eslint-disable @typescript-eslint/no-misused-promises */}
       <form
@@ -78,7 +81,7 @@ const Config: NextPage = () => {
           Save
         </button>
       </form>
-    </div>
+    </ScreenContainer>
   );
 };
 

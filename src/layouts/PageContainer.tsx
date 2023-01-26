@@ -9,15 +9,17 @@ type Props = {
 
 const PageContainer = ({ children }: Props) => {
   return (
-    <>
+    <div className="flex min-h-screen w-full flex-col">
       <NavBar />
 
-      <ScreenContainer as="main" className=" mx-auto px-8 md:px-16">
-        {children}
-      </ScreenContainer>
+      {/* <ScreenContainer
+        as="main"
+        className="mx-auto px-8 md:px-16"
+      >{children}</ScreenContainer> */}
+      <main className="flex-1">{children}</main>
 
-      {/* <Footer /> */}
-    </>
+      <Footer />
+    </div>
   );
 };
 

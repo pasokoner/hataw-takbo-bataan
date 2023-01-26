@@ -1,11 +1,12 @@
 import React from "react";
 import Title from "../../components/Title";
-import { signIn, getSession, signOut } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import type { GetServerSideProps } from "next";
+import ScreenContainer from "../../layouts/ScreenContainer";
 
 const Login = () => {
   return (
-    <div className="pt-6">
+    <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
       <Title value="AUTHENTICATE ADMIN" />
       <div className="flex h-[50vh] flex-col items-center justify-center">
         <button
@@ -18,7 +19,7 @@ const Login = () => {
           LOGIN
         </button>
       </div>
-    </div>
+    </ScreenContainer>
   );
 };
 

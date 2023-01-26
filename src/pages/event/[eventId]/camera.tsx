@@ -13,6 +13,7 @@ import { IoClose } from "react-icons/io5";
 import { SlReload } from "react-icons/sl";
 
 import { v4 as uuidv4 } from "uuid";
+import ScreenContainer from "../../../layouts/ScreenContainer";
 // import SuccessSound from "../../../assets/sounds/success.mp3";
 // import useSound from "use-sound";
 
@@ -362,15 +363,17 @@ const Camera: NextPage = () => {
 
   if (!eventData) {
     return (
-      <div className="mx-auto pt-20">
-        <p className="text-3xl">Event not found!</p>
-      </div>
+      <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
+        <div className="mx-auto pt-20">
+          <p className="text-3xl">Event not found!</p>
+        </div>
+      </ScreenContainer>
     );
   }
 
   if (cameraPassword !== eventData.cameraPassword) {
     return (
-      <div className="pt-6">
+      <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
         <Title value={`HATAW BATAAN TAKBO - ${eventData.name}`} />
         <div className="flex h-[50vh] flex-col items-center justify-center">
           <label htmlFor="cameraPassword">CAMERA PASSWORD</label>
@@ -382,12 +385,12 @@ const Camera: NextPage = () => {
             }}
           />
         </div>
-      </div>
+      </ScreenContainer>
     );
   }
 
   return (
-    <div className="pt-6">
+    <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
       <div className="mb-4 grid grid-cols-6 gap-3">
         <h3 className="col-span-3 font-semibold sm:col-span-2 sm:text-xl">
           <span className="rounded-md bg-km3 p-1 text-white sm:p-2">3KM</span> -{" "}
@@ -517,7 +520,7 @@ const Camera: NextPage = () => {
           message={successMessage}
         />
       )}
-    </div>
+    </ScreenContainer>
   );
 };
 
