@@ -530,6 +530,7 @@ const Participant: NextPage = () => {
                   src={"/cerfifates/hermosa.jpg"}
                   width={1000}
                   height={1000}
+                  onContextMenu={(e) => e.preventDefault()}
                   alt="hermosa certificate"
                   className="absolute inset-40 left-0 top-0"
                 ></Image>
@@ -598,6 +599,7 @@ const Participant: NextPage = () => {
                   src={"/cerfifates/hermosa.jpg"}
                   width={1000}
                   height={1000}
+                  onContextMenu={(e) => e.preventDefault()}
                   alt="hermosa certificate"
                   className="absolute inset-40 left-0 top-0"
                 ></Image>
@@ -665,6 +667,7 @@ const Participant: NextPage = () => {
                   src={"/cerfifates/hermosa.jpg"}
                   width={1000}
                   height={1000}
+                  onContextMenu={(e) => e.preventDefault()}
                   alt="hermosa certificate"
                   className="absolute inset-40 left-0 top-0"
                 ></Image>
