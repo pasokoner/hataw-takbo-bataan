@@ -18,7 +18,7 @@ const NavBar: React.FC = () => {
             width={50}
             alt="Hataw Bataan Icon"
           />
-          <h1 className="text-xl font-semibold md:text-3xl">
+          <h1 className="text-lg font-semibold md:text-3xl">
             <span className="text-[#0062ad]">Hataw </span>
             <span className="text-[#d33d49]">Takbo </span>
             <span className="text-[#0d632b]">Bataan</span>
@@ -27,7 +27,7 @@ const NavBar: React.FC = () => {
 
         <Link
           href={"/event"}
-          className="rounded-md border-2 border-primary bg-primary px-4 py-2 text-white hover:bg-sky-600"
+          className="rounded-md border-primary bg-primary py-1 px-2 text-center text-sm text-white hover:bg-sky-600 md:px-4 md:py-2"
         >
           SHOW EVENTS
         </Link>
