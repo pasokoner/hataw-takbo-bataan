@@ -14,7 +14,7 @@ const Scanner = ({ updateParticipant }: Props) => {
     return new QrScanner(
       document.getElementById("video-feed") as HTMLVideoElement,
       (result: { data: string }) => {
-        // setCameraResult(result.data);
+        setCameraResult(result.data);
         console.log(result.data);
       },
       {
