@@ -100,7 +100,7 @@ const ParticipantForm = ({ eventId, handleParticipant }: Props) => {
     <div className="flex h-[70vh] w-full flex-col items-center pt-12  md:justify-center">
       <div className="flex w-11/12 max-w-[24rem] flex-col items-center gap-4 rounded-md border-2 border-solid border-black sm:w-96">
         <h2 className="w-full rounded-t-sm bg-primary p-2 text-center font-semibold text-white">
-          ALREADY REGISTERED?
+          AUTHENTICATOR
         </h2>
         {/* <div className="flex justify-center">
           <input type="file" className="py-2 px-6" />

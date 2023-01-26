@@ -1,5 +1,5 @@
 import { type NextPage } from "next";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, RefObject } from "react";
 import ParticipantForm from "../../../components/ParticipantForm";
 import { useRouter } from "next/router";
 
@@ -13,6 +13,8 @@ import { RiLoader5Fill } from "react-icons/ri";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { distances } from "../../../utils/constant";
 import Image from "next/image";
+import html2canvas from "html2canvas";
+import { FiDownload } from "react-icons/fi";
 
 type EditForm = {
   firstName: string;
@@ -60,6 +62,7 @@ const Participant: NextPage = () => {
 
   const [edit, setEdit] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
+  const [showCertificate, setShowCertificate] = useState(false);
   const [errorOptions, setErrorOptions] = useState("");
   const firstCheckbox = useRef<HTMLInputElement>(null);
 
@@ -92,13 +95,43 @@ const Participant: NextPage = () => {
 
     if (data && participant?.kilometers && participant.kilometers[0]) {
       mutate({
-        firstName: data.firstName.toUpperCase().trim(),
-        lastName: data.lastName.toUpperCase().trim(),
-        shirtSize: data.shirtSize,
+        firstName: data.firstName
+          ? data.firstName.toUpperCase().trim()
+          : participant.firstName,
+        lastName: data.lastName
+          ? data.lastName.toUpperCase().trim()
+          : participant.lastName,
+        shirtSize: data.shirtSize ? data.shirtSize : participant.shirtSize,
         participantId: participant.id,
         kilometerId: participant.kilometers[0].id,
-        distance: selectedOptions[0] as number,
+        distance: (selectedOptions[0] as number)
+          ? selectedOptions[0]
+          : participant.kilometers[0].distance,
       });
+    }
+  };
+
+  const certL = useRef<HTMLDivElement>(null);
+  const certMd = useRef<HTMLDivElement>(null);
+  const certSm = useRef<HTMLDivElement>(null);
+  const certXs = useRef<HTMLDivElement>(null);
+
+  const handleDownloadImage = async (cert: RefObject<HTMLDivElement>) => {
+    const element = cert.current;
+    const canvas = await html2canvas(element as HTMLDivElement, {});
+
+    const data = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+
+    if (typeof link.download === "string") {
+      link.href = data;
+      link.download = "hataw-bataan-certificate.png";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(data);
     }
   };
 
@@ -123,45 +156,98 @@ const Participant: NextPage = () => {
     );
   }
 
+  console.log(participant.kilometers);
+
   return (
     <div className="px-4 pt-6 pb-24">
       <Title value={`PARTICIPANT INFORMATION`} />
 
       <div className="mt-6 rounded border border-slate-400 bg-slate-100 px-4 py-3 text-slate-700">
-        <div className="mb-6 flex items-center justify-center">
-          <h2 className="text-2xl font-medium">
+        {edit && (
+          <div className="mt-2 mb-4 rounded-sm border-2 border-red-400  bg-red-100 py-1 px-2 text-red-700 transition-all">
+            <h3 className="mb-1 flex items-center gap-1 text-2xl font-medium">
+              NOTICE REMINDER <CgDanger />{" "}
+            </h3>
+            <p>
+              Please be reminded that the option to edit your shirt size and
+              distance on our website is available for a limited time only. We
+              recommend that you update your preferences as soon as possible to
+              ensure that your choices is processed correctly.
+            </p>
+            <p className="font-semibold">
+              ***WALK IN USER SHOULD ONLY BE ABLE TO EDIT JUST THEIR NAME***
+            </p>
+          </div>
+        )}
+
+        <div className="mb-6 flex items-center">
+          <h2 className="text-xl font-medium md:text-2xl">
             Registration No.{" "}
             <span className="font-semibold">
               {participant.registrationNumber}
             </span>
           </h2>
 
-          {!edit && (
+          {!edit &&
+            eventData.closeRegistration &&
+            participant.firstName.indexOf("ANONYMOUS") !== -1 &&
+            participant.lastName.indexOf("ANONYMOUS") !== -1 &&
+            participant.address &&
+            participant.address.indexOf("ANONYMOUS") !== -1 && (
+              <button
+                onClick={() => {
+                  setEdit(true);
+                }}
+                className="ml-auto flex cursor-pointer items-center justify-center gap-1 rounded-md border-2 border-stone-600 py-1 px-2 font-semibold hover:bg-slate-200 md:mr-4"
+              >
+                EDIT <AiOutlineEdit className="text-xl md:text-2xl" />
+              </button>
+            )}
+
+          {!edit && !eventData.closeRegistration && (
             <button
               onClick={() => {
                 setEdit(true);
               }}
-              className="ml-auto mr-4 flex cursor-pointer items-center justify-center gap-1 rounded-md border-2 border-stone-600 py-1 px-2 font-semibold hover:bg-slate-200"
+              className="ml-auto flex cursor-pointer items-center justify-center gap-1 rounded-md border-2 border-stone-600 py-1 px-2 font-semibold hover:bg-slate-200 md:mr-4"
             >
-              EDIT <AiOutlineEdit className="text-2xl" />
+              EDIT <AiOutlineEdit className="text-xl md:text-2xl" />
             </button>
           )}
 
-          {edit && (
+          {edit &&
+            eventData.closeRegistration &&
+            participant.firstName.indexOf("ANONYMOUS") !== -1 &&
+            participant.lastName.indexOf("ANONYMOUS") !== -1 &&
+            participant.address &&
+            participant.address.indexOf("ANONYMOUS") !== -1 && (
+              <button
+                onClick={() => {
+                  setEdit(false);
+                }}
+                className="ml-auto flex cursor-pointer items-center justify-center gap-1 rounded-md border-2 border-red-400 bg-red-100  py-1 px-2 font-semibold text-red-700 transition-all hover:bg-red-200 md:mr-4"
+              >
+                EXIT{" "}
+                <AiOutlineClose className="text-xl text-red-700 md:text-2xl" />
+              </button>
+            )}
+
+          {edit && !eventData.closeRegistration && (
             <button
               onClick={() => {
                 setEdit(false);
               }}
-              className="ml-auto mr-4 flex cursor-pointer items-center justify-center gap-1 rounded-md border-2 border-red-400  bg-red-100 py-1 px-2 font-semibold text-red-700 transition-all hover:bg-red-200"
+              className="ml-auto flex cursor-pointer items-center justify-center gap-1 rounded-md border-2 border-red-400 bg-red-100  py-1 px-2 font-semibold text-red-700 transition-all hover:bg-red-200 md:mr-4"
             >
-              EDIT <AiOutlineClose className="text-2xl text-red-700" />
+              EXIT{" "}
+              <AiOutlineClose className="text-xl text-red-700 md:text-2xl" />
             </button>
           )}
         </div>
 
         {!edit && (
           <div className="grid grid-cols-2 gap-2">
-            <div className="col-span-1 flex flex-col gap-2">
+            <div className="col-span-1 flex flex-col gap-2 md:col-span-1">
               <div>
                 <p className="font-semibold">First Name</p>
                 <p>{participant.lastName}</p>
@@ -171,7 +257,7 @@ const Participant: NextPage = () => {
                 <p>{participant.firstName}</p>
               </div>
             </div>
-            <div className="col-span-1 flex flex-col gap-2">
+            <div className="col-span-1 flex flex-col gap-2 md:col-span-1">
               <div>
                 <p className="font-semibold">Shirt Size</p>
                 <p>{participant.shirtSize}</p>
@@ -186,41 +272,95 @@ const Participant: NextPage = () => {
           </div>
         )}
 
-        {edit && (
+        {edit &&
+          eventData.closeRegistration &&
+          participant.firstName.indexOf("ANONYMOUS") !== -1 &&
+          participant.lastName.indexOf("ANONYMOUS") !== -1 &&
+          participant.address &&
+          participant.address.indexOf("ANONYMOUS") !== -1 && (
+            /* eslint-disable @typescript-eslint/no-misused-promises */
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid grid-cols-2 gap-2"
+            >
+              <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+                <div>
+                  <label htmlFor="firstName" className="block font-semibold">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    required
+                    defaultValue={participant.firstName}
+                    {...register("firstName")}
+                    className="w-full uppercase sm:w-10/12"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="lastName" className="block font-semibold">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    required
+                    defaultValue={participant.lastName}
+                    {...register("lastName")}
+                    className="w-full uppercase sm:w-10/12"
+                  />
+                </div>
+              </div>
+              <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+                <div>
+                  <p className="font-semibold">Shirt Size</p>
+                  <p>{participant.shirtSize}</p>
+                </div>
+                <div>
+                  <p className="font-semibold">Distance</p>
+                  {participant.kilometers.map(({ id, distance }) => (
+                    <p key={id}>{distance} KM</p>
+                  ))}
+                </div>
+              </div>
+
+              {!isUpdating && !isRefetching && (
+                <button
+                  type="submit"
+                  className={`col-span-2 rounded-md border-2 bg-[#0062ad] p-2 text-white hover:bg-[#0d6cb5]`}
+                >
+                  SAVE
+                </button>
+              )}
+              {(isUpdating || isRefetching) && (
+                <button
+                  disabled
+                  type="submit"
+                  className={`col-span-2 flex justify-center rounded-md border-2 bg-[#0062ad] p-2 text-white hover:bg-[#0d6cb5] disabled:opacity-60`}
+                >
+                  <RiLoader5Fill className="animate-spin text-center text-2xl" />
+                </button>
+              )}
+            </form>
+          )}
+
+        {edit && !eventData.closeRegistration && (
           /* eslint-disable @typescript-eslint/no-misused-promises */
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-2 gap-2"
           >
-            <div className="col-span-1 flex flex-col gap-2">
-              <div>
-                <label htmlFor="firstName" className="block font-semibold">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  required
-                  defaultValue={participant.firstName}
-                  {...register("firstName")}
-                  className="w-full uppercase sm:w-10/12"
-                />
+            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <div className="md:mb-3">
+                <p className="font-semibold">First Name</p>
+                <p>{participant.lastName}</p>
               </div>
               <div>
-                <label htmlFor="lastName" className="block font-semibold">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  required
-                  defaultValue={participant.lastName}
-                  {...register("lastName")}
-                  className="w-full uppercase sm:w-10/12"
-                />
+                <p className="font-semibold">Last Name</p>
+                <p>{participant.firstName}</p>
               </div>
             </div>
-            <div className="col-span-1 flex flex-col gap-2">
+            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
               <div>
                 <label htmlFor="shirtSize" className="block font-semibold">
                   Shirt Size
@@ -290,78 +430,294 @@ const Participant: NextPage = () => {
           </form>
         )}
       </div>
-      {edit && (
-        <div className="mt-4 rounded-sm border-2 border-red-400  bg-red-100 py-1 px-2 text-red-700 transition-all">
-          <h3 className="mb-1 flex items-center gap-1 text-2xl font-medium">
-            NOTICE REMINDER <CgDanger />{" "}
-          </h3>
-          <p>
-            Please be reminded that the option to edit your shirt size and
-            distance on our website is available for a limited time only. We
-            recommend that you update your preferences as soon as possible to
-            ensure that your choices is processed correctly.
-          </p>
-        </div>
-      )}
 
-      <div className="relative mt-6 h-[700px] w-[1000px] lg:block">
-        <Image
-          src={"/cerfifates/hermosa.jpg"}
-          width={800}
-          height={1000}
-          alt="hermosa certificate"
-          className="absolute inset-40 left-0 top-5"
-        ></Image>
-        <div className="absolute inset-60 top-[245px] left-[350px] right-[280px] z-10 flex justify-center text-2xl ">
-          <p className="text-[24px] font-semibold">
-            {participant.firstName} {participant.lastName}
-          </p>
-        </div>
-        <div className="absolute top-[294px] right-[435px] left-[500px] flex justify-center">
-          <p className="text-[19px] font-bold">5 KM</p>
-        </div>
-        <div className="absolute top-[373px] right-[350px] left-[562px]">
-          <p className="text[14px] font-medium">00:00:00</p>
-        </div>
-      </div>
+      {(eventData.timeStart3km ||
+        eventData.timeStart5km ||
+        eventData.timeStart10km) &&
+        participant.kilometers &&
+        participant.kilometers[0]?.timeFinished && (
+          <button
+            onClick={() => {
+              setShowCertificate((prevState) => !prevState);
+            }}
+            className="mt-4 w-full rounded-md border-2 border-solid border-sky-400 bg-sky-100 py-2 text-sky-700 hover:bg-sky-200 active:bg-sky-200"
+          >
+            SHOW CERTIFICATE
+          </button>
+        )}
 
-      <div className="relative mt-6 hidden h-[500px] w-[750px] md:block lg:hidden">
-        <Image
-          src={"/cerfifates/hermosa.jpg"}
-          width={600}
-          height={750}
-          alt="hermosa certificate"
-          className="absolute inset-40 left-0 top-5"
-        ></Image>
-        <div className="absolute inset-60 top-[185px] left-[260px] right-[205px] z-10 flex justify-center text-xl">
-          <p className="text-[20px] font-semibold ">JOHN CARLO ASILO</p>
-        </div>
-        <div className="absolute top-[223px] right-[325px] left-[375px] flex justify-center">
-          <p className="text-[15px] font-bold">5 KM</p>
-        </div>
-        <div className="absolute top-[286px] right-[250px] left-[420px]">
-          <p className="text-[10px] font-medium">00 : 00 : 00</p>
-        </div>
-      </div>
+      {(eventData.timeStart3km ||
+        eventData.timeStart5km ||
+        eventData.timeStart10km) &&
+        participant.kilometers &&
+        participant.kilometers[0]?.timeFinished &&
+        showCertificate && (
+          <>
+            <>
+              <div
+                ref={certL}
+                className="relative hidden h-[571px] w-[800px] lg:block"
+              >
+                <Image
+                  src={"/cerfifates/hermosa.jpg"}
+                  width={800}
+                  height={1000}
+                  alt="hermosa certificate"
+                  onContextMenu={(e) => e.preventDefault()}
+                  className="absolute inset-40 left-0 top-0"
+                ></Image>
+                <div className="absolute inset-60 top-[215px] left-[350px] right-[65px] z-10 flex justify-center text-2xl ">
+                  <p className="text-[24px] font-semibold">
+                    {participant.firstName} {participant.lastName}
+                  </p>
+                </div>
+                <div className="absolute top-[263px] right-[232px] left-[500px] flex justify-center">
+                  <p className="text-[19px] font-bold">
+                    {participant.kilometers[0].distance} KM
+                  </p>
+                </div>
+                <div className="absolute top-[348px] right-[140px] left-[560px]">
+                  <p className="text-[13px] font-medium">
+                    {eventData.timeStart5km &&
+                    participant.kilometers[0].distance === 5
+                      ? `${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000 /
+                          60 /
+                          60
+                        )
+                          .toFixed(0)
+                          .toString()
+                          .padStart(2, "0")}:${(
+                          ((participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                            1000 /
+                            60) %
+                          60
+                        )
+                          .toFixed(0)
+                          .toString()
+                          .padStart(2, "0")}:${(
+                          ((participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                            1000) %
+                          60
+                        )
+                          .toFixed(2)
+                          .toString()
+                          .padStart(2, "0")}`
+                      : "00:00:00"}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={async () => {
+                  await handleDownloadImage(certL);
+                }}
+                className="mt-4 hidden animate-bounce cursor-pointer gap-1 rounded-md border-2 py-1 px-4 font-medium hover:bg-slate-200 lg:flex lg:items-center lg:justify-center"
+              >
+                DOWNLOAD CERTIFICATE <FiDownload />
+              </button>
+            </>
 
-      <div className="relative mt-6 hidden h-[500px] w-[750px] md:block lg:hidden">
-        <Image
-          src={"/cerfifates/hermosa.jpg"}
-          width={600}
-          height={750}
-          alt="hermosa certificate"
-          className="absolute inset-40 left-0 top-5"
-        ></Image>
-        <div className="absolute inset-60 top-[185px] left-[260px] right-[205px] z-10 flex justify-center text-xl">
-          <p className="text-[20px] font-semibold ">JOHN CARLO ASILO</p>
-        </div>
-        <div className="absolute top-[223px] right-[325px] left-[375px] flex justify-center">
-          <p className="text-[15px] font-bold">5 KM</p>
-        </div>
-        <div className="absolute top-[286px] right-[250px] left-[420px]">
-          <p className="text-[10px] font-medium">00 : 00 : 00</p>
-        </div>
-      </div>
+            <>
+              <div
+                ref={certMd}
+                className="relative hidden h-[428px] max-h-[500px] w-[600px] max-w-[600px] md:block lg:hidden"
+              >
+                <Image
+                  src={"/cerfifates/hermosa.jpg"}
+                  width={1000}
+                  height={1000}
+                  alt="hermosa certificate"
+                  className="absolute inset-40 left-0 top-0"
+                ></Image>
+                <div className="absolute inset-60 top-[158px] left-[270px] right-[50px] z-10 flex justify-center text-xl">
+                  <p className="text-[20px] font-semibold ">
+                    {participant.firstName} {participant.lastName}
+                  </p>
+                </div>
+                <div className="absolute top-[196px] right-[170px] left-[372px] flex justify-center">
+                  <p className="text-[15px] font-bold">
+                    {participant.kilometers[0].distance} KM
+                  </p>
+                </div>
+                <div className="absolute top-[261px] right-[100px] left-[420px]">
+                  <p className="text-[10px] font-medium">
+                    {eventData.timeStart5km &&
+                    participant.kilometers[0].distance === 5
+                      ? `${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000 /
+                          60 /
+                          60
+                        )
+                          .toFixed(0)
+                          .toString()
+                          .padStart(2, "0")}:${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000 /
+                          60
+                        )
+                          .toFixed(0)
+                          .toString()
+                          .padStart(2, "0")}:${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000
+                        )
+                          .toFixed(2)
+                          .toString()
+                          .padStart(2, "0")}`
+                      : "00:00:00"}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={async () => {
+                  await handleDownloadImage(certMd);
+                }}
+                className="mt-4 hidden animate-bounce cursor-pointer gap-1 rounded-md border-2 py-1 px-4 font-medium hover:bg-slate-200 md:flex md:items-center md:justify-center lg:hidden"
+              >
+                DOWNLOAD CERTIFICATE <FiDownload />
+              </button>
+            </>
+
+            <>
+              <div
+                ref={certSm}
+                className="relative hidden h-[356px] max-h-[500px] w-[500px] max-w-[500px] sm:block md:hidden lg:hidden"
+              >
+                <Image
+                  src={"/cerfifates/hermosa.jpg"}
+                  width={1000}
+                  height={1000}
+                  alt="hermosa certificate"
+                  className="absolute inset-40 left-0 top-0"
+                ></Image>
+                <div className="absolute inset-60 top-[128px] left-[220px] right-[44px] z-10 flex justify-center text-xl">
+                  <p className="text-[18px] font-semibold ">
+                    {participant.firstName} {participant.lastName}
+                  </p>
+                </div>
+                <div className="absolute top-[162px] right-[140px] left-[310px] flex justify-center">
+                  <p className="text-[13px] font-bold">
+                    {participant.kilometers[0].distance} KM
+                  </p>
+                </div>
+                <div className="absolute top-[218px] right-[90px] left-[350px]">
+                  <p className="text-[8px] font-medium">
+                    {eventData.timeStart5km &&
+                    participant.kilometers[0].distance === 5
+                      ? `${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000 /
+                          60 /
+                          60
+                        )
+                          .toFixed(0)
+                          .toString()
+                          .padStart(2, "0")}:${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000 /
+                          60
+                        )
+                          .toFixed(0)
+                          .toString()
+                          .padStart(2, "0")}:${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000
+                        )
+                          .toFixed(2)
+                          .toString()
+                          .padStart(2, "0")}`
+                      : "00:00:00"}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={async () => {
+                  await handleDownloadImage(certSm);
+                }}
+                className="mt-4 hidden animate-bounce cursor-pointer gap-1 rounded-md border-2 py-1 px-4 font-medium hover:bg-slate-200 sm:flex sm:items-center sm:justify-center md:hidden"
+              >
+                DOWNLOAD CERTIFICATE <FiDownload />
+              </button>
+            </>
+
+            <>
+              <div
+                ref={certXs}
+                className="relative h-[214px] max-h-[300px] w-[300px] max-w-[300px] sm:hidden md:hidden lg:hidden"
+              >
+                <Image
+                  src={"/cerfifates/hermosa.jpg"}
+                  width={1000}
+                  height={1000}
+                  alt="hermosa certificate"
+                  className="absolute inset-40 left-0 top-0"
+                ></Image>
+                <div className="absolute inset-60 top-[72px] left-[130px] right-[27px] z-10 flex justify-center text-xl">
+                  <p className="text-[10px] font-semibold ">
+                    {participant.firstName} {participant.lastName}
+                  </p>
+                </div>
+                <div className="absolute top-[97px] right-[85px] left-[188px] flex justify-center">
+                  <p className="text-[7px] font-bold">
+                    {participant.kilometers[0].distance} KM
+                  </p>
+                </div>
+                <div className="absolute top-[131px] right-[65px] left-[211px]">
+                  <p className="text-[4px] font-medium">
+                    {eventData.timeStart5km &&
+                    participant.kilometers[0].distance === 5
+                      ? `${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000 /
+                          60 /
+                          60
+                        )
+                          .toFixed(0)
+                          .toString()
+                          .padStart(2, "0")}:${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000 /
+                          60
+                        )
+                          .toFixed(0)
+                          .toString()
+                          .padStart(2, "0")}:${(
+                          (participant.kilometers[0].timeFinished.getTime() -
+                            eventData.timeStart5km.getTime()) /
+                          1000
+                        )
+                          .toFixed(2)
+                          .toString()
+                          .padStart(2, "0")}`
+                      : "00:00:00"}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={async () => {
+                  await handleDownloadImage(certXs);
+                }}
+                className="mt-4 flex animate-bounce cursor-pointer items-center justify-center gap-1 rounded-md border-2 py-1 px-4 font-medium hover:bg-slate-200 sm:hidden"
+              >
+                DOWNLOAD CERTIFICATE <FiDownload />
+              </button>
+            </>
+          </>
+        )}
     </div>
   );
 };

@@ -102,6 +102,7 @@ model Event {
     raceFinished5km   Boolean       @default(false)
     raceFinished10km  Boolean       @default(false)
     cameraPassword    String        @default("hatawbataan")
+    closeRegistration Boolean       @default(false)
     participant       Participant[]
     kilometer         Kilometer[]
 }
