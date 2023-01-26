@@ -17,6 +17,9 @@ const ManualScanner = ({ manualUpdate, eventData }: Props) => {
 
   const onSubmit: SubmitHandler<{ query: string }> = (data) => {
     const now = new Date();
+    if ("vibrate" in navigator) {
+      navigator.vibrate(200);
+    }
 
     manualUpdate(data.query, now, eventData);
   };
