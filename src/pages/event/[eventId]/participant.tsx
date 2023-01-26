@@ -118,7 +118,7 @@ const Participant: NextPage = () => {
 
   const handleDownloadImage = async (cert: RefObject<HTMLDivElement>) => {
     const element = cert.current;
-    const canvas = await html2canvas(element as HTMLDivElement, {});
+    const canvas = await html2canvas(element as HTMLDivElement);
 
     const data = canvas.toDataURL("image/png");
     const link = document.createElement("a");
@@ -458,14 +458,14 @@ const Participant: NextPage = () => {
                 ref={certL}
                 className="relative hidden h-[571px] w-[800px] lg:block"
               >
-                <Image
+                <img
                   src={"/cerfifates/hermosa.jpg"}
-                  width={800}
-                  height={1000}
+                  // width={800}
+                  // height={1000}
                   alt="hermosa certificate"
                   onContextMenu={(e) => e.preventDefault()}
                   className="absolute inset-40 left-0 top-0"
-                ></Image>
+                ></img>
                 <div className="absolute inset-60 top-[215px] left-[350px] right-[65px] z-10 flex justify-center text-2xl ">
                   <p className="text-[24px] font-semibold">
                     {participant.firstName} {participant.lastName}
@@ -526,14 +526,14 @@ const Participant: NextPage = () => {
                 ref={certMd}
                 className="relative hidden h-[428px] max-h-[500px] w-[600px] max-w-[600px] md:block lg:hidden"
               >
-                <Image
+                <img
                   src={"/cerfifates/hermosa.jpg"}
-                  width={1000}
-                  height={1000}
+                  // width={1000}
+                  // height={1000}
                   onContextMenu={(e) => e.preventDefault()}
                   alt="hermosa certificate"
                   className="absolute inset-40 left-0 top-0"
-                ></Image>
+                ></img>
                 <div className="absolute inset-60 top-[158px] left-[270px] right-[50px] z-10 flex justify-center text-xl">
                   <p className="text-[20px] font-semibold ">
                     {participant.firstName} {participant.lastName}
@@ -595,14 +595,14 @@ const Participant: NextPage = () => {
                 ref={certSm}
                 className="relative hidden h-[356px] max-h-[500px] w-[500px] max-w-[500px] sm:block md:hidden lg:hidden"
               >
-                <Image
+                <img
                   src={"/cerfifates/hermosa.jpg"}
-                  width={1000}
-                  height={1000}
+                  // width={1000}
+                  // height={1000}
                   onContextMenu={(e) => e.preventDefault()}
                   alt="hermosa certificate"
                   className="absolute inset-40 left-0 top-0"
-                ></Image>
+                ></img>
                 <div className="absolute inset-60 top-[128px] left-[220px] right-[44px] z-10 flex justify-center text-xl">
                   <p className="text-[18px] font-semibold ">
                     {participant.firstName} {participant.lastName}
@@ -663,14 +663,14 @@ const Participant: NextPage = () => {
                 ref={certXs}
                 className="relative h-[214px] max-h-[300px] w-[300px] max-w-[300px] sm:hidden md:hidden lg:hidden"
               >
-                <Image
+                <img
                   src={"/cerfifates/hermosa.jpg"}
-                  width={1000}
-                  height={1000}
+                  // width={1000}
+                  // height={1000}
                   onContextMenu={(e) => e.preventDefault()}
                   alt="hermosa certificate"
                   className="absolute inset-40 left-0 top-0"
-                ></Image>
+                ></img>
                 <div className="absolute inset-60 top-[72px] left-[130px] right-[27px] z-10 flex justify-center text-xl">
                   <p className="text-[10px] font-semibold ">
                     {participant.firstName} {participant.lastName}
@@ -681,7 +681,7 @@ const Participant: NextPage = () => {
                     {participant.kilometers[0].distance} KM
                   </p>
                 </div>
-                <div className="absolute top-[131px] right-[40px] left-[211px]">
+                <div className="absolute top-[131px] right-[60px] left-[211px]">
                   <p className="text-[4px] font-medium">
                     {eventData.timeStart5km &&
                     participant.kilometers[0].distance === 5
