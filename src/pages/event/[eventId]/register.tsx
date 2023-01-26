@@ -35,27 +35,10 @@ const Register = () => {
   }
 
   if (
-    !eventData.raceFinished10km &&
-    !eventData.raceFinished5km &&
-    !eventData.raceFinished3km &&
-    eventData.registerTo.getTime() - eventData.registerFrom.getTime() <= 0
-  ) {
-    return (
-      <div
-        className="mt-6 rounded border border-red-400 bg-red-100 py-3 px-4 text-red-700"
-        role="alert"
-      >
-        <p className="font-bold">Event Notice!</p>
-        <span className="block sm:inline">Registration has already ended</span>
-      </div>
-    );
-  }
-
-  if (
     eventData.raceFinished10km &&
     eventData.raceFinished5km &&
     eventData.raceFinished3km &&
-    eventData.registerTo.getTime() - eventData.registerFrom.getTime() <= 0
+    eventData.closeRegistration
   ) {
     return (
       <div
@@ -64,6 +47,18 @@ const Register = () => {
       >
         <p className="font-bold">Event Notice!</p>
         <span className="block sm:inline">Event has already ended</span>
+      </div>
+    );
+  }
+
+  if (eventData.closeRegistration) {
+    return (
+      <div
+        className="mt-6 rounded border border-red-400 bg-red-100 py-3 px-4 text-red-700"
+        role="alert"
+      >
+        <p className="font-bold">Event Notice!</p>
+        <span className="block sm:inline">Registration has already ended</span>
       </div>
     );
   }

@@ -1,12 +1,11 @@
 import { type NextPage } from "next";
+import Link from "next/link";
 
 import { useRouter } from "next/router";
 import { api } from "../../../utils/api";
 import CustomClock from "../../../components/StopWatch";
 import { type Kilometer } from "@prisma/client";
 import StartButton from "../../../components/StartButton";
-
-import Link from "next/link";
 
 import { GoPrimitiveDot } from "react-icons/go";
 import { GiCheckeredFlag } from "react-icons/gi";
@@ -55,6 +54,22 @@ const SingeEvent: NextPage = () => {
       {/* <h2 className="text-center text-6xl font-semibold">
         Welcome to {eventData.name}
       </h2> */}
+      <div className="mb-2 grid grid-cols-2 gap-2">
+        <Link
+          href={`/event/${eventData.id}/camera`}
+          className="col-span-1 flex justify-center border-2 border-dotted border-slate-400 py-2 font-semibold"
+        >
+          CAMERA
+        </Link>
+
+        <Link
+          href={`/event/${eventData.id}/config`}
+          className="col-span-1 flex justify-center border-2 border-dotted border-slate-400 py-2 font-semibold"
+        >
+          EVENT CONFIGURATION
+        </Link>
+      </div>
+
       <div className="mx-auto grid grid-cols-6 gap-4">
         <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md bg-km3 p-3 font-semibold text-white md:col-span-3 lg:col-span-2">
           <h2 className="text-5xl">3 KM</h2>

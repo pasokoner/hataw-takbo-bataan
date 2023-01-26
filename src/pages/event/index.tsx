@@ -78,6 +78,7 @@ const Event: NextPage = () => {
               timeStart10km,
               timeStart3km,
               timeStart5km,
+              closeRegistration,
             }) => {
               const registrationExpiration =
                 registerTo.getTime() - registerFrom.getTime();
@@ -156,6 +157,26 @@ const Event: NextPage = () => {
                           REGISTER
                         </div>
                       </Link>
+
+                      {/* {eventData} */}
+                      {closeRegistration &&
+                        (!!timeStart10km ||
+                          !!timeStart5km ||
+                          !!timeStart3km) && (
+                          <Link href={`/event/${id}/participant`}>
+                            <div className="mb-2 w-full border-2 py-4 text-center">
+                              CERTIFICATE
+                            </div>
+                          </Link>
+                        )}
+                      {!closeRegistration && (
+                        <Link href={`/event/${id}/participant`}>
+                          <div className="mb-2 w-full border-2 py-4 text-center">
+                            EDIT/VIEW DETAILS
+                          </div>
+                        </Link>
+                      )}
+
                       {sessionData && sessionData.user?.role === "ADMIN" && (
                         <Link href={`/event/${id}`}>
                           <div className="mb-2 flex w-full items-center justify-center gap-1 border-2 py-4">

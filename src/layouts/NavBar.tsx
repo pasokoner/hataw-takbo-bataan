@@ -25,6 +25,12 @@ const NavBar: React.FC = () => {
           </h1>
         </Link>
 
+        <Link
+          href={"/event"}
+          className="rounded-md border-2 border-primary bg-primary px-4 py-2 text-white hover:bg-sky-600"
+        >
+          SHOW EVENTS
+        </Link>
         {/* <button className="rounded-md border-2 px-6 py-2 text-sm">Login</button> */}
       </ScreenContainer>
     </header>
