@@ -41,6 +41,9 @@ const Scanner = ({ updateParticipant }: Props) => {
 
     // updateParticipant(cameraResult, now);
     updateParticipant(cameraResult, now);
+    if ("vibrate" in navigator) {
+      navigator.vibrate(200);
+    }
   }, [cameraResult]);
 
   return <video id="video-feed" className="mb-4 w-screen"></video>;
