@@ -142,7 +142,10 @@ const Camera: NextPage = () => {
     []
   );
 
-  const [cameraPassword, setCameraPassword] = useState("");
+  const [cameraPassword, setCameraPassword] = useLocalStorage(
+    "camera-password",
+    ""
+  );
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
