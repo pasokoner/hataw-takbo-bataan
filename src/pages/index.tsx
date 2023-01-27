@@ -134,25 +134,25 @@ const Home: NextPage = () => {
             <Image
               src={NoticeImg}
               alt="Notice Image"
-              width={1000}
+              width={1600}
               className="col-span-2 mx-auto rounded-sm"
             />
             <Image
               src={Alternative1}
               alt="alternative route 1"
-              width={1000}
+              width={1600}
               className="col-span-2 rounded-sm md:col-span-1"
             />
             <Image
               src={Alternative2}
               alt="alternative route 2"
-              width={1000}
+              width={1600}
               className="col-span-2 rounded-sm md:col-span-1"
             />
             <Image
               src={Alternative3}
               alt="alternative route 3"
-              width={1000}
+              width={1600}
               className="col-span-2 rounded-sm md:col-span-1"
             />
           </div>
