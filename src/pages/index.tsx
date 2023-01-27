@@ -12,6 +12,7 @@ import Link from "next/link";
 import { GoNote } from "react-icons/go";
 import { FiUserCheck, FiDownload } from "react-icons/fi";
 import { AiOutlineNotification } from "react-icons/ai";
+import { RiGuideLine } from "react-icons/ri";
 import { useRef } from "react";
 
 import Alternative1 from "../assets/landing-page/alternative-1.jpg";
@@ -103,29 +104,56 @@ const Home: NextPage = () => {
       </div>
 
       <div className="w-full">
+        <ScreenContainer className="mx-auto pt-20 text-gray-500">
+          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-4 border-dashed border-yellow-400 py-6 px-2 text-xl font-semibold md:gap-4 md:text-4xl">
+            RACE GUIDE <RiGuideLine className="text-yellow-400" />
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            <Image
+              width={800}
+              src={RouteImg}
+              alt="Hermosa Route Image"
+              className="col-span-2 md:col-span-1"
+            />
+            <Image
+              width={800}
+              src={StretchImg}
+              alt="Hermosa Route Image"
+              className="col-span-2 md:col-span-1"
+            />
+          </div>
+        </ScreenContainer>
+      </div>
+
+      <div className="w-full">
         <ScreenContainer className="mx-auto py-20 text-gray-500 ">
-          <h2 className="mb-4 flex items-center justify-center gap-4 border-4 border-dashed border-yellow-400 py-6 text-6xl font-semibold">
+          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-4 border-dashed border-yellow-400 py-6 px-2 text-xl font-semibold md:gap-4 md:text-4xl">
             PUBLIC NOTICE <AiOutlineNotification className="text-yellow-400" />
           </h2>
           <div className="grid grid-cols-2 gap-10">
-            <Image src={NoticeImg} alt="Notice Image" className="col-span-2" />
+            <Image
+              src={NoticeImg}
+              alt="Notice Image"
+              width={1000}
+              className="col-span-2 rounded-sm"
+            />
             <Image
               src={Alternative1}
               alt="alternative route 1"
-              width={800}
-              className="col-span-2 md:col-span-1"
+              width={1000}
+              className="col-span-2 rounded-sm md:col-span-1"
             />
             <Image
               src={Alternative2}
               alt="alternative route 2"
-              width={800}
-              className="col-span-2 md:col-span-1"
+              width={1000}
+              className="col-span-2 rounded-sm md:col-span-1"
             />
             <Image
               src={Alternative3}
               alt="alternative route 3"
-              width={800}
-              className="col-span-2 md:col-span-1"
+              width={1000}
+              className="col-span-2 rounded-sm md:col-span-1"
             />
           </div>
         </ScreenContainer>
@@ -177,9 +205,9 @@ const Home: NextPage = () => {
       </div>
 
       <div ref={waiverRef} className="w-full bg-slate-200">
-        <ScreenContainer className="md:0 mx-auto grid grid-cols-6 items-center py-20 text-gray-500 md:py-24">
+        <ScreenContainer className="md:0 mx-auto grid grid-cols-6 items-center py-14 text-gray-500 md:py-24">
           <div className="order-last col-span-6 flex flex-col gap-4 lg:-order-1 lg:col-span-4">
-            <h2 className="text-3xl font-semibold">
+            <h2 className="text-2xl font-semibold lg:text-4xl">
               LIABILITY AND RACE AGREEMENT
             </h2>
             <p>
@@ -228,7 +256,7 @@ const Home: NextPage = () => {
               DOWNLOAD WAIVER <FiDownload />
             </button>
           </div>
-          <div className="col-span-6 mx-auto mb-14 lg:col-span-2 lg:mb-0">
+          <div className="col-span-6 mx-auto mb-14 w-6/12 lg:col-span-2 lg:mb-0 lg:w-full">
             <Image src={WaiverImg} alt="Waiver Image" />
           </div>
         </ScreenContainer>

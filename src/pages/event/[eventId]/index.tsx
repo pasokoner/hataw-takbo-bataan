@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { useRouter } from "next/router";
 import { api } from "../../../utils/api";
-import CustomClock from "../../../components/StopWatch";
+// import CustomClock from "../../../components/StopWatch";
 import { type Kilometer } from "@prisma/client";
 import StartButton from "../../../components/StartButton";
 
@@ -57,16 +57,16 @@ const SingeEvent: NextPage = () => {
       <div className="mb-2 grid grid-cols-2 gap-2">
         <Link
           href={`/event/${eventData.id}/camera`}
-          className="col-span-1 flex justify-center border-2 border-dotted border-slate-400 py-2 font-semibold"
+          className="col-span-1 flex items-center justify-center border-2 border-dotted border-slate-400 py-2 font-semibold"
         >
           CAMERA
         </Link>
 
         <Link
           href={`/event/${eventData.id}/config`}
-          className="col-span-1 flex justify-center border-2 border-dotted border-slate-400 py-2 font-semibold"
+          className="col-span-1 flex items-center justify-center  border-2 border-dotted border-slate-400 py-2 font-semibold"
         >
-          EVENT CONFIGURATION
+          CONFIGURATION
         </Link>
       </div>
 
