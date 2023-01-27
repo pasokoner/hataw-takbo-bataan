@@ -34,7 +34,7 @@ export const eventRouter = createTRPCRouter({
 
     return prisma.event.findMany({
       orderBy: {
-        scheduleTimeStart: "asc",
+        scheduleTimeStart: "desc",
       },
 
       include: {
