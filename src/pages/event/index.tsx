@@ -81,16 +81,19 @@ const Event: NextPage = () => {
               timeStart10km,
               timeStart3km,
               timeStart5km,
+              raceFinished10km,
+              raceFinished5km,
+              raceFinished3km,
               closeRegistration,
             }) => {
-              const registrationExpiration =
-                registerTo.getTime() - registerFrom.getTime();
+              // const registrationExpiration =
+              //   registerTo.getTime() - registerFrom.getTime();
 
               const ongoingEvent =
-                timeStart3km || timeStart5km || timeStart10km;
+                !!timeStart3km || !!timeStart5km || !!timeStart10km;
 
               const eventFinished =
-                timeStart3km && timeStart5km && timeStart10km;
+                !!raceFinished3km && !!raceFinished5km && !!raceFinished10km;
 
               return (
                 <div
@@ -100,31 +103,33 @@ const Event: NextPage = () => {
                   <div className="rounded-md bg-km10 p-2">
                     <div className="relative h-28 bg-km3">
                       <div className="absolute top-2 left-2 z-10 rounded-lg bg-white p-1 opacity-70">
-                        {!eventFinished &&
-                          !ongoingEvent &&
-                          registrationExpiration > 0 && (
+                        {!closeRegistration &&
+                          !eventFinished &&
+                          !ongoingEvent && (
                             <div className="flex items-center gap-1 text-xs">
                               LIVE REGISTRATION{" "}
                               <GoPrimitiveDot className="text-red-600" />
                             </div>
                           )}
-                        {!eventFinished &&
-                          !ongoingEvent &&
-                          registrationExpiration <= 0 && (
+                        {closeRegistration &&
+                          !eventFinished &&
+                          !ongoingEvent && (
                             <div className="flex items-center gap-1 text-xs">
                               CLOSED REGISTRATION{" "}
                               <GoPrimitiveDot className="text-slate-600" />
                             </div>
                           )}
 
-                        {!eventFinished && ongoingEvent && (
-                          <div className="flex items-center gap-1 text-xs">
-                            EVENT ONGOING{" "}
-                            <GoPrimitiveDot className="text-yellow-600" />
-                          </div>
-                        )}
+                        {closeRegistration &&
+                          !eventFinished &&
+                          ongoingEvent && (
+                            <div className="flex items-center gap-1 text-xs">
+                              EVENT ONGOING{" "}
+                              <GoPrimitiveDot className="text-yellow-600" />
+                            </div>
+                          )}
 
-                        {eventFinished && ongoingEvent && (
+                        {closeRegistration && eventFinished && ongoingEvent && (
                           <div className="flex items-center gap-1 text-xs">
                             EVENT ENDED{" "}
                             <GoPrimitiveDot className="text-emerald-600" />
