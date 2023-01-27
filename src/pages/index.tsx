@@ -135,7 +135,7 @@ const Home: NextPage = () => {
               src={NoticeImg}
               alt="Notice Image"
               width={1000}
-              className="col-span-2 rounded-sm"
+              className="col-span-2 mx-auto rounded-sm"
             />
             <Image
               src={Alternative1}

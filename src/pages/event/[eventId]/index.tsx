@@ -183,7 +183,7 @@ const SingeEvent: NextPage = () => {
 
 export default SingeEvent;
 
-import { getSession, signOut } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import type { GetServerSideProps } from "next";
 import ScreenContainer from "../../../layouts/ScreenContainer";
 
