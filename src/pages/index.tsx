@@ -11,12 +11,26 @@ import Link from "next/link";
 
 import { GoNote } from "react-icons/go";
 import { FiUserCheck, FiDownload } from "react-icons/fi";
+import { AiOutlineNotification } from "react-icons/ai";
+import { useRef } from "react";
+
+import Alternative1 from "../assets/landing-page/alternative-1.jpg";
+import Alternative2 from "../assets/landing-page/alternative-2.jpg";
+import Alternative3 from "../assets/landing-page/alternative-3.jpg";
+
+import RouteImg from "../assets/landing-page/hermosa-route.jpg";
+import StretchImg from "../assets/landing-page/stretch.jpg";
+import NoticeImg from "../assets/landing-page/notice.jpg";
+import WaiverImg from "../assets/landing-page/waiver.png";
 
 const Home: NextPage = () => {
+  const waiverRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <div className="w-full py-5">
-        <ScreenContainer className="mx-auto grid grid-cols-6 gap-14 sm:gap-0">
+        <input />
+        <ScreenContainer className="py:10 mx-auto grid grid-cols-6 gap-14 sm:gap-0 sm:py-16">
           <div className="order-last col-span-6 mb-20  flex flex-col items-center justify-center sm:-order-1 sm:col-span-3 sm:mb-0">
             <div>
               <h1 className="mb-2 text-3xl font-semibold sm:text-5xl">
@@ -36,12 +50,19 @@ const Home: NextPage = () => {
                 >
                   REGISTER <FiUserCheck />
                 </Link>
-                <Link
-                  href="/event/cld87jvpj0000f114kp3wsili/register"
+                <button
+                  onClick={() => {
+                    if (waiverRef.current) {
+                      window.scrollTo({
+                        top: waiverRef.current.offsetTop,
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
                   className="col-span-1 flex items-center justify-center gap-2 rounded-md border-2 border-solid border-black py-3 font-semibold shadow-md hover:bg-slate-50"
                 >
                   WAIVER <GoNote />
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -52,7 +73,7 @@ const Home: NextPage = () => {
           />
         </ScreenContainer>
       </div>
-      <div className="relative mb-auto bg-slate-400 bg-contain py-4">
+      <div className="relative mb-auto bg-slate-200 bg-contain py-4">
         <ScreenContainer className="md:0 mx-auto grid grid-cols-4 items-center gap-7">
           <Image
             src={BataanSealLogo}
@@ -82,13 +103,41 @@ const Home: NextPage = () => {
       </div>
 
       <div className="w-full">
-        <ScreenContainer className="mx-auto  py-24">
-          <h2 className="mb-10 text-center text-4xl font-semibold text-slate-500">
+        <ScreenContainer className="mx-auto py-20 text-gray-500 ">
+          <h2 className="mb-4 flex items-center justify-center gap-4 border-4 border-dashed border-yellow-400 py-6 text-6xl font-semibold">
+            PUBLIC NOTICE <AiOutlineNotification className="text-yellow-400" />
+          </h2>
+          <div className="grid grid-cols-2 gap-10">
+            <Image src={NoticeImg} alt="Notice Image" className="col-span-2" />
+            <Image
+              src={Alternative1}
+              alt="alternative route 1"
+              className="col-span-2 md:col-span-1"
+            />
+            <Image
+              src={Alternative1}
+              alt="alternative route 2"
+              className="col-span-2 md:col-span-1"
+            />
+            <Image
+              src={Alternative1}
+              alt="alternative route 3"
+              className="col-span-2 md:col-span-1"
+            />
+          </div>
+        </ScreenContainer>
+      </div>
+
+      <div className="w-full">
+        <ScreenContainer className="mx-auto py-20 text-gray-500 md:py-28">
+          <h2 className="mb-10 text-center text-3xl font-semibold text-slate-500 md:text-4xl">
             FREQUENTLY ASKED QUESTION
           </h2>
           <div className="grid grid-cols-2 gap-12">
             <div className="col-span-2 md:col-span-1">
-              <h3 className="mb-1 text-2xl font-medium">AGE REQUIREMENTS:</h3>
+              <h3 className="mb-1 text-xl font-medium md:text-2xl">
+                AGE REQUIREMENTS:
+              </h3>
               <ul className="ml-8 flex list-disc flex-col gap-2">
                 <li>
                   For 5k participants, must be 13 years old and above. Kids
@@ -104,10 +153,10 @@ const Home: NextPage = () => {
               </ul>
             </div>
             <div className="col-span-2 md:col-span-1">
-              <h3 className="mb-1 text-2xl font-medium">
+              <h3 className="mb-1 text-xl font-medium md:text-2xl">
                 RULES AND REGULATION:
               </h3>
-              <ul className="ml-8 flex list-decimal flex-col gap-2">
+              <ul className="ml-8 flex list-decimal flex-col gap-2 text-lg">
                 <li>
                   Participants below the age of 18, must seek their
                   parent/guardian consent and fill up the entry form where the
@@ -124,8 +173,8 @@ const Home: NextPage = () => {
         </ScreenContainer>
       </div>
 
-      <div className="w-full bg-slate-200">
-        <ScreenContainer className="md:0 mx-auto grid grid-cols-6 items-center py-24">
+      <div ref={waiverRef} className="w-full bg-slate-200">
+        <ScreenContainer className="md:0 mx-auto grid grid-cols-6 items-center py-20 text-gray-500 md:py-24">
           <div className="order-last col-span-6 flex flex-col gap-4 lg:-order-1 lg:col-span-4">
             <h2 className="text-3xl font-semibold">
               LIABILITY AND RACE AGREEMENT
@@ -176,8 +225,8 @@ const Home: NextPage = () => {
               DOWNLOAD WAIVER <FiDownload />
             </button>
           </div>
-          <div className="col-span-6 mx-auto mb-8 lg:col-span-2 lg:mb-0">
-            ICON GOES HERE
+          <div className="col-span-6 mx-auto mb-14 lg:col-span-2 lg:mb-0">
+            <Image src={WaiverImg} alt="Waiver Image" />
           </div>
         </ScreenContainer>
       </div>
