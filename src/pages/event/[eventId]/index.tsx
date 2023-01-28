@@ -68,6 +68,12 @@ const SingeEvent: NextPage = () => {
         >
           CONFIGURATION
         </Link>
+        <Link
+          href={`/event/${eventData.id}/list`}
+          className="col-span-2 flex items-center justify-center border-2  border-dotted border-slate-400 py-2 font-semibold md:col-span-1"
+        >
+          PARTICIPANTS LIST
+        </Link>
       </div>
 
       <div className="mx-auto grid grid-cols-6 gap-4">

@@ -215,7 +215,26 @@ export const participantRouter = createTRPCRouter({
         take: input.take,
       });
     }),
+  editName: publicProcedure
+    .input(
+      z.object({
+        participantId: z.string(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { participantId, ...data } = input;
 
+      const { prisma } = ctx;
+
+      await prisma.participant.update({
+        where: {
+          id: participantId,
+        },
+        data: data,
+      });
+    }),
   update: publicProcedure
     .input(
       z.object({
