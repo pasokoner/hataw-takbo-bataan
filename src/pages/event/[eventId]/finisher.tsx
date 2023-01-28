@@ -167,13 +167,13 @@ const Finished: NextPage = () => {
                       1000 *
                       60 *
                       60
-                    )
+                    )% 60)
                       .toFixed(0)
                       .toString()
                       .padStart(2, "0")}:${(
                       (((timeFinished as Date).getTime() -
                         timeStart.getTime()) /
-                        1000 *
+                        1000 /
                         60) %
                       60
                     )
