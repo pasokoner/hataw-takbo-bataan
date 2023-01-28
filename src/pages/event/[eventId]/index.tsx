@@ -91,7 +91,7 @@ const SingeEvent: NextPage = () => {
           />
 
           {eventData.timeStart3km && (
-            <Link href={"/"}>
+            <Link href={`/event/${eventData.id}/finisher`}>
               <div className="border-2 border-dashed border-white p-2 text-xl font-semibold">
                 {eventData.raceFinished3km ? (
                   <div className="flex items-center justify-center gap-2">
@@ -127,7 +127,7 @@ const SingeEvent: NextPage = () => {
           />
 
           {eventData.timeStart5km && (
-            <Link href={"/"}>
+            <Link href={`/event/${eventData.id}/finisher`}>
               <div className=" border-2 border-dashed p-2 text-xl font-semibold">
                 {eventData.raceFinished5km ? (
                   <div className="flex items-center justify-center gap-2">
@@ -161,7 +161,7 @@ const SingeEvent: NextPage = () => {
           />
 
           {eventData.timeStart10km && (
-            <Link href={"/"}>
+            <Link href={`/event/${eventData.id}/finisher`}>
               <div className=" border-2 border-dashed p-2 text-xl font-semibold">
                 {eventData.raceFinished10km ? (
                   <div className="flex items-center justify-center gap-2">

@@ -216,6 +216,38 @@ export const participantRouter = createTRPCRouter({
         take: input.take,
       });
     }),
+  getFinisher: publicProcedure
+    .input(
+      z.object({
+        distance: z.number(),
+        eventId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { distance, eventId } = input;
+
+      return await ctx.prisma.kilometer.findMany({
+        where: {
+          eventId: eventId,
+          distance: distance,
+          NOT: {
+            timeFinished: null,
+          },
+        },
+        include: {
+          participant: {
+            select: {
+              firstName: true,
+              lastName: true,
+              registrationNumber: true,
+            },
+          },
+        },
+        orderBy: {
+          timeFinished: "asc",
+        },
+      });
+    }),
   editName: publicProcedure
     .input(
       z.object({
