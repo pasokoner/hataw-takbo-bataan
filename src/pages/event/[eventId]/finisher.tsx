@@ -164,8 +164,8 @@ const Finished: NextPage = () => {
                 const time = timeStart
                   ? `${(
                       (((timeFinished as Date).getTime() - timeStart.getTime()) /
-                      1000 /
-                      60 /
+                      1000 *
+                      60 *
                       60)
                     )
                       .toFixed(0)
