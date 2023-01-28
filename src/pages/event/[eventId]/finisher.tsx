@@ -164,8 +164,8 @@ const Finished: NextPage = () => {
                 const time = timeStart
                   ? `${(
                       ((timeFinished as Date).getTime() - timeStart.getTime()) /
-                      1000 /
-                      60 /
+                      1000 *
+                      60 *
                       60
                     )
                       .toFixed(0)
@@ -173,7 +173,7 @@ const Finished: NextPage = () => {
                       .padStart(2, "0")}:${(
                       (((timeFinished as Date).getTime() -
                         timeStart.getTime()) /
-                        1000 /
+                        1000 *
                         60) %
                       60
                     )
