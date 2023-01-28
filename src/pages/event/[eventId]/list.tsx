@@ -6,6 +6,8 @@ import { api } from "../../../utils/api";
 import ScreenContainer from "../../../layouts/ScreenContainer";
 import { RiLoader5Fill } from "react-icons/ri";
 import EditName from "../../../components/EditName";
+import { useLocalStorage } from "usehooks-ts";
+import Title from "../../../components/Title";
 
 const List: NextPage = () => {
   const { query } = useRouter();
@@ -13,36 +15,66 @@ const List: NextPage = () => {
 
   const [regNumber, setRegNumber] = useState<number | null>(null);
   const [maxItems, setMaxItems] = useState<number>(50);
+  const [cameraPassword, setCameraPassword] = useLocalStorage(
+    "camera-password",
+    ""
+  );
 
   const {
     data: participantData,
     isLoading,
     refetch,
-  } = api.participant.getAll.useQuery(
-    {
-      eventId: eventId as string,
-      registrationNumber: regNumber ? regNumber : undefined,
-      take: maxItems,
-    },
-    {
-      refetchOnWindowFocus: false,
-      refetchInterval: 15000,
-    }
-  );
+  } = api.participant.getAll.useQuery({
+    eventId: eventId as string,
+    registrationNumber: regNumber ? regNumber : undefined,
+    take: maxItems,
+  });
 
-  // if (isLoading) {
-  //   return <></>;
-  // }
+  const { data: eventData, isLoading: eventLoading } =
+    api.event.details.useQuery(
+      {
+        eventId: eventId as string,
+        includeKM: false,
+      },
+      {
+        refetchOnWindowFocus: false,
+        refetchInterval: 15000,
+      }
+    );
 
-  // if (!participantData) {
-  //   return (
-  //     <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
-  //       <div className="mx-auto pt-20">
-  //         <p className="text-3xl">Event not found!</p>
-  //       </div>
-  //     </ScreenContainer>
-  //   );
-  // }
+  console.log(participantData);
+
+  if (eventLoading) {
+    return <></>;
+  }
+
+  if (!eventData) {
+    return (
+      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+        <div className="mx-auto pt-20">
+          <p className="text-3xl">Event not found!</p>
+        </div>
+      </ScreenContainer>
+    );
+  }
+
+  if (cameraPassword !== eventData.cameraPassword) {
+    return (
+      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+        <Title value={`HATAW BATAAN TAKBO - ${eventData.name}`} />
+        <div className="flex h-[50vh] flex-col items-center justify-center">
+          <label htmlFor="cameraPassword">CAMERA PASSWORD</label>
+          <input
+            type="text"
+            id="cameraPassword"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setCameraPassword(e.target.value);
+            }}
+          />
+        </div>
+      </ScreenContainer>
+    );
+  }
 
   return (
     <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
@@ -103,7 +135,7 @@ const List: NextPage = () => {
                     registrationNumber={registrationNumber}
                     firstName={firstName}
                     lastName={lastName}
-                    refetch={() => {
+                    refetchFn={() => {
                       /*eslint-disable @typescript-eslint/no-floating-promises*/
                       refetch();
                     }}

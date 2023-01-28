@@ -211,6 +211,7 @@ export const participantRouter = createTRPCRouter({
         },
         include: {
           _count: true,
+          event: true,
         },
         take: input.take,
       });

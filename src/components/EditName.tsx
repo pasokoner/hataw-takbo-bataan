@@ -11,7 +11,7 @@ type Props = {
   registrationNumber: number;
   firstName: string;
   lastName: string;
-  refetch: () => void;
+  refetchFn: () => void;
 };
 
 const EditName = ({
@@ -19,18 +19,22 @@ const EditName = ({
   registrationNumber,
   lastName,
   firstName,
-  refetch,
+  refetchFn,
 }: Props) => {
   const [show, setShow] = useState(false);
+  const [error, setError] = useState("");
 
   const { mutate, isLoading } = api.participant.editName.useMutation({
     onSuccess: () => {
-      refetch();
+      refetchFn();
       setShow(false);
+    },
+    onError: () => {
+      setError("Some error has occured");
     },
   });
 
-  const { register, handleSubmit, watch, reset } = useForm<{
+  const { register, handleSubmit, watch } = useForm<{
     firstName: string;
     lastName: string;
   }>();
@@ -38,6 +42,7 @@ const EditName = ({
   const onSubmit: SubmitHandler<{ firstName: string; lastName: string }> = (
     data
   ) => {
+    setError("");
     if (data) {
       const { firstName, lastName } = data;
 
@@ -87,6 +92,8 @@ const EditName = ({
             />
           </div>
 
+          {error && <p className="mb-2 text-lg text-red-600">{error}</p>}
+
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
@@ -99,7 +106,11 @@ const EditName = ({
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={
+                isLoading ||
+                (watch("firstName") === firstName &&
+                  watch("lastName") === lastName)
+              }
               className="flex items-center justify-center rounded-md border-2 border-solid bg-primary py-2 text-white hover:bg-primary-hover disabled:opacity-60"
             >
               {isLoading ? (
