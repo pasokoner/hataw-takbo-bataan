@@ -167,7 +167,7 @@ const Finished: NextPage = () => {
                       1000 /
                       60 /
                       60
-                    ) - 1)
+                    ) -1))
                       .toFixed(0)
                       .toString()
                       .padStart(2, "0")}:${(
