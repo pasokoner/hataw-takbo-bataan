@@ -63,7 +63,7 @@ const List: NextPage = () => {
       <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
         <Title value={`HATAW BATAAN TAKBO - ${eventData.name}`} />
         <div className="flex h-[50vh] flex-col items-center justify-center">
-          <label htmlFor="cameraPassword">CAMERA PASSWORD</label>
+          <label htmlFor="cameraPassword">LIST PASSWORD</label>
           <input
             type="text"
             id="cameraPassword"

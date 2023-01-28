@@ -45,7 +45,14 @@ const Scanner = ({ updateParticipant }: Props) => {
     }
   }, [cameraResult]);
 
-  return <video id="video-feed" className="mb-4 w-screen"></video>;
+  return (
+    <div className="relative mx-auto mb-4 w-full max-w-[25rem]">
+      <video id="video-feed" className="w-screen"></video>
+      <div className="text-semibold absolute top-[80%] z-10 mx-auto flex w-full justify-center rounded-md bg-white bg-opacity-50 py-2 text-sm">
+        {cameraResult}
+      </div>
+    </div>
+  );
 };
 
 export default Scanner;
