@@ -552,8 +552,8 @@ const Participant: NextPage = () => {
                         ? `${Math.floor(
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              1000 /
-                              60 /
+                              1000 *
+                              60 *
                               60
                           )
                             .toFixed(0)
@@ -621,8 +621,8 @@ const Participant: NextPage = () => {
                         ? `${Math.floor(
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              1000 /
-                              60 /
+                              1000 *
+                              60 *
                               60
                           )
                             .toFixed(0)
@@ -689,8 +689,8 @@ const Participant: NextPage = () => {
                         ? `${Math.floor(
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              1000 /
-                              60 /
+                              1000 *
+                              60 *
                               60
                           )
                             .toFixed(0)
