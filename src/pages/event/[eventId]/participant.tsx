@@ -484,7 +484,7 @@ const Participant: NextPage = () => {
                         ? `${Math.floor(
                             ((participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              1000) *
+                              1000*
                               60 *
                               60
                           )
