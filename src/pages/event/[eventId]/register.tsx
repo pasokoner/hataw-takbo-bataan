@@ -29,7 +29,7 @@ const Register = () => {
 
   if (!eventData) {
     return (
-      <div className="mx-auto pt-6 md:pt-12">
+      <div className="mx-auto py-6 md:pt-12">
         <p className="text-3xl">Event not found!</p>
       </div>
     );
@@ -71,8 +71,8 @@ const Register = () => {
   }
 
   return (
-    <ScreenContainer className="mx-auto px-8 md:px-16">
-      <div className="px-4 pt-6 pb-24">
+    <ScreenContainer className="mx-auto px-8 md:px-16 ">
+      <div className="px-4 py-6 pb-24">
         <Title value={`${eventData.name} Registration`} />
         <h3 className="mb-4 text-2xl">Participant Details</h3>
         <RegistrationForm eventId={eventData.id} eventName={eventData.name} />

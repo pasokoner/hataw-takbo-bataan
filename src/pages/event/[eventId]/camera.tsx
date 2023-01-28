@@ -366,7 +366,7 @@ const Camera: NextPage = () => {
 
   if (!eventData) {
     return (
-      <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
+      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
         <div className="mx-auto pt-20">
           <p className="text-3xl">Event not found!</p>
         </div>
@@ -376,7 +376,7 @@ const Camera: NextPage = () => {
 
   if (cameraPassword !== eventData.cameraPassword) {
     return (
-      <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
+      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
         <Title value={`HATAW BATAAN TAKBO - ${eventData.name}`} />
         <div className="flex h-[50vh] flex-col items-center justify-center">
           <label htmlFor="cameraPassword">CAMERA PASSWORD</label>
@@ -420,8 +420,9 @@ const Camera: NextPage = () => {
       <ManualScanner manualUpdate={manualUpdate} eventData={eventData} />
 
       {savedRecords &&
-        savedRecords.map(
-          ({ kilometerId, timeFinished, id, registrationNumber }) => {
+        savedRecords
+          .reverse()
+          .map(({ kilometerId, timeFinished, id, registrationNumber }) => {
             return (
               <div
                 key={id}
@@ -453,8 +454,7 @@ const Camera: NextPage = () => {
                 </p>
               </div>
             );
-          }
-        )}
+          })}
 
       {errorRecords &&
         errorRecords.map((record) => {

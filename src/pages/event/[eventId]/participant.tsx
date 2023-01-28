@@ -142,7 +142,7 @@ const Participant: NextPage = () => {
 
   if (!eventData) {
     return (
-      <div className="mx-auto pt-20">
+      <div className="mx-auto py-20">
         <p className="text-3xl">Event not found!</p>
       </div>
     );
@@ -159,7 +159,7 @@ const Participant: NextPage = () => {
 
   return (
     <ScreenContainer className="mx-auto px-8 md:px-16">
-      <div className="px-4 pt-6 pb-24">
+      <div className="px-4 py-6 pb-24">
         <Title value={`PARTICIPANT INFORMATION`} />
 
         <div className="mt-6 rounded border border-slate-400 bg-slate-100 px-4 py-3 text-slate-700">

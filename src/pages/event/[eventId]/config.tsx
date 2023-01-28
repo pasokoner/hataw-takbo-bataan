@@ -48,7 +48,7 @@ const Config: NextPage = () => {
   };
 
   return (
-    <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
+    <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
       <h2 className="mb-4 text-4xl">Event Configuration - {eventData.name}</h2>
       {/* eslint-disable @typescript-eslint/no-misused-promises */}
       <form

@@ -403,6 +403,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         title="Registration Success!"
         onClose={() => {
           setShowDetails(false);
+          setDetails(null);
         }}
         show={showDetails}
       >
@@ -420,7 +421,6 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
                 <button
                   onClick={async () => {
                     await handleDownloadImage();
-                    setDetails(null);
                   }}
                   className="mt-2 w-full rounded-md border-2 border-slate-500 py-1 hover:border-slate-400 hover:text-slate-400"
                 >

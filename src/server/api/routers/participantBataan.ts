@@ -193,15 +193,26 @@ export const participantRouter = createTRPCRouter({
       });
     }),
   getAll: publicProcedure
-    .input(z.object({ eventId: z.string() }))
+    .input(
+      z.object({
+        eventId: z.string(),
+        registrationNumber: z.number().optional(),
+        take: z.number().optional(),
+      })
+    )
     .query(async ({ input, ctx }) => {
       return await ctx.prisma.participant.findMany({
         where: {
           eventId: input.eventId,
+          registrationNumber: input.registrationNumber,
+        },
+        orderBy: {
+          registrationNumber: "asc",
         },
         include: {
           _count: true,
         },
+        take: input.take,
       });
     }),
 

@@ -73,7 +73,7 @@ const Generate: NextPage = () => {
 
   if (!bibData) {
     return (
-      <div className="mx-auto pt-6 md:pt-12">
+      <div className="mx-auto py-6 md:pt-12">
         <p className="text-3xl">Event not found!</p>
       </div>
     );
