@@ -484,9 +484,9 @@ const Participant: NextPage = () => {
                         ? `${Math.floor(
                             ((participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              (1000*
-                              60 *
-                              60)
+                              (1000* 60 * 60)
+                             
+
                           )
                             .toFixed(0)
                             .toString()
@@ -552,9 +552,9 @@ const Participant: NextPage = () => {
                         ? `${Math.floor(
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              (1000 *
-                              60 *
-                              60)
+                              (1000 * 60 * 60)
+                              
+                              
                           )
                             .toFixed(0)
                             .toString()
@@ -621,9 +621,9 @@ const Participant: NextPage = () => {
                         ? `${Math.floor(
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              (1000 *
-                              60 *
-                              60)
+                              (1000 * 60 * 60)
+                              
+                              
                           )
                             .toFixed(0)
                             .toString()
@@ -689,9 +689,9 @@ const Participant: NextPage = () => {
                         ? `${Math.floor(
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              (1000 *
-                              60 *
-                              60)
+                              (1000 * 60 * 60)
+                              
+                              
                           )
                             .toFixed(0)
                             .toString()
