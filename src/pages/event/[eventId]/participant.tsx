@@ -482,11 +482,9 @@ const Participant: NextPage = () => {
                       {eventData.timeStart5km &&
                       participant.kilometers[0].distance === 5
                         ? `${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
+                            (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
-                              (1000* 60 * 60)
-                             
-
+                              (1000 * 60 * 60)
                           )
                             .toFixed(0)
                             .toString()
@@ -553,8 +551,6 @@ const Participant: NextPage = () => {
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
                               (1000 * 60 * 60)
-                              
-                              
                           )
                             .toFixed(0)
                             .toString()
@@ -622,8 +618,6 @@ const Participant: NextPage = () => {
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
                               (1000 * 60 * 60)
-                              
-                              
                           )
                             .toFixed(0)
                             .toString()
@@ -690,8 +684,6 @@ const Participant: NextPage = () => {
                             (participant.kilometers[0].timeFinished.getTime() -
                               eventData.timeStart5km.getTime()) /
                               (1000 * 60 * 60)
-                              
-                              
                           )
                             .toFixed(0)
                             .toString()
