@@ -2,6 +2,7 @@ import { api } from "../../../utils/api";
 
 import { useRouter } from "next/router";
 
+import LoadSpinner from "../../../components/LoadSpinner";
 import RegistrationForm from "../../../components/RegistrationForm";
 import ScreenContainer from "../../../layouts/ScreenContainer";
 
@@ -14,7 +15,7 @@ const Register = () => {
   });
 
   if (isLoading) {
-    return <></>;
+    return <LoadSpinner />;
   }
 
   if (!eventData) {

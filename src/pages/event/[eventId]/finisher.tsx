@@ -10,6 +10,7 @@ import { useInView } from "react-intersection-observer";
 import { useLocalStorage } from "usehooks-ts";
 import * as XLSX from "xlsx";
 
+import LoadSpinner from "../../../components/LoadSpinner";
 import ScreenContainer from "../../../layouts/ScreenContainer";
 import Title from "../../../components/Title";
 
@@ -89,6 +90,10 @@ const Finished: NextPage = () => {
       fetchNextPage();
     }
   }, [inView]);
+
+  if (eventLoading) {
+    return <LoadSpinner />;
+  }
 
   if (!eventData) {
     return (

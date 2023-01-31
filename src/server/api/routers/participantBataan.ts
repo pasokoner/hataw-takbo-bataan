@@ -18,7 +18,7 @@ export const participantSchema = z.object({
   contactNumber: z.string(),
   municipality: z.nativeEnum(Municipality).optional(),
   address: z.string(),
-  distances: z.array(z.number()),
+  distance: z.number(),
   shirtSize: z.nativeEnum(ShirtSize),
   emergencyContact: z.string(),
   emergencyContactNumber: z.string(),
@@ -31,7 +31,7 @@ export const participantRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       const { prisma } = ctx;
 
-      const { distances, firstName, lastName, emergencyContact, ...excess } =
+      const { distance, firstName, lastName, emergencyContact, ...excess } =
         input;
 
       try {
@@ -47,15 +47,13 @@ export const participantRouter = createTRPCRouter({
           take: 1,
         });
 
-        const distancesF = distances.map((distance) => {
-          return {
-            eventId: excess.eventId,
-            distance: distance,
-            registrationNumber: data[0]?.registrationNumber
-              ? data[0]?.registrationNumber + 1
-              : 27,
-          };
-        });
+        const distancesF = {
+          eventId: excess.eventId,
+          distance: distance,
+          registrationNumber: data[0]?.registrationNumber
+            ? data[0]?.registrationNumber + 1
+            : 27,
+        };
 
         return await prisma.participant.create({
           data: {
@@ -67,7 +65,7 @@ export const participantRouter = createTRPCRouter({
               ? data[0]?.registrationNumber + 1
               : 27,
             kilometers: {
-              create: [...distancesF],
+              create: [distancesF],
             },
           },
         });

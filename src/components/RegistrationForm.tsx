@@ -34,8 +34,6 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
   const { mutate, isLoading } = api.participant.register.useMutation({
     onSuccess: (data) => {
-      setSelectedOptions([]);
-      setErrorOptions("");
       setError("");
       reset();
       setDetails({
@@ -61,19 +59,12 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
   const onSubmit: SubmitHandler<
     ParticipantBataan | ParticipantOutsideBataan
   > = (data) => {
-    if (selectedOptions.length === 0) {
-      setErrorOptions("Pick atleast one option");
-      if (firstCheckbox && firstCheckbox.current) firstCheckbox.current.focus();
-      return;
-    }
-
     if (data) {
       const { address, firstName, lastName, emergencyContact, email } = data;
       mutate({
         ...data,
         birthdate: dayjs(data.birthdate).toDate(),
         eventId: eventId,
-        distances: selectedOptions,
         address: address.trim().toUpperCase(),
         firstName: firstName.trim().toUpperCase(),
         lastName: lastName.trim().toUpperCase(),
@@ -92,22 +83,6 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
   const [showAgreement, setShowAgreement] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const qrRef = useRef<HTMLDivElement>(null);
-
-  const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
-  const [errorOptions, setErrorOptions] = useState("");
-  const firstCheckbox = useRef<HTMLInputElement>(null);
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target as HTMLInputElement;
-    if (event.target.checked) {
-      // setSelectedOptions([...selectedOptions, parseInt(value)]);
-      setSelectedOptions([parseInt(value)]);
-    } else {
-      setSelectedOptions(
-        selectedOptions.filter((option) => option !== parseInt(value))
-      );
-    }
-  };
 
   const handleToggleAddress = () => {
     setOutsideBataan((prevState) => !prevState);
@@ -136,7 +111,10 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
   return (
     /* eslint-disable @typescript-eslint/no-misused-promises */
-    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid grid-cols-2 gap-4 text-sm"
+    >
       {/* [&>*]:flex [&>*]:flex-col [&>*]:gap-2 */}
 
       <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
@@ -195,6 +173,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
           id="contactNumber"
           placeholder="09XXXXXXXXX"
           pattern="^(09)[0-9]{9}$"
+          title="Format: 09XXXXXXXXX"
           required
           {...register("contactNumber")}
         />
@@ -246,51 +225,18 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
       <div className="col-span-2 border-b-2 py-3"></div>
 
-      {/* <div className="col-span-2 flex flex-col gap-2">
-        <label htmlFor="kilometer">Kilometer/s</label>
-        <select id="kilometer" required {...register("kilometer")}>
-          <option value={""}>Choose...</option>
-          {Object.keys(Kilometer).map((kilometer) => (
-            <option key={kilometer} value={kilometer}>
-              {kilometer}
+      <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+        <label htmlFor="distance">Kilometer</label>
+        <select id="distance" required {...register("distance")}>
+          {distances.map((distance) => (
+            <option key={distance.value} value={distance.value}>
+              {distance.label}
             </option>
           ))}
         </select>
-      </div> */}
-      <div className="col-span-2 flex flex-col gap-2">
-        <h2>Kilometer</h2>
-        <div className="flex flex-wrap gap-4">
-          {distances.map((option) => {
-            return (
-              <div className="flex items-center" key={option.value}>
-                <input
-                  id={option.label}
-                  type="checkbox"
-                  value={option.value}
-                  ref={firstCheckbox}
-                  checked={selectedOptions.some(
-                    (selectedOption) => selectedOption === option.value
-                  )}
-                  onChange={handleCheckboxChange}
-                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label
-                  htmlFor={option.label}
-                  className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
-                >
-                  {option.label}
-                </label>
-              </div>
-            );
-          })}
-        </div>
-
-        {errorOptions && (
-          <div className="text-sm text-red-600">{errorOptions}</div>
-        )}
       </div>
 
-      <div className="col-span-2 flex flex-col gap-2">
+      <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
         <label htmlFor="shirtSize">Shirt Size</label>
         <select id="shirtSize" required {...register("shirtSize")}>
           <option value={""}>Choose...</option>
@@ -304,7 +250,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
 
       <div className="col-span-2 border-b-2 py-3"></div>
 
-      <div className="col-span-2 flex flex-col gap-2">
+      <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
         <label htmlFor="emergencyContact">In case of emergency, contact</label>
         <input
           type="text"
@@ -315,13 +261,14 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         />
       </div>
 
-      <div className="col-span-2 flex flex-col gap-2">
+      <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
         <label htmlFor="emergencyContactNumber">Contact Number</label>
         <input
           type="text"
           id="emergencyContactNumber"
           placeholder="09XXXXXXXXX"
           pattern="^(09)[0-9]{9}$"
+          title="Format: 09XXXXXXXXX"
           required
           {...register("emergencyContactNumber")}
         />
@@ -334,7 +281,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
           setShowAgreement(false);
         }}
       >
-        <div className="flex flex-col gap-4 p-4 text-sm md:text-lg">
+        <div className="flex flex-col gap-4 p-4 text-sm ">
           <p>
             <span className="ml-10"></span>I attest that I am physically and
             mentally fit to participate in the Hataw Takbo, Bataan ({eventName})
@@ -430,15 +377,15 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
                 </button>
               </div>
             </div>
-            <p className="">
-              ** Please remember your{" "}
+            <p className="text-xs md:text-sm">
+              Please remember your{" "}
               <span className="text-red-400 underline">Registration No. </span>{" "}
               and take a screenshot of{" "}
               <span className="text-red-400 underline">this QR code</span> and
               use it as your identification when claiming your certification. It
               serves as a unique identifier and is required to verify your
               eligibility. You can also use it to view and edit your
-              registration details. **
+              registration details.
             </p>
           </div>
         </div>

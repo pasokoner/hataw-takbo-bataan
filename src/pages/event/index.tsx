@@ -104,7 +104,7 @@ const Event: NextPage = () => {
                             !ongoingEvent && (
                               <div className="flex items-center gap-1 text-xs">
                                 LIVE REGISTRATION{" "}
-                                <GoPrimitiveDot className="text-red-600" />
+                                <GoPrimitiveDot className="text-emerald-600" />
                               </div>
                             )}
                           {closeRegistration &&
@@ -112,7 +112,7 @@ const Event: NextPage = () => {
                             !ongoingEvent && (
                               <div className="flex items-center gap-1 text-xs">
                                 CLOSED REGISTRATION{" "}
-                                <GoPrimitiveDot className="text-slate-600" />
+                                <GoPrimitiveDot className="text-red-600" />
                               </div>
                             )}
 
@@ -130,7 +130,7 @@ const Event: NextPage = () => {
                             ongoingEvent && (
                               <div className="flex items-center gap-1 text-xs">
                                 EVENT ENDED{" "}
-                                <GoPrimitiveDot className="text-emerald-600" />
+                                <GoPrimitiveDot className="text-gray-600" />
                               </div>
                             )}
                         </div>{" "}
@@ -159,7 +159,7 @@ const Event: NextPage = () => {
                         </div>
 
                         <Link href={`/event/${id}/register`}>
-                          <div className="mb-2 w-full border-2 py-4 text-center">
+                          <div className="mb-2 w-full rounded-sm border-2  bg-primary py-3 text-center text-white hover:bg-primary-hover">
                             REGISTER
                           </div>
                         </Link>
@@ -170,8 +170,8 @@ const Event: NextPage = () => {
                             !!timeStart5km ||
                             !!timeStart3km) && (
                             <Link href={`/event/${id}/participant`}>
-                              <div className="mb-2 w-full border-2 py-4 text-center">
-                                CERTIFICATE
+                              <div className="mb-2 w-full rounded-sm border-2  bg-primary py-3 text-center text-white hover:bg-primary-hover">
+                                CLAIM CERTIFICATE
                               </div>
                             </Link>
                           )}
@@ -185,8 +185,8 @@ const Event: NextPage = () => {
 
                         {sessionData && sessionData.user?.role === "ADMIN" && (
                           <Link href={`/event/${id}`}>
-                            <div className="mb-2 flex w-full items-center justify-center gap-1 border-2 py-4">
-                              EVENT CONTROL <BsJoystick />
+                            <div className="mb-2 flex w-full items-center justify-center gap-1 border-2 bg-red-600 py-4 text-white hover:opacity-90">
+                              ADMIN CONTROL <BsJoystick />
                             </div>
                           </Link>
                         )}

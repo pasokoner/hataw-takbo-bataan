@@ -11,6 +11,7 @@ import { distances } from "../../../utils/constant";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import html2canvas from "html2canvas";
 
+import LoadSpinner from "../../../components/LoadSpinner";
 import ParticipantForm from "../../../components/ParticipantForm";
 import ScreenContainer from "../../../layouts/ScreenContainer";
 import Title from "../../../components/Title";
@@ -23,7 +24,7 @@ import { RiLoader5Fill } from "react-icons/ri";
 type EditForm = {
   firstName: string;
   lastName: string;
-  distances: number[];
+  distance: string;
   shirtSize: ShirtSize;
 };
 
@@ -50,11 +51,7 @@ const Participant: NextPage = () => {
   const { query } = useRouter();
   const { eventId } = query;
 
-  const {
-    data: eventData,
-    isLoading,
-    refetch,
-  } = api.event.fullDetails.useQuery(
+  const { data: eventData, isLoading } = api.event.details.useQuery(
     {
       eventId: eventId as string,
     },
@@ -83,10 +80,7 @@ const Participant: NextPage = () => {
   >();
 
   const [edit, setEdit] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
   const [showCertificate, setShowCertificate] = useState(false);
-  const [errorOptions, setErrorOptions] = useState("");
-  const firstCheckbox = useRef<HTMLInputElement>(null);
 
   const handleParticipant = (
     participant: Participant & { kilometers: Kilometer[] }
@@ -94,27 +88,10 @@ const Participant: NextPage = () => {
     setParticipant(participant);
   };
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target as HTMLInputElement;
-    if (event.target.checked) {
-      // setSelectedOptions([...selectedOptions, parseInt(value)]);
-      setSelectedOptions([parseInt(value)]);
-    } else {
-      setSelectedOptions(
-        selectedOptions.filter((option) => option !== parseInt(value))
-      );
-    }
-  };
-
   const { register, handleSubmit, watch, reset } = useForm<EditForm>();
 
   const onSubmit: SubmitHandler<EditForm> = (data) => {
-    if (selectedOptions.length === 0) {
-      setErrorOptions("Pick atleast one option");
-      if (firstCheckbox && firstCheckbox.current) firstCheckbox.current.focus();
-      return;
-    }
-
+    console.log(data);
     if (data && participant?.kilometers && participant.kilometers[0]) {
       mutate({
         firstName: data.firstName
@@ -124,11 +101,11 @@ const Participant: NextPage = () => {
           ? data.lastName.toUpperCase().trim()
           : participant.lastName,
         shirtSize: data.shirtSize ? data.shirtSize : participant.shirtSize,
+        distance: data.distance
+          ? parseInt(data.distance)
+          : participant.kilometers[0].distance,
         participantId: participant.id,
         kilometerId: participant.kilometers[0].id,
-        distance: (selectedOptions[0] as number)
-          ? selectedOptions[0]
-          : participant.kilometers[0].distance,
       });
     }
   };
@@ -158,7 +135,7 @@ const Participant: NextPage = () => {
   };
 
   if (isLoading) {
-    return <></>;
+    return <LoadSpinner />;
   }
 
   if (!eventData) {
@@ -184,8 +161,8 @@ const Participant: NextPage = () => {
 
       <div className="mt-6 rounded border border-slate-400 bg-slate-100 px-4 py-3 text-slate-700">
         {edit && (
-          <div className="mt-2 mb-4 rounded-sm border-2 border-red-400  bg-red-100 py-1 px-2 text-red-700 transition-all">
-            <h3 className="mb-1 flex items-center gap-1 text-2xl font-medium">
+          <div className="mt-2 mb-4 rounded-sm border-2 border-red-400  bg-red-100 py-1 px-2 text-xs text-red-700 transition-all md:text-sm">
+            <h3 className="mb-1 flex items-center gap-1 text-lg font-medium md:text-xl">
               NOTICE REMINDER <CgDanger />{" "}
             </h3>
             <p>
@@ -195,12 +172,12 @@ const Participant: NextPage = () => {
               ensure that your choices is processed correctly.
             </p>
             <p className="font-semibold">
-              ***WALK IN USER SHOULD ONLY BE ABLE TO EDIT JUST THEIR NAME***
+              WALK IN USER SHOULD ONLY BE ABLE TO EDIT JUST THEIR NAME
             </p>
           </div>
         )}
 
-        <div className="mb-6 flex items-center">
+        <div className="mb-3 flex items-center">
           <h2 className="text-xl font-medium md:text-2xl">
             Registration No.{" "}
             <span className="font-semibold">
@@ -390,7 +367,7 @@ const Participant: NextPage = () => {
                   required
                   {...register("shirtSize")}
                   defaultValue={participant.shirtSize}
-                  className="w-full uppercase sm:w-10/12"
+                  className="w-full uppercase md:w-10/12"
                 >
                   <option value={""}>Choose...</option>
                   {Object.keys(ShirtSize).map((shirtSize) => (
@@ -401,31 +378,22 @@ const Participant: NextPage = () => {
                 </select>
               </div>
               <div>
-                <p className="mb-2 font-semibold">Kilometer</p>
-                <div className="flex flex-wrap gap-4">
-                  {distances.map((option) => {
-                    return (
-                      <div className="flex items-center" key={option.value}>
-                        <input
-                          id={option.label}
-                          type="checkbox"
-                          value={option.value}
-                          ref={firstCheckbox}
-                          checked={selectedOptions.some(
-                            (selectedOption) => selectedOption === option.value
-                          )}
-                          onChange={handleCheckboxChange}
-                          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                        />
-                        <label
-                          htmlFor={option.label}
-                          className="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500"
-                        >
-                          {option.label}
-                        </label>
-                      </div>
-                    );
-                  })}
+                <div>
+                  <label htmlFor="distance" className="block font-semibold">
+                    Kilometer
+                  </label>
+                  <select
+                    id="distance"
+                    required
+                    className="w-full uppercase md:w-10/12"
+                    {...register("distance")}
+                  >
+                    {distances.map((distance) => (
+                      <option key={distance.value} value={distance.value}>
+                        {distance.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>

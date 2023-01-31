@@ -6,6 +6,9 @@ import { type Kilometer } from "@prisma/client";
 
 import { api } from "../../../utils/api";
 
+import LoadSpinner from "../../../components/LoadSpinner";
+import ScreenContainer from "../../../layouts/ScreenContainer";
+
 import StartButton from "../../../components/StartButton";
 
 import { GoPrimitiveDot } from "react-icons/go";
@@ -24,7 +27,7 @@ const SingeEvent: NextPage = () => {
   });
 
   if (isLoading) {
-    return <></>;
+    return <LoadSpinner />;
   }
 
   if (!eventData) {
@@ -191,7 +194,6 @@ export default SingeEvent;
 
 import { getSession } from "next-auth/react";
 import type { GetServerSideProps } from "next";
-import ScreenContainer from "../../../layouts/ScreenContainer";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);

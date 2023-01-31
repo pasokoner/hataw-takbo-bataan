@@ -8,6 +8,7 @@ import { api } from "../../../utils/api";
 import { useLocalStorage } from "usehooks-ts";
 
 import EditName from "../../../components/EditName";
+import LoadSpinner from "../../../components/LoadSpinner";
 import ScreenContainer from "../../../layouts/ScreenContainer";
 import Title from "../../../components/Title";
 
@@ -45,10 +46,8 @@ const List: NextPage = () => {
       }
     );
 
-  console.log(participantData);
-
   if (eventLoading) {
-    return <></>;
+    return <LoadSpinner />;
   }
 
   if (!eventData) {

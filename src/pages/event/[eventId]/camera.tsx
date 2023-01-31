@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { api } from "../../../utils/api";
 
+import LoadSpinner from "../../../components/LoadSpinner";
 import ManualScanner from "../../../components/ManualScanner";
 import Scanner from "../../../components/Scanner";
 import ScreenContainer from "../../../layouts/ScreenContainer";
@@ -124,16 +125,6 @@ const Camera: NextPage = () => {
       },
     });
 
-  // const [scanRecords, setScanRecords] = useLocalStorage<ScanRecord[]>(
-  //   "scan-records",
-  //   []
-  // );
-
-  // const [manualRecords, setManualRecords] = useLocalStorage<ManualRecord[]>(
-  //   "manual-records",
-  //   []
-  // );
-
   const [savedRecords, setSavedRecords] = useLocalStorage<SavedRecord[]>(
     "saved-records",
     []
@@ -238,12 +229,7 @@ const Camera: NextPage = () => {
         setShowMessage(true);
         return;
       }
-      // manualCheck({
-      //   participantId: parseInt(queryF[1]),
-      //   distance: parseInt(queryF[0]),
-      //   timeFinished,
-      //   eventId: eventData.id,
-      // });
+
       setSavedRecords([
         ...savedRecords,
         {
@@ -262,12 +248,6 @@ const Camera: NextPage = () => {
         setShowMessage(true);
         return;
       }
-      // manualCheck({
-      //   participantId: parseInt(queryF[1]),
-      //   distance: parseInt(queryF[0]),
-      //   timeFinished,
-      //   eventId: eventData.id,
-      // });
 
       setSavedRecords([
         ...savedRecords,
@@ -287,12 +267,7 @@ const Camera: NextPage = () => {
         setShowMessage(true);
         return;
       }
-      // manualCheck({
-      //   participantId: parseInt(queryF[1]),
-      //   distance: parseInt(queryF[0]),
-      //   timeFinished,
-      //   eventId: eventData.id,
-      // });
+
       setSavedRecords([
         ...savedRecords,
         {
@@ -313,14 +288,6 @@ const Camera: NextPage = () => {
     setErrorMessage("");
     setSuccessMessage("");
   };
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     /*eslint-disable @typescript-eslint/no-floating-promises*/
-  //     refetch();
-  //   }, 15000);
-  //   return () => clearInterval(interval);
-  // }, [refetch]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -363,7 +330,7 @@ const Camera: NextPage = () => {
   }, [ongoingRequest, cameraPassword]);
 
   if (isLoading) {
-    return <></>;
+    return <LoadSpinner />;
   }
 
   if (!eventData) {

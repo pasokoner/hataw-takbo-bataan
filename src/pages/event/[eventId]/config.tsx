@@ -10,6 +10,7 @@ import { api } from "../../../utils/api";
 
 import { useForm, type SubmitHandler } from "react-hook-form";
 
+import LoadSpinner from "../../../components/LoadSpinner";
 import ScreenContainer from "../../../layouts/ScreenContainer";
 
 const Config: NextPage = () => {
@@ -33,7 +34,7 @@ const Config: NextPage = () => {
   const [success, setSuccess] = useState("");
 
   if (isLoading) {
-    return <></>;
+    return <LoadSpinner />;
   }
 
   if (!eventData) {

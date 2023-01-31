@@ -8,6 +8,7 @@ import { Kilometer } from "@prisma/client";
 
 import { api } from "../../../utils/api";
 
+import LoadSpinner from "../../../components/LoadSpinner";
 import QrMaker from "../../../components/QrMaker";
 
 import html2canvas from "html2canvas";
@@ -69,7 +70,7 @@ const Generate: NextPage = () => {
   }, [bibData, printStart]);
 
   if (isLoading) {
-    return <></>;
+    return <LoadSpinner />;
   }
 
   if (!bibData) {

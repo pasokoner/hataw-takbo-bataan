@@ -15,7 +15,11 @@ input[type="date"],
 input[type="datetime-local"],
 input[type="number"],
 select {
-  @apply rounded-sm border-2 border-gray-300 p-2 hover:border-primary-hover focus:border-primary-hover  active:border-primary-hover;
+  @apply rounded-sm border-2 border-gray-200 p-2 text-sm hover:border-primary-hover  focus:border-primary-hover active:border-primary-hover;
+}
+
+select {
+  @apply border-r-8;
 }
 
 @layer base {
