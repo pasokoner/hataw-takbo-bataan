@@ -1,5 +1,3 @@
-import React from "react";
-
 type Props<E extends React.ElementType> = {
   children?: React.ReactNode;
   as?: E;
@@ -17,7 +15,7 @@ const ScreenContainer = <E extends React.ElementType = "div">({
 
   return (
     //eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    <Component className={`${className} max-w-screen-2xl px-8 md:px-16`}>
+    <Component className={`${className} mx-auto max-w-screen-xl px-8 md:px-16`}>
       {children}
     </Component>
   );

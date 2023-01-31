@@ -1,15 +1,13 @@
-import React from "react";
-import { AiOutlineQrcode } from "react-icons/ai";
-import { TbUserSearch, TbSearch } from "react-icons/tb";
+import type { Participant, Kilometer } from "@prisma/client";
 
 import { useForm, type SubmitHandler } from "react-hook-form";
 
-import { Html5Qrcode } from "html5-qrcode";
-
 import { api } from "../utils/api";
 
-import dayjs from "dayjs";
-import type { Participant, Kilometer } from "@prisma/client";
+import { Html5Qrcode } from "html5-qrcode";
+
+import { AiOutlineQrcode } from "react-icons/ai";
+import { TbUserSearch } from "react-icons/tb";
 
 type ParticipantForm = {
   firstName: string;

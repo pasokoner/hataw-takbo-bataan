@@ -1,13 +1,17 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 
-import React, { useState } from "react";
+import { useState } from "react";
+
 import { api } from "../../../utils/api";
-import ScreenContainer from "../../../layouts/ScreenContainer";
-import { RiLoader5Fill } from "react-icons/ri";
-import EditName from "../../../components/EditName";
+
 import { useLocalStorage } from "usehooks-ts";
+
+import EditName from "../../../components/EditName";
+import ScreenContainer from "../../../layouts/ScreenContainer";
 import Title from "../../../components/Title";
+
+import { RiLoader5Fill } from "react-icons/ri";
 
 const List: NextPage = () => {
   const { query } = useRouter();
@@ -34,7 +38,6 @@ const List: NextPage = () => {
     api.event.details.useQuery(
       {
         eventId: eventId as string,
-        includeKM: false,
       },
       {
         refetchOnWindowFocus: false,
@@ -50,7 +53,7 @@ const List: NextPage = () => {
 
   if (!eventData) {
     return (
-      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+      <ScreenContainer className="py-6">
         <div className="mx-auto pt-20">
           <p className="text-3xl">Event not found!</p>
         </div>
@@ -60,7 +63,7 @@ const List: NextPage = () => {
 
   if (cameraPassword !== eventData.cameraPassword) {
     return (
-      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+      <ScreenContainer className="py-6">
         <Title value={`HATAW BATAAN TAKBO - ${eventData.name}`} />
         <div className="flex h-[50vh] flex-col items-center justify-center">
           <label htmlFor="cameraPassword">LIST PASSWORD</label>
@@ -77,7 +80,7 @@ const List: NextPage = () => {
   }
 
   return (
-    <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+    <ScreenContainer className="py-6">
       <div>
         <div className="mb-2">
           <label htmlFor="maxItems" className="mr-4">
@@ -107,7 +110,7 @@ const List: NextPage = () => {
         />
         <div className="grid grid-cols-6 bg-primary text-lg font-semibold text-white md:text-2xl">
           <p className="col-span-1 border-r-2 border-white p-2 md:col-span-1">
-            REG NO.
+            NO. & KM
           </p>
           <p className="col-span-5 p-2 md:col-span-5">NAME</p>
         </div>
@@ -117,32 +120,36 @@ const List: NextPage = () => {
         {participantData &&
           participantData
             // .filter(({ registrationNumber }) => registrationNumber !== regNumber)
-            .map(({ firstName, lastName, registrationNumber, id }) => (
-              <div
-                key={id}
-                className="grid grid-cols-6 border-2 border-r-2 border-solid text-xs md:text-lg"
-              >
-                <div className="col-span-1 flex items-center justify-between border-r-2 p-2 md:col-span-1">
-                  <p>{registrationNumber}</p>
-                  <div></div>
+            .map(
+              ({ firstName, lastName, registrationNumber, id, kilometers }) => (
+                <div
+                  key={id}
+                  className="grid grid-cols-6 border-2 border-r-2 border-solid text-xs md:text-lg"
+                >
+                  <div className="col-span-1 flex items-center justify-between border-r-2 p-2 md:col-span-1">
+                    <p>
+                      {registrationNumber} - {kilometers[0]?.distance} KM
+                    </p>
+                    <div></div>
+                  </div>
+                  <div className="col-span-5 flex items-center justify-between p-2 md:col-span-5">
+                    <p>
+                      {firstName} {lastName}
+                    </p>
+                    <EditName
+                      participantId={id}
+                      registrationNumber={registrationNumber}
+                      firstName={firstName}
+                      lastName={lastName}
+                      refetchFn={() => {
+                        /*eslint-disable @typescript-eslint/no-floating-promises*/
+                        refetch();
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="col-span-5 flex items-center justify-between p-2 md:col-span-5">
-                  <p>
-                    {firstName} {lastName}
-                  </p>
-                  <EditName
-                    participantId={id}
-                    registrationNumber={registrationNumber}
-                    firstName={firstName}
-                    lastName={lastName}
-                    refetchFn={() => {
-                      /*eslint-disable @typescript-eslint/no-floating-promises*/
-                      refetch();
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
+              )
+            )}
       </div>
     </ScreenContainer>
   );

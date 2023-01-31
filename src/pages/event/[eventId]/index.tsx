@@ -1,10 +1,11 @@
 import { type NextPage } from "next";
 import Link from "next/link";
-
 import { useRouter } from "next/router";
-import { api } from "../../../utils/api";
-// import CustomClock from "../../../components/StopWatch";
+
 import { type Kilometer } from "@prisma/client";
+
+import { api } from "../../../utils/api";
+
 import StartButton from "../../../components/StartButton";
 
 import { GoPrimitiveDot } from "react-icons/go";
@@ -18,9 +19,8 @@ const SingeEvent: NextPage = () => {
     data: eventData,
     isLoading,
     refetch,
-  } = api.event.details.useQuery({
+  } = api.event.fullDetails.useQuery({
     eventId: eventId as string,
-    includeKM: true,
   });
 
   if (isLoading) {
@@ -29,7 +29,7 @@ const SingeEvent: NextPage = () => {
 
   if (!eventData) {
     return (
-      <ScreenContainer className="mx-auto px-8 md:px-16">
+      <ScreenContainer>
         <div className="mx-auto pt-20">
           <p className="text-3xl">Event not found!</p>
         </div>

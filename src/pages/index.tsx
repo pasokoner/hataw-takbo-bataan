@@ -1,19 +1,21 @@
 import { type NextPage } from "next";
-import ScreenContainer from "../layouts/ScreenContainer";
+import Link from "next/link";
 import Image from "next/image";
+
+import { useRef } from "react";
+
+import ScreenContainer from "../layouts/ScreenContainer";
+
+import { GoNote } from "react-icons/go";
+import { FiUserCheck, FiDownload } from "react-icons/fi";
+import { AiOutlineNotification } from "react-icons/ai";
+import { RiGuideLine } from "react-icons/ri";
 
 import HTBLogo from "../assets/hataw-takbo-bataan.png";
 import OneBataanLogo from "../assets/1bataan.png";
 import SeekPhorLogo from "../assets/seekphor.png";
 import HermosaLogo from "../assets/hermosa.png";
 import BataanSealLogo from "../assets/bataan-seal.png";
-import Link from "next/link";
-
-import { GoNote } from "react-icons/go";
-import { FiUserCheck, FiDownload } from "react-icons/fi";
-import { AiOutlineNotification } from "react-icons/ai";
-import { RiGuideLine } from "react-icons/ri";
-import { useRef } from "react";
 
 import Alternative1 from "../assets/landing-page/alternative-1.jpg";
 import Alternative2 from "../assets/landing-page/alternative-2.jpg";
@@ -31,7 +33,7 @@ const Home: NextPage = () => {
     <>
       <div className="w-full py-5">
         <input />
-        <ScreenContainer className="py:10 mx-auto grid grid-cols-6 gap-14 sm:gap-0 sm:py-16">
+        <ScreenContainer className="py:10 grid grid-cols-6 gap-14 sm:gap-0 sm:py-16">
           <div className="order-last col-span-6 mb-20  flex flex-col items-center justify-center sm:-order-1 sm:col-span-3 sm:mb-0">
             <div>
               <h1 className="mb-2 text-3xl font-semibold sm:text-5xl">
@@ -75,7 +77,7 @@ const Home: NextPage = () => {
         </ScreenContainer>
       </div>
       <div className="relative mb-auto bg-slate-200 bg-contain py-4">
-        <ScreenContainer className="md:0 mx-auto grid grid-cols-4 items-center gap-7">
+        <ScreenContainer className="md:0 grid grid-cols-4 items-center gap-7">
           <Image
             src={BataanSealLogo}
             width={65}
@@ -104,7 +106,7 @@ const Home: NextPage = () => {
       </div>
 
       <div className="w-full">
-        <ScreenContainer className="mx-auto pt-20 text-gray-500">
+        <ScreenContainer className="pt-20 text-gray-500">
           <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-4 border-dashed border-yellow-400 py-6 px-2 text-xl font-semibold md:gap-4 md:text-4xl">
             RACE GUIDE <RiGuideLine className="text-yellow-400" />
           </h2>
@@ -126,7 +128,7 @@ const Home: NextPage = () => {
       </div>
 
       <div className="w-full">
-        <ScreenContainer className="mx-auto py-20 text-gray-500 ">
+        <ScreenContainer className="py-20 text-gray-500 ">
           <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-4 border-dashed border-yellow-400 py-6 px-2 text-xl font-semibold md:gap-4 md:text-4xl">
             PUBLIC NOTICE <AiOutlineNotification className="text-yellow-400" />
           </h2>
@@ -160,7 +162,7 @@ const Home: NextPage = () => {
       </div>
 
       <div className="w-full">
-        <ScreenContainer className="mx-auto py-20 text-gray-500 md:py-28">
+        <ScreenContainer className="py-20 text-gray-500 md:py-28">
           <h2 className="mb-10 text-center text-3xl font-semibold text-slate-500 md:text-4xl">
             FREQUENTLY ASKED QUESTION
           </h2>
@@ -205,7 +207,7 @@ const Home: NextPage = () => {
       </div>
 
       <div ref={waiverRef} className="w-full bg-slate-200">
-        <ScreenContainer className="md:0 mx-auto grid grid-cols-6 items-center py-14 text-gray-500 md:py-24">
+        <ScreenContainer className="md:0 grid grid-cols-6 items-center py-14 text-gray-500 md:py-24">
           <div className="order-last col-span-6 flex flex-col gap-4 lg:-order-1 lg:col-span-4">
             <h2 className="text-2xl font-semibold lg:text-4xl">
               LIABILITY AND RACE AGREEMENT

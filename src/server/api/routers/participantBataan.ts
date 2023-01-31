@@ -212,6 +212,7 @@ export const participantRouter = createTRPCRouter({
         include: {
           _count: true,
           event: true,
+          kilometers: true,
         },
         take: input.take,
       });
@@ -221,32 +222,61 @@ export const participantRouter = createTRPCRouter({
       z.object({
         distance: z.number(),
         eventId: z.string(),
+        limit: z.number(),
+        cursor: z.string().nullish(),
+        skip: z.number().optional(),
       })
     )
     .query(async ({ input, ctx }) => {
-      const { distance, eventId } = input;
+      const { distance, eventId, limit, cursor, skip } = input;
 
-      return await ctx.prisma.kilometer.findMany({
-        where: {
-          eventId: eventId,
-          distance: distance,
-          NOT: {
-            timeFinished: null,
-          },
-        },
-        include: {
-          participant: {
-            select: {
-              firstName: true,
-              lastName: true,
-              registrationNumber: true,
+      const [finishers, finishersCount] = await ctx.prisma.$transaction([
+        ctx.prisma.kilometer.findMany({
+          where: {
+            eventId: eventId,
+            distance: distance,
+            NOT: {
+              timeFinished: null,
             },
           },
-        },
-        orderBy: {
-          timeFinished: "asc",
-        },
-      });
+          include: {
+            participant: {
+              select: {
+                firstName: true,
+                lastName: true,
+                registrationNumber: true,
+              },
+            },
+          },
+          orderBy: {
+            timeFinished: "asc",
+          },
+          take: limit + 1,
+
+          cursor: cursor ? { id: cursor } : undefined,
+        }),
+        ctx.prisma.kilometer.count({
+          where: {
+            eventId: eventId,
+            distance: distance,
+            NOT: {
+              timeFinished: null,
+            },
+          },
+        }),
+      ]);
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (finishers.length > limit) {
+        const nextItem = finishers.pop(); // return the last item from the array
+        nextCursor = nextItem?.id;
+      }
+
+      return {
+        finishers,
+        finishersCount,
+        nextCursor,
+      };
     }),
   editName: publicProcedure
     .input(

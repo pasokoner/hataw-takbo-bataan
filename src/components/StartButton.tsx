@@ -1,8 +1,8 @@
-import React from "react";
+import dayjs from "dayjs";
+
+import { api } from "../utils/api";
 
 import { FaPlay, FaStop } from "react-icons/fa";
-import { api } from "../utils/api";
-import dayjs from "dayjs";
 
 type Props = {
   kilometer: "3" | "5" | "10";

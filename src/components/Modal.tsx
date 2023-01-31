@@ -29,18 +29,6 @@ export default function Modal(props: Props) {
     };
   }, [show]);
 
-  // const modalContent = show ? (
-  //   <>
-  //     <div
-  //       className="fixed inset-0 bg-black opacity-25"
-  //       onClick={handleCloseClick}
-  //     ></div>
-  //     <div className="opacity-85 fixed inset-10 justify-center overflow-y-auto overflow-x-hidden rounded-md bg-white outline-none focus:outline-none lg:inset-40 lg:bottom-auto">
-  //       {children}
-  //     </div>
-  //   </>
-  // ) : null;
-
   const modalContent = show ? (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden py-10 outline-none focus:outline-none">

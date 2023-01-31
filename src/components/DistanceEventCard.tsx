@@ -1,7 +1,6 @@
-import React from "react";
+import { type Kilometer } from "@prisma/client";
 
 import Stopwatch from "./StopWatch";
-import { type Kilometer } from "@prisma/client";
 
 type Props = {
   distanceNumber: number;

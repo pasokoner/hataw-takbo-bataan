@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import Modal from "./Modal";
+import { useState } from "react";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { RiLoader5Fill } from "react-icons/ri";
 
 import { api } from "../utils/api";
+
+import Modal from "./Modal";
 
 type Props = {
   participantId: string;

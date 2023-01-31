@@ -1,15 +1,15 @@
-import React from "react";
-import ScreenContainer from "./ScreenContainer";
-import Image from "next/image";
-import IconHatawBataan from "../assets/icon-hataw-bataan.webp";
 import Link from "next/link";
+import Image from "next/image";
+
+import IconHatawBataan from "../assets/icon-hataw-bataan.webp";
+import ScreenContainer from "./ScreenContainer";
 
 const NavBar: React.FC = () => {
   return (
     <header className="w-full">
       <ScreenContainer
         as="nav"
-        className="mx-auto flex items-center justify-between border-b-2 px-8 py-4 md:px-16"
+        className="flex items-center justify-between border-b-2 py-4"
       >
         <Link href={"/"} className="flex items-center  gap-2">
           <Image

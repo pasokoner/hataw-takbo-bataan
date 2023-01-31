@@ -8,19 +8,6 @@ type Props = {
 const QrMaker = ({ value, size }: Props) => {
   return (
     <>
-      {/* <QRCode
-        size={256}
-        style={{
-          height: "auto",
-          maxWidth: "100%",
-          width: "100%",
-          backgroundColor: "#000000",
-          color: "#FFF",
-        }}
-        value={value}
-        viewBox={`0 0 256 256`}
-      /> */}
-
       <QRimage
         text={value}
         transparent={true}

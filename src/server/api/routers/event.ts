@@ -3,31 +3,44 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const eventRouter = createTRPCRouter({
-  details: publicProcedure
+  fullDetails: publicProcedure
     .input(
       z.object({
         eventId: z.string(),
-        includeKM: z.boolean(),
       })
     )
     .query(async ({ input, ctx }) => {
       const { prisma } = ctx;
-      const { eventId, includeKM } = input;
+      const { eventId } = input;
 
-      const data = await prisma.event.findFirst({
+      return await prisma.event.findFirst({
         where: {
           id: eventId,
         },
         include: {
           kilometer: {
             include: {
-              participant: includeKM,
+              participant: true,
             },
           },
         },
       });
+    }),
+  details: publicProcedure
+    .input(
+      z.object({
+        eventId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { prisma } = ctx;
+      const { eventId } = input;
 
-      return data;
+      return await prisma.event.findFirst({
+        where: {
+          id: eventId,
+        },
+      });
     }),
   getAll: publicProcedure.query(async ({ ctx }) => {
     const { prisma } = ctx;

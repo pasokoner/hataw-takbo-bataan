@@ -1,18 +1,26 @@
-import React, { useState, useRef } from "react";
 import { type NextPage } from "next";
+
+import React, { useState, useRef, useEffect } from "react";
+
 import { useRouter } from "next/router";
-import ScreenContainer from "../../../layouts/ScreenContainer";
-import Title from "../../../components/Title";
+
 import { api } from "../../../utils/api";
 
-import * as XLSX from "xlsx";
+import { useInView } from "react-intersection-observer";
 import { useLocalStorage } from "usehooks-ts";
+import * as XLSX from "xlsx";
+
+import ScreenContainer from "../../../layouts/ScreenContainer";
+import Title from "../../../components/Title";
+
+import { RiLoader5Fill } from "react-icons/ri";
 
 const Finished: NextPage = () => {
   const { query } = useRouter();
   const { eventId } = query;
 
-  // const [finishers, setFinishers] = useState();
+  const { ref, inView } = useInView();
+
   const [distance, setDistance] = useState(10);
   const tableRef = useRef<HTMLTableElement>(null);
   const [cameraPassword, setCameraPassword] = useLocalStorage(
@@ -20,16 +28,26 @@ const Finished: NextPage = () => {
     ""
   );
 
-  const { data: finishers } = api.participant.getFinisher.useQuery({
-    eventId: eventId as string,
-    distance: distance,
-  });
+  const {
+    data: raceData,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = api.participant.getFinisher.useInfiniteQuery(
+    {
+      eventId: eventId as string,
+      distance: distance,
+      limit: 20,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    }
+  );
 
   const { data: eventData, isLoading: eventLoading } =
     api.event.details.useQuery(
       {
         eventId: eventId as string,
-        includeKM: false,
       },
       {
         refetchOnWindowFocus: false,
@@ -65,13 +83,16 @@ const Finished: NextPage = () => {
     XLSX.writeFile(wb, `${distance}KM-finishers.xlsx`);
   };
 
-  if (eventLoading) {
-    return <></>;
-  }
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      fetchNextPage();
+    }
+  }, [inView]);
 
   if (!eventData) {
     return (
-      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+      <ScreenContainer className="py-6">
         <div className="mx-auto pt-20">
           <p className="text-3xl">Event not found!</p>
         </div>
@@ -81,7 +102,7 @@ const Finished: NextPage = () => {
 
   if (cameraPassword !== eventData.cameraPassword) {
     return (
-      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+      <ScreenContainer className="py-6">
         <Title value={`HATAW BATAAN TAKBO - ${eventData.name}`} />
         <div className="flex h-[50vh] flex-col items-center justify-center">
           <label htmlFor="cameraPassword">FINISHERS PASSWORD</label>
@@ -98,7 +119,7 @@ const Finished: NextPage = () => {
   }
 
   return (
-    <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+    <ScreenContainer className="py-6">
       <div className="mb-2 grid grid-cols-6 gap-2">
         <button
           onClick={() => setDistance(3)}
@@ -123,7 +144,7 @@ const Finished: NextPage = () => {
       <Title value={`${distance} KM FINISHERS`} />
       <div className="flex w-full">
         <div className="flex items-center justify-center rounded-sm border-2 bg-black py-1 px-2 text-2xl font-semibold text-white">
-          FINISHERS: {finishers ? finishers.length : 0}
+          FINISHERS: {raceData?.pages[0]?.finishersCount}
         </div>
         <button
           onClick={exportToExcel}
@@ -132,6 +153,7 @@ const Finished: NextPage = () => {
           EXPORT
         </button>
       </div>
+
       <table className="w-full" ref={tableRef}>
         <thead className="w-full">
           <tr className="grid grid-cols-6 rounded-t-md bg-primary-hover text-white">
@@ -141,78 +163,92 @@ const Finished: NextPage = () => {
           </tr>
         </thead>
         <tbody>
-          {finishers &&
-            finishers.map(
-              (
-                { id, timeFinished, registrationNumber, participant },
-                index
-              ) => {
-                let timeStart: Date | null = null;
+          {raceData?.pages &&
+            raceData?.pages.map(({ finishers }, pageIndex) => {
+              return finishers.map(
+                (
+                  { id, timeFinished, registrationNumber, participant },
+                  index
+                ) => {
+                  let timeStart: Date | null = null;
 
-                if (distance === 3) {
-                  timeStart = eventData.timeStart3km;
+                  if (distance === 3) {
+                    timeStart = eventData.timeStart3km;
+                  }
+
+                  if (distance === 5) {
+                    timeStart = eventData.timeStart5km;
+                  }
+
+                  if (distance === 10) {
+                    timeStart = eventData.timeStart10km;
+                  }
+
+                  const time = timeStart
+                    ? `${Math.floor(
+                        ((timeFinished as Date).getTime() -
+                          timeStart.getTime()) /
+                          (1000 * 60 * 60)
+                      )
+                        .toFixed(0)
+                        .toString()}:${Math.floor(
+                        (((timeFinished as Date).getTime() -
+                          timeStart.getTime()) /
+                          1000 /
+                          60) %
+                          60
+                      )
+                        .toFixed(0)
+                        .toString()
+                        .padStart(2, "0")}:${Math.floor(
+                        (((timeFinished as Date).getTime() -
+                          timeStart.getTime()) /
+                          1000) %
+                          60
+                      )
+                        .toFixed(0)
+                        .toString()
+                        .padStart(2, "0")}`
+                    : "00:00:00";
+
+                  const rankers =
+                    index < 10 && pageIndex === 0
+                      ? " bg-yellow-400 font-medium"
+                      : "";
+
+                  return (
+                    <tr
+                      key={id}
+                      className={
+                        "grid grid-cols-6 border-2 border-r-2 border-solid text-xs md:text-lg" +
+                        rankers
+                      }
+                    >
+                      <td className="col-span-1 flex items-center justify-between border-r-2 p-2 ">
+                        {index + 1 + pageIndex * 20}
+                      </td>
+                      <td className="col-span-3 flex items-center justify-between border-r-2 p-2">
+                        {registrationNumber} - {participant.firstName}{" "}
+                        {participant.lastName}
+                      </td>
+                      <td className="col-span-2 flex items-center justify-between p-2 ">
+                        {time}
+                      </td>
+                    </tr>
+                  );
                 }
+              );
+            })}
 
-                if (distance === 5) {
-                  timeStart = eventData.timeStart5km;
-                }
-
-                if (distance === 10) {
-                  timeStart = eventData.timeStart10km;
-                }
-
-                const time = timeStart
-                  ? `${Math.floor(
-                      ((timeFinished as Date).getTime() - timeStart.getTime()) /
-                        (1000 * 60 * 60)
-                    )
-                      .toFixed(0)
-                      .toString()}:${Math.floor(
-                      (((timeFinished as Date).getTime() -
-                        timeStart.getTime()) /
-                        1000 /
-                        60) %
-                        60
-                    )
-                      .toFixed(0)
-                      .toString()
-                      .padStart(2, "0")}:${Math.floor(
-                      (((timeFinished as Date).getTime() -
-                        timeStart.getTime()) /
-                        1000) %
-                        60
-                    )
-                      .toFixed(0)
-                      .toString()
-                      .padStart(2, "0")}`
-                  : "00:00:00";
-
-                const rankers = index < 10 ? " bg-yellow-400 font-medium" : "";
-
-                return (
-                  <tr
-                    key={id}
-                    className={
-                      "grid grid-cols-6 border-2 border-r-2 border-solid text-xs md:text-lg" +
-                      rankers
-                    }
-                  >
-                    <td className="col-span-1 flex items-center justify-between border-r-2 p-2 ">
-                      {index + 1}
-                    </td>
-                    <td className="col-span-3 flex items-center justify-between border-r-2 p-2">
-                      {registrationNumber} - {participant.firstName}{" "}
-                      {participant.lastName}
-                    </td>
-                    <td className="col-span-2 flex items-center justify-between p-2 ">
-                      {time}
-                    </td>
-                  </tr>
-                );
-              }
-            )}
+          <span style={{ visibility: "hidden" }} ref={ref}>
+            intersection observer marker
+          </span>
         </tbody>
       </table>
+
+      {isFetchingNextPage ? (
+        <RiLoader5Fill className="mx-auto mt-6 animate-spin text-center text-5xl" />
+      ) : null}
     </ScreenContainer>
   );
 };

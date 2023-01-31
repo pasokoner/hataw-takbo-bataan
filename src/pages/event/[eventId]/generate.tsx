@@ -1,8 +1,12 @@
 import { type NextPage } from "next";
-import { useRouter } from "next/router";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { useState, useEffect, useRef } from "react";
+
+import { Kilometer } from "@prisma/client";
+
+import { api } from "../../../utils/api";
 
 import QrMaker from "../../../components/QrMaker";
 
@@ -14,9 +18,6 @@ import OneBataanLogo from "../../../assets/1bataan.png";
 import SeekPhorLogo from "../../../assets/seekphor.png";
 import HermosaLogo from "../../../assets/hermosa.png";
 import BataanSealLogo from "../../../assets/bataan-seal.png";
-
-import { api } from "../../../utils/api";
-import { Kilometer } from "@prisma/client";
 
 const Generate: NextPage = () => {
   const { query } = useRouter();
@@ -114,7 +115,7 @@ const Generate: NextPage = () => {
   }
 
   return (
-    <ScreenContainer className="mx-auto px-8 md:px-16">
+    <ScreenContainer>
       <div
         ref={bibRef}
         className={
@@ -163,7 +164,7 @@ const Generate: NextPage = () => {
               />
             </div>
           </div>
-          <div className="col-span-3 grid grid-cols-6 items-center justify-center gap-2">
+          <div className="col-span-3 grid grid-cols-6 items-center justify-center ">
             <Image
               src={BataanSealLogo}
               alt="Bataan Seal"

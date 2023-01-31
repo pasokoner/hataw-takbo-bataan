@@ -1,11 +1,15 @@
-import { type NextPage } from "next";
-import { useState } from "react";
+import { type NextPage, type GetServerSideProps } from "next";
+
 import { useRouter } from "next/router";
-import { useForm, type SubmitHandler } from "react-hook-form";
+
+import { useState } from "react";
+
 import { getSession } from "next-auth/react";
-import type { GetServerSideProps } from "next";
 
 import { api } from "../../../utils/api";
+
+import { useForm, type SubmitHandler } from "react-hook-form";
+
 import ScreenContainer from "../../../layouts/ScreenContainer";
 
 const Config: NextPage = () => {
@@ -14,7 +18,6 @@ const Config: NextPage = () => {
 
   const { data: eventData, isLoading } = api.event.details.useQuery({
     eventId: eventId as string,
-    includeKM: false,
   });
 
   const { mutate } = api.event.config.useMutation({
@@ -35,10 +38,8 @@ const Config: NextPage = () => {
 
   if (!eventData) {
     return (
-      <ScreenContainer className="mx-auto px-8 md:px-16">
-        <div className="mx-auto pt-20">
-          <p className="text-3xl">Event not found!</p>
-        </div>
+      <ScreenContainer className="pt-20">
+        <p className="text-3xl">Event not found!</p>
       </ScreenContainer>
     );
   }
@@ -48,7 +49,7 @@ const Config: NextPage = () => {
   };
 
   return (
-    <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+    <ScreenContainer className="py-6">
       <h2 className="mb-4 text-4xl">Event Configuration - {eventData.name}</h2>
       {/* eslint-disable @typescript-eslint/no-misused-promises */}
       <form

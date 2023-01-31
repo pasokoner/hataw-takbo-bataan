@@ -1,4 +1,3 @@
-import React from "react";
 import { useStopwatch } from "react-timer-hook";
 
 import { CiStop1, CiPlay1, CiPause1 } from "react-icons/ci";

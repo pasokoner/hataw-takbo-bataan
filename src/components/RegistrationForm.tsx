@@ -1,22 +1,23 @@
 import { useRef, useState } from "react";
 
+import { Gender, Municipality, ShirtSize } from "@prisma/client";
+import { type z } from "zod";
+import { type participantSchema } from "../server/api/routers/participantBataan";
+
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import dayjs from "dayjs";
 
-import { Gender, Municipality, ShirtSize } from "@prisma/client";
-import { type z } from "zod";
-import { type participantSchema } from "../server/api/routers/participantBataan";
+import html2canvas from "html2canvas";
+
 import { api } from "../utils/api";
 
 import { distances } from "../utils/constant";
 
-import html2canvas from "html2canvas";
-
-import Modal from "./Modal";
-
 import { RiLoader5Fill } from "react-icons/ri";
 import { AiOutlineCopy } from "react-icons/ai";
+
+import Modal from "./Modal";
 import QrMaker from "./QrMaker";
 
 type Props = {
@@ -131,7 +132,7 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
     }
   };
 
-  const toggleClass = "transform translate-x-6 bg-blue  ";
+  const toggleClass = " transform translate-x-6 bg-blue-600";
 
   return (
     /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -210,9 +211,10 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         >
           {/* Switch */}
           <div
-            className={`${
-              outsideBataan ? toggleClass : ""
-            } mr-auto h-3 w-5 transform rounded-full bg-slate-600 shadow-md duration-300 ease-in-out md:h-5 md:w-6`}
+            className={
+              `mr-auto h-3 w-5 transform rounded-full bg-slate-600 shadow-md duration-300 ease-in-out md:h-5 md:w-6` +
+              `${outsideBataan ? toggleClass : ""}`
+            }
           ></div>
         </div>
       </div>

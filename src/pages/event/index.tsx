@@ -1,17 +1,19 @@
 import { type NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { api } from "../../utils/api";
-
-import dayjs from "dayjs";
-import Title from "../../components/Title";
-import { GoPrimitiveDot } from "react-icons/go";
 
 import { useSession } from "next-auth/react";
 
+import { api } from "../../utils/api";
+
+import dayjs from "dayjs";
+
+import ScreenContainer from "../../layouts/ScreenContainer";
+import Title from "../../components/Title";
+
 import { BiCog } from "react-icons/bi";
 import { BsJoystick } from "react-icons/bs";
-import ScreenContainer from "../../layouts/ScreenContainer";
+import { GoPrimitiveDot } from "react-icons/go";
 
 const Event: NextPage = () => {
   const { data: events, isLoading } = api.event.getAll.useQuery();
@@ -20,7 +22,7 @@ const Event: NextPage = () => {
 
   if (isLoading) {
     return (
-      <ScreenContainer className="mx-auto px-8 md:px-16">
+      <ScreenContainer>
         <div className="pt-6">
           <Title value="List of all events" />
           <div className="grid grid-cols-6 gap-4 pt-6">
@@ -66,7 +68,7 @@ const Event: NextPage = () => {
   }
 
   return (
-    <ScreenContainer className="mx-auto px-8 py-16 md:px-16">
+    <ScreenContainer className="py-6">
       <Title value="List of all events" />
       <div className="grid grid-cols-6 gap-4 pt-6">
         {events &&
@@ -78,8 +80,6 @@ const Event: NextPage = () => {
                 scheduleTimeStart,
                 name,
                 _count,
-                registerFrom,
-                registerTo,
                 timeStart10km,
                 timeStart3km,
                 timeStart5km,
@@ -88,9 +88,6 @@ const Event: NextPage = () => {
                 raceFinished3km,
                 closeRegistration,
               }) => {
-                // const registrationExpiration =
-                //   registerTo.getTime() - registerFrom.getTime();
-
                 const ongoingEvent =
                   !!timeStart3km || !!timeStart5km || !!timeStart10km;
 
@@ -98,10 +95,7 @@ const Event: NextPage = () => {
                   !!raceFinished3km && !!raceFinished5km && !!raceFinished10km;
 
                 return (
-                  <div
-                    key={id}
-                    className="col-span-6 w-full md:col-span-3 xl:col-span-2"
-                  >
+                  <div key={id} className="col-span-6 w-full md:col-span-3">
                     <div className="rounded-md bg-km10 p-2">
                       <div className="relative h-28 bg-km3">
                         <div className="absolute top-2 left-2 z-10 rounded-lg bg-white p-1 opacity-70">

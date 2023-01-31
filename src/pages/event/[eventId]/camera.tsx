@@ -1,21 +1,24 @@
 import { type NextPage } from "next";
-import { useState, type ChangeEvent, useEffect, useRef } from "react";
-import Scanner from "../../../components/Scanner";
-import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
-import Title from "../../../components/Title";
-import Snackbar from "../../../components/Snackbar";
+
+import { useState, type ChangeEvent, useEffect } from "react";
+
 import { type Event } from "@prisma/client";
-import ManualScanner from "../../../components/ManualScanner";
-import { useLocalStorage } from "usehooks-ts";
+
 import dayjs from "dayjs";
+import { useLocalStorage } from "usehooks-ts";
+import { v4 as uuidv4 } from "uuid";
+
+import { api } from "../../../utils/api";
+
+import ManualScanner from "../../../components/ManualScanner";
+import Scanner from "../../../components/Scanner";
+import ScreenContainer from "../../../layouts/ScreenContainer";
+import Snackbar from "../../../components/Snackbar";
+import Title from "../../../components/Title";
+
 import { IoClose } from "react-icons/io5";
 import { SlReload } from "react-icons/sl";
-
-import { v4 as uuidv4 } from "uuid";
-import ScreenContainer from "../../../layouts/ScreenContainer";
-// import SuccessSound from "../../../assets/sounds/success.mp3";
-// import useSound from "use-sound";
 
 type ManualRecord = {
   id: string;
@@ -42,7 +45,6 @@ const Camera: NextPage = () => {
   const { data: eventData, isLoading } = api.event.details.useQuery(
     {
       eventId: eventId as string,
-      includeKM: false,
     },
     {
       refetchOnWindowFocus: false,
@@ -366,7 +368,7 @@ const Camera: NextPage = () => {
 
   if (!eventData) {
     return (
-      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+      <ScreenContainer className="py-6">
         <div className="mx-auto pt-20">
           <p className="text-3xl">Event not found!</p>
         </div>
@@ -376,7 +378,7 @@ const Camera: NextPage = () => {
 
   if (cameraPassword !== eventData.cameraPassword) {
     return (
-      <ScreenContainer className="mx-auto px-8 py-6 md:px-16">
+      <ScreenContainer className="py-6">
         <Title value={`HATAW BATAAN TAKBO - ${eventData.name}`} />
         <div className="flex h-[50vh] flex-col items-center justify-center">
           <label htmlFor="cameraPassword">CAMERA PASSWORD</label>
@@ -393,7 +395,7 @@ const Camera: NextPage = () => {
   }
 
   return (
-    <ScreenContainer className="mx-auto px-8 pt-6 md:px-16">
+    <ScreenContainer className="pt-6">
       <div className="mb-4 grid grid-cols-6 gap-3">
         <h3 className="col-span-3 font-semibold sm:col-span-2 sm:text-xl">
           <span className="rounded-md bg-km3 p-1 text-white sm:p-2">3KM</span> -{" "}

@@ -1,7 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
 
 import QrScanner from "qr-scanner";
-import { error } from "console";
 
 type Props = {
   updateParticipant: (cameraResult: string, timeFinished: Date) => void;

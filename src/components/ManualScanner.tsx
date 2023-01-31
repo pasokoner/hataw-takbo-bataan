@@ -1,6 +1,5 @@
-import React from "react";
-
 import { type Event } from "@prisma/client";
+
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { AiOutlineEnter } from "react-icons/ai";

@@ -1,7 +1,8 @@
-import RegistrationForm from "../../../components/RegistrationForm";
-import { useRouter } from "next/router";
 import { api } from "../../../utils/api";
-import Title from "../../../components/Title";
+
+import { useRouter } from "next/router";
+
+import RegistrationForm from "../../../components/RegistrationForm";
 import ScreenContainer from "../../../layouts/ScreenContainer";
 
 const Register = () => {
@@ -10,18 +11,7 @@ const Register = () => {
 
   const { data: eventData, isLoading } = api.event.details.useQuery({
     eventId: eventId as string,
-    includeKM: false,
   });
-
-  // const { data: participantData } = api.participant.getAll.useQuery({
-  //   eventId: eventId as string,
-  // });
-
-  // if (participantData) {
-  //   console.log(
-  //     participantData.filter(({ _count }) => _count.kilometers === 0)
-  //   );
-  // }
 
   if (isLoading) {
     return <></>;
@@ -42,7 +32,7 @@ const Register = () => {
     eventData.closeRegistration
   ) {
     return (
-      <ScreenContainer className="mx-auto px-8 md:px-16">
+      <ScreenContainer>
         <div
           className="mt-6 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
           role="alert"
@@ -56,7 +46,7 @@ const Register = () => {
 
   if (eventData.closeRegistration) {
     return (
-      <ScreenContainer className="mx-auto px-8 md:px-16">
+      <ScreenContainer>
         <div
           className="mt-6 rounded border border-red-400 bg-red-100 py-3 px-4 text-red-700"
           role="alert"
@@ -71,12 +61,12 @@ const Register = () => {
   }
 
   return (
-    <ScreenContainer className="mx-auto px-8 md:px-16 ">
-      <div className="px-4 py-6 pb-24">
-        <Title value={`${eventData.name} Registration`} />
-        <h3 className="mb-4 text-2xl">Participant Details</h3>
-        <RegistrationForm eventId={eventData.id} eventName={eventData.name} />
-      </div>
+    <ScreenContainer className="py-6">
+      {/* <Title value={`${eventData.name} Registration`} /> */}
+      <h3 className="mb-4 text-xl font-medium uppercase">
+        {eventData.name} Registration Form
+      </h3>
+      <RegistrationForm eventId={eventData.id} eventName={eventData.name} />
     </ScreenContainer>
   );
 };
