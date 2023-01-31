@@ -170,16 +170,17 @@ const Finished: NextPage = () => {
                       .toString()}:${Math.floor(
                       (((timeFinished as Date).getTime() -
                         timeStart.getTime()) /
-                        (1000 * 60)) %
+                        1000 /
+                        60) %
                         60
                     )
                       .toFixed(0)
                       .toString()
-                      .padStart(2, "0")}:${(
+                      .padStart(2, "0")}:${Math.floor(
                       (((timeFinished as Date).getTime() -
                         timeStart.getTime()) /
                         1000) %
-                      60
+                        60
                     )
                       .toFixed(0)
                       .toString()

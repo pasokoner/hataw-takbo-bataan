@@ -24,6 +24,25 @@ type EditForm = {
   shirtSize: ShirtSize;
 };
 
+const getFinishedTime = (timeFinished: Date, timeStart: Date) => {
+  return `${Math.floor(
+    (timeFinished.getTime() - timeStart.getTime()) / (1000 * 60 * 60)
+  )
+    .toFixed(0)
+    .toString()
+    .padStart(2, "0")}:${Math.floor(
+    ((timeFinished.getTime() - timeStart.getTime()) / (1000 * 60)) % 60
+  )
+    .toFixed(0)
+    .toString()
+    .padStart(2, "0")}:${Math.floor(
+    ((timeFinished.getTime() - timeStart.getTime()) / 1000) % 60
+  )
+    .toFixed(0)
+    .toString()
+    .padStart(2, "0")}`;
+};
+
 const Participant: NextPage = () => {
   const { query } = useRouter();
   const { eventId } = query;
@@ -481,84 +500,24 @@ const Participant: NextPage = () => {
                     <p className="text-[13px] font-medium">
                       {eventData.timeStart3km &&
                       participant.kilometers[0].distance === 3
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart3km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                       {eventData.timeStart5km &&
                       participant.kilometers[0].distance === 5
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart5km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                       {eventData.timeStart10km &&
                       participant.kilometers[0].distance === 10
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart10km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                     </p>
                   </div>
@@ -600,84 +559,24 @@ const Participant: NextPage = () => {
                     <p className="text-[10px] font-medium">
                       {eventData.timeStart3km &&
                       participant.kilometers[0].distance === 3
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart3km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                       {eventData.timeStart5km &&
                       participant.kilometers[0].distance === 5
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart5km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                       {eventData.timeStart10km &&
                       participant.kilometers[0].distance === 10
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart10km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                     </p>
                   </div>
@@ -720,84 +619,24 @@ const Participant: NextPage = () => {
                     <p className="text-[8px] font-medium">
                       {eventData.timeStart3km &&
                       participant.kilometers[0].distance === 3
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart3km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                       {eventData.timeStart5km &&
                       participant.kilometers[0].distance === 5
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart5km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                       {eventData.timeStart10km &&
                       participant.kilometers[0].distance === 10
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart10km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                     </p>
                   </div>
@@ -839,84 +678,24 @@ const Participant: NextPage = () => {
                     <p className="text-[4px] font-medium">
                       {eventData.timeStart3km &&
                       participant.kilometers[0].distance === 3
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart3km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart3km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                       {eventData.timeStart5km &&
                       participant.kilometers[0].distance === 5
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart5km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart5km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                       {eventData.timeStart10km &&
                       participant.kilometers[0].distance === 10
-                        ? `${Math.floor(
-                            (participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              (1000 * 60 * 60)
+                        ? getFinishedTime(
+                            participant.kilometers[0].timeFinished,
+                            eventData.timeStart10km
                           )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${Math.floor(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              (1000 * 60)) %
-                              60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}:${(
-                            ((participant.kilometers[0].timeFinished.getTime() -
-                              eventData.timeStart10km.getTime()) /
-                              1000) %
-                            60
-                          )
-                            .toFixed(0)
-                            .toString()
-                            .padStart(2, "0")}`
                         : ""}
                     </p>
                   </div>
