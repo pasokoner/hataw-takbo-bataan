@@ -57,31 +57,33 @@ const SingeEvent: NextPage = () => {
       {/* <h2 className="text-center text-6xl font-semibold">
         Welcome to {eventData.name}
       </h2> */}
-      <div className="mb-2 grid grid-cols-2 gap-2">
+      <div className="mb-2 grid grid-cols-6 text-xs sm:text-sm">
         <Link
           href={`/event/${eventData.id}/camera`}
-          className="col-span-1 flex items-center justify-center border-2 border-dotted border-slate-400 py-2 font-semibold"
+          className="col-span-2 flex items-center justify-center border-2 border-dotted border-slate-400 py-2 font-semibold"
         >
           CAMERA
         </Link>
 
         <Link
           href={`/event/${eventData.id}/config`}
-          className="col-span-1 flex items-center justify-center  border-2 border-dotted border-slate-400 py-2 font-semibold"
+          className="col-span-2 flex items-center justify-center  border-2 border-dotted border-slate-400 py-2 font-semibold"
         >
           CONFIGURATION
         </Link>
         <Link
           href={`/event/${eventData.id}/list`}
-          className="col-span-2 flex items-center justify-center border-2  border-dotted border-slate-400 py-2 font-semibold md:col-span-1"
+          className="col-span-2 flex items-center justify-center border-2  border-dotted border-slate-400 py-2 font-semibold"
         >
           PARTICIPANTS LIST
         </Link>
       </div>
 
       <div className="mx-auto grid grid-cols-6 gap-4">
-        <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md bg-km3 p-3 font-semibold text-white md:col-span-3 lg:col-span-2">
-          <h2 className="text-5xl">3 KM</h2>
+        <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md border-2 border-km3 font-semibold text-black md:col-span-3 lg:col-span-2">
+          <h2 className="flex w-full justify-center rounded-t-sm bg-km3 py-2 text-4xl text-white">
+            3 KM
+          </h2>
           {/* <CustomClock /> */}
 
           <StartButton
@@ -91,18 +93,21 @@ const SingeEvent: NextPage = () => {
             raceFinished={eventData.raceFinished3km}
             /* eslint-disable @typescript-eslint/no-misused-promises */
             refetchEvent={refetchEvent}
+            color="km3"
           />
 
           {eventData.timeStart3km && (
-            <Link href={`/event/${eventData.id}/finisher`}>
-              <div className="border-2 border-dashed border-white p-2 text-xl font-semibold">
+            <Link
+              href={`/event/${eventData.id}/finisher`}
+              className="flex w-full justify-center"
+            >
+              <div className="w-8/12 border-2 border-dashed border-white text-xl font-semibold">
                 {eventData.raceFinished3km ? (
-                  <div className="flex items-center justify-center gap-2">
-                    CHECK STATUS{" "}
-                    <GiCheckeredFlag className="text-4xl text-white" />
+                  <div className="flex items-center justify-center gap-2 border-[1px] border-km3 py-2 text-km3">
+                    CHECK STATUS <GiCheckeredFlag className="text-4xl" />
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center gap-2 border-[1px] border-km3 py-2 text-km3">
                     LIVE FEED{" "}
                     <GoPrimitiveDot className="text-4xl text-red-700" />
                   </div>
@@ -111,14 +116,20 @@ const SingeEvent: NextPage = () => {
             </Link>
           )}
 
-          <div className="mt-auto w-full border-b-2 border-double border-b-slate-100"></div>
-          <p className="text-xl font-medium">Registered Participants</p>
-          <p className="text-3xl font-medium">
-            {filterParticipants(3, eventData.kilometer)}
-          </p>
+          <div className="mt-6 w-full border-b-2 border-double border-b-slate-100"></div>
+          <div>
+            <p className="mb-1 text-center text-xl font-medium text-gray-700">
+              Registered Participants
+            </p>
+            <p className="text-center text-xl font-medium text-gray-700">
+              {filterParticipants(3, eventData.kilometer)}
+            </p>
+          </div>
         </div>
-        <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md bg-km5 p-3 font-semibold text-white md:col-span-3 lg:col-span-2">
-          <h2 className="text-5xl">5 KM</h2>
+        <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md border-2 border-km5 font-semibold text-white md:col-span-3 lg:col-span-2">
+          <h2 className="flex w-full justify-center rounded-t-sm bg-km5 py-2 text-4xl text-white">
+            5 KM
+          </h2>
           {/* <CustomClock /> */}
           <StartButton
             kilometer="5"
@@ -127,17 +138,21 @@ const SingeEvent: NextPage = () => {
             raceFinished={eventData.raceFinished5km}
             /* eslint-disable @typescript-eslint/no-misused-promises */
             refetchEvent={refetchEvent}
+            color="km5"
           />
 
           {eventData.timeStart5km && (
-            <Link href={`/event/${eventData.id}/finisher`}>
-              <div className=" border-2 border-dashed p-2 text-xl font-semibold">
+            <Link
+              href={`/event/${eventData.id}/finisher`}
+              className="flex w-full justify-center"
+            >
+              <div className="w-8/12 border-2 border-dashed border-white text-xl font-semibold">
                 {eventData.raceFinished5km ? (
-                  <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center justify-center gap-2 border-[1px] border-km5 py-2 text-km5">
                     CHECK STATUS <GiCheckeredFlag className="text-4xl" />
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center gap-2 border-[1px] border-km5 py-2 text-km5">
                     LIVE FEED{" "}
                     <GoPrimitiveDot className="text-4xl text-red-700" />
                   </div>
@@ -145,14 +160,20 @@ const SingeEvent: NextPage = () => {
               </div>
             </Link>
           )}
-          <div className="mt-auto w-full border-b-2 border-double border-b-slate-100"></div>
-          <p className="text-xl font-medium">Registered Participants</p>
-          <p className="text-3xl font-medium">
-            {filterParticipants(5, eventData.kilometer)}
-          </p>
+          <div className="mt-6 w-full border-b-2 border-double border-b-slate-100"></div>
+          <div>
+            <p className="mb-1 text-center text-xl font-medium text-gray-700">
+              Registered Participants
+            </p>
+            <p className="text-center text-xl font-medium text-gray-700">
+              {filterParticipants(5, eventData.kilometer)}
+            </p>
+          </div>
         </div>
-        <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md bg-km10 p-3 font-semibold text-white md:col-span-6 lg:col-span-2">
-          <h2 className="text-5xl">10 KM</h2>
+        <div className="col-span-6 flex flex-col items-center justify-start gap-4 rounded-md border-2 border-km10 font-semibold text-white md:col-span-6 lg:col-span-2">
+          <h2 className="flex w-full justify-center rounded-t-sm bg-km10 py-2 text-4xl text-white">
+            10 KM
+          </h2>
           {/* <CustomClock /> */}
           <StartButton
             kilometer="10"
@@ -161,17 +182,21 @@ const SingeEvent: NextPage = () => {
             raceFinished={eventData.raceFinished10km}
             /* eslint-disable @typescript-eslint/no-misused-promises */
             refetchEvent={refetchEvent}
+            color="km10"
           />
 
           {eventData.timeStart10km && (
-            <Link href={`/event/${eventData.id}/finisher`}>
-              <div className=" border-2 border-dashed p-2 text-xl font-semibold">
+            <Link
+              href={`/event/${eventData.id}/finisher`}
+              className="flex w-full justify-center"
+            >
+              <div className="w-8/12 border-2 border-dashed border-white text-xl font-semibold">
                 {eventData.raceFinished10km ? (
-                  <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center justify-center gap-2 border-[1px] border-km10 py-2 text-km10">
                     CHECK STATUS <GiCheckeredFlag className="text-4xl" />
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center gap-2 border-[1px] border-km10 py-2 text-km10">
                     LIVE FEED{" "}
                     <GoPrimitiveDot className="text-4xl text-red-700" />
                   </div>
@@ -179,11 +204,15 @@ const SingeEvent: NextPage = () => {
               </div>
             </Link>
           )}
-          <div className="mt-auto w-full border-b-2 border-double border-b-slate-100"></div>
-          <p className="text-xl font-medium">Registered Participants</p>
-          <p className="text-3xl font-medium">
-            {filterParticipants(10, eventData.kilometer)}
-          </p>
+          <div className="mt-6 w-full border-b-2 border-double border-b-slate-100"></div>
+          <div>
+            <p className="mb-1 text-center text-xl font-medium text-gray-700">
+              Registered Participants
+            </p>
+            <p className="text-center text-xl font-medium text-gray-700">
+              {filterParticipants(10, eventData.kilometer)}
+            </p>
+          </div>
         </div>
       </div>
     </ScreenContainer>

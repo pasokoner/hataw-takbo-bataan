@@ -157,9 +157,12 @@ const Participant: NextPage = () => {
 
   return (
     <ScreenContainer className="px-4 py-6 pb-24">
-      <Title value={`PARTICIPANT INFORMATION`} />
+      {/* <Title value={`PARTICIPANT INFORMATION`} /> */}
+      <h2 className="text-2xl font-medium text-gray-600">
+        PARTICIPANT INFORMATION
+      </h2>
 
-      <div className="mt-6 rounded border border-slate-400 bg-slate-100 px-4 py-3 text-slate-700">
+      <div className="mt-6 w-full rounded border border-slate-400 bg-slate-100 px-4 py-3 text-slate-700 md:w-6/12">
         {edit && (
           <div className="mt-2 mb-4 rounded-sm border-2 border-red-400  bg-red-100 py-1 px-2 text-xs text-red-700 transition-all md:text-sm">
             <h3 className="mb-1 flex items-center gap-1 text-lg font-medium md:text-xl">
@@ -447,7 +450,7 @@ const Participant: NextPage = () => {
                 className="relative hidden h-[571px] w-[800px] lg:block"
               >
                 <img
-                  src={"/cerfifates/hermosa.jpg"}
+                  src={`/cerfifates/${eventData.name.toLocaleLowerCase()}.jpg`}
                   // width={800}
                   // height={1000}
                   alt="hermosa certificate"
@@ -506,7 +509,7 @@ const Participant: NextPage = () => {
                 className="relative hidden h-[428px] max-h-[500px] w-[600px] max-w-[600px] md:block lg:hidden"
               >
                 <img
-                  src={"/cerfifates/hermosa.jpg"}
+                  src={`/cerfifates/${eventData.name.toLocaleLowerCase()}.jpg`}
                   // width={1000}
                   // height={1000}
                   onContextMenu={(e) => e.preventDefault()}
@@ -566,7 +569,7 @@ const Participant: NextPage = () => {
                 className="relative hidden h-[356px] max-h-[500px] w-[500px] max-w-[500px] sm:block md:hidden lg:hidden"
               >
                 <img
-                  src={"/cerfifates/hermosa.jpg"}
+                  src={`/cerfifates/${eventData.name.toLocaleLowerCase()}.jpg`}
                   // width={1000}
                   // height={1000}
                   onContextMenu={(e) => e.preventDefault()}
@@ -625,7 +628,7 @@ const Participant: NextPage = () => {
                 className="relative h-[214px] max-h-[300px] w-[300px] max-w-[300px] sm:hidden md:hidden lg:hidden"
               >
                 <img
-                  src={"/cerfifates/hermosa.jpg"}
+                  src={`/cerfifates/${eventData.name.toLocaleLowerCase()}.jpg`}
                   // width={1000}
                   // height={1000}
                   onContextMenu={(e) => e.preventDefault()}

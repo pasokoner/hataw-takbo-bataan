@@ -96,8 +96,8 @@ const ParticipantForm = ({ eventId, handleParticipant }: Props) => {
 
   return (
     <div className="flex h-[70vh] w-full flex-col items-center pt-12  md:justify-center">
-      <div className="flex w-11/12 max-w-[24rem] flex-col items-center gap-4 rounded-md border-2 border-solid border-black sm:w-96">
-        <h2 className="w-full rounded-t-sm bg-primary p-2 text-center font-semibold text-white">
+      <div className="flex w-11/12 max-w-[24rem] flex-col items-center gap-4 rounded-md border-2 border-solid border-[#f4f4f4] sm:w-96">
+        <h2 className="w-full rounded-t-sm bg-[#f4f4f4] p-2 text-center text-xl font-semibold text-gray-400">
           AUTHENTICATOR
         </h2>
         {/* <div className="flex justify-center">
@@ -126,7 +126,9 @@ const ParticipantForm = ({ eventId, handleParticipant }: Props) => {
             />
           </label>
         </div>
-        <div className="rounded-full border-y-2 border-solid p-2">OR?</div>
+        <div className="rounded-full  border-y-2 border-[#f4f4f4] p-2 text-gray-400">
+          OR?
+        </div>
         {/* eslint-disable @typescript-eslint/no-misused-promises */}
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -175,7 +177,7 @@ const ParticipantForm = ({ eventId, handleParticipant }: Props) => {
           {!idLoading && !detailsLoading && (
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 bg-primary py-3 text-white hover:bg-[#0d6cb5] disabled:bg-[#0d6cb5]"
+              className="flex w-full items-center justify-center gap-2 bg-primary py-3 text-sm text-white hover:bg-[#0d6cb5] disabled:bg-[#0d6cb5]"
             >
               FIND MY ACCOUNT <TbUserSearch className="inline" />
             </button>

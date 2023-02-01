@@ -107,7 +107,7 @@ const Home: NextPage = () => {
 
       <div className="w-full">
         <ScreenContainer className="pt-20 text-gray-500">
-          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-4 border-dashed border-yellow-400 py-6 px-2 text-xl font-semibold md:gap-4 md:text-4xl">
+          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-yellow-400 p-2 text-xl font-semibold md:gap-4">
             RACE GUIDE <RiGuideLine className="text-yellow-400" />
           </h2>
           <div className="grid grid-cols-2 gap-4">
@@ -129,7 +129,7 @@ const Home: NextPage = () => {
 
       <div className="w-full">
         <ScreenContainer className="py-20 text-gray-500 ">
-          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-4 border-dashed border-yellow-400 py-6 px-2 text-xl font-semibold md:gap-4 md:text-4xl">
+          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-yellow-400 p-2 text-xl font-semibold md:gap-4">
             PUBLIC NOTICE <AiOutlineNotification className="text-yellow-400" />
           </h2>
           <div className="grid grid-cols-2 gap-10">
@@ -137,7 +137,7 @@ const Home: NextPage = () => {
               src={NoticeImg}
               alt="Notice Image"
               width={1600}
-              className="col-span-2 mx-auto rounded-sm"
+              className="col-span-2 mx-auto w-full rounded-sm md:w-8/12"
             />
             <Image
               src={Alternative1}
@@ -171,7 +171,7 @@ const Home: NextPage = () => {
               <h3 className="mb-1 text-xl font-medium md:text-2xl">
                 AGE REQUIREMENTS:
               </h3>
-              <ul className="ml-8 flex list-disc flex-col gap-2">
+              <ul className="ml-8 flex list-disc flex-col gap-2 text-sm">
                 <li>
                   For 5k participants, must be 13 years old and above. Kids
                   above 12 years old and above will be allowed to run provided
@@ -189,7 +189,7 @@ const Home: NextPage = () => {
               <h3 className="mb-1 text-xl font-medium md:text-2xl">
                 RULES AND REGULATION:
               </h3>
-              <ul className="ml-8 flex list-decimal flex-col gap-2 text-lg">
+              <ul className="ml-8 flex list-decimal flex-col gap-2 text-sm">
                 <li>
                   Participants below the age of 18, must seek their
                   parent/guardian consent and fill up the entry form where the
@@ -208,8 +208,8 @@ const Home: NextPage = () => {
 
       <div ref={waiverRef} className="w-full bg-slate-200">
         <ScreenContainer className="md:0 grid grid-cols-6 items-center py-14 text-gray-500 md:py-24">
-          <div className="order-last col-span-6 flex flex-col gap-4 lg:-order-1 lg:col-span-4">
-            <h2 className="text-2xl font-semibold lg:text-4xl">
+          <div className="order-last col-span-6 flex flex-col gap-4 text-sm lg:-order-1 lg:col-span-4">
+            <h2 className="text-2xl font-semibold lg:text-3xl">
               LIABILITY AND RACE AGREEMENT
             </h2>
             <p>

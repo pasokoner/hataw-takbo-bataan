@@ -27,7 +27,7 @@ const NavBar: React.FC = () => {
 
         <Link
           href={"/event"}
-          className="rounded-md border-2  border-primary py-1 px-2 text-center text-sm text-primary transition-all hover:border-primary-hover hover:text-primary-hover md:px-4 md:py-2"
+          className="rounded-md border-2 border-primary py-1 px-2 text-center text-xs text-primary transition-all hover:border-primary-hover hover:text-primary-hover md:px-4 md:py-2"
         >
           BROWSE EVENTS
         </Link>

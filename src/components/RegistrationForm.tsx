@@ -27,8 +27,6 @@ type Props = {
 
 type ParticipantBataan = z.infer<typeof participantSchema>;
 
-type ParticipantOutsideBataan = Omit<ParticipantBataan, "municipality">;
-
 const RegistrationForm = ({ eventId, eventName }: Props) => {
   const [error, setError] = useState("");
 
@@ -52,13 +50,9 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
     },
   });
 
-  const { register, handleSubmit, watch, reset } = useForm<
-    ParticipantBataan | ParticipantOutsideBataan
-  >();
+  const { register, handleSubmit, watch, reset } = useForm<ParticipantBataan>();
 
-  const onSubmit: SubmitHandler<
-    ParticipantBataan | ParticipantOutsideBataan
-  > = (data) => {
+  const onSubmit: SubmitHandler<ParticipantBataan> = (data) => {
     if (data) {
       const { address, firstName, lastName, emergencyContact, email } = data;
       mutate({
@@ -66,6 +60,11 @@ const RegistrationForm = ({ eventId, eventName }: Props) => {
         birthdate: dayjs(data.birthdate).toDate(),
         eventId: eventId,
         address: address.trim().toUpperCase(),
+        distance:
+          typeof data.distance === "string"
+            ? parseInt(data.distance)
+            : data.distance,
+        municipality: data.municipality ? data.municipality : undefined,
         firstName: firstName.trim().toUpperCase(),
         lastName: lastName.trim().toUpperCase(),
         emergencyContact: emergencyContact.trim().toUpperCase(),

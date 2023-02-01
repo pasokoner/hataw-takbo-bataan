@@ -68,8 +68,8 @@ const Event: NextPage = () => {
   }
 
   return (
-    <ScreenContainer className="py-6">
-      <Title value="List of all events" />
+    <ScreenContainer className="py-6 text-gray-700">
+      <h3 className="text-2xl font-medium text-gray-600">ALL EVENTS</h3>
       <div className="grid grid-cols-6 gap-4 pt-6">
         {events &&
           events
@@ -95,8 +95,11 @@ const Event: NextPage = () => {
                   !!raceFinished3km && !!raceFinished5km && !!raceFinished10km;
 
                 return (
-                  <div key={id} className="col-span-6 w-full md:col-span-3">
-                    <div className="rounded-md bg-km10 p-2">
+                  <div
+                    key={id}
+                    className="col-span-6 w-full sm:col-span-3 lg:col-span-2"
+                  >
+                    <div className="rounded-md border-2 border-slate-100">
                       <div className="relative h-28 bg-km3">
                         <div className="absolute top-2 left-2 z-10 rounded-lg bg-white p-1 opacity-70">
                           {!closeRegistration &&
@@ -143,8 +146,8 @@ const Event: NextPage = () => {
                         />
                       </div>
                       <div className="bg-white py-6 px-4">
-                        <h3 className="mb-4 text-3xl">{name}</h3>
-                        <div className="mb-4">
+                        <h3 className="mb-4 text-xl">{name}</h3>
+                        <div className="mb-4 text-sm">
                           <p>
                             {dayjs(scheduleTimeStart).format("dddd")},{" "}
                             {dayjs(scheduleTimeStart).format("MMMM")}{" "}
@@ -159,7 +162,7 @@ const Event: NextPage = () => {
                         </div>
 
                         <Link href={`/event/${id}/register`}>
-                          <div className="mb-2 w-full rounded-sm border-2  bg-primary py-3 text-center text-white hover:bg-primary-hover">
+                          <div className="mb-2 w-full rounded-sm border-[1px] bg-primary py-2 text-center text-white hover:bg-primary-hover">
                             REGISTER
                           </div>
                         </Link>
@@ -170,14 +173,14 @@ const Event: NextPage = () => {
                             !!timeStart5km ||
                             !!timeStart3km) && (
                             <Link href={`/event/${id}/participant`}>
-                              <div className="mb-2 w-full rounded-sm border-2  bg-primary py-3 text-center text-white hover:bg-primary-hover">
+                              <div className="mb-2 w-full rounded-sm border-[1px] border-primary bg-white py-2 text-center text-primary">
                                 CLAIM CERTIFICATE
                               </div>
                             </Link>
                           )}
                         {!closeRegistration && (
                           <Link href={`/event/${id}/participant`}>
-                            <div className="mb-2 w-full border-2 py-4 text-center">
+                            <div className="mb-2 w-full rounded-sm border-[1px] border-primary bg-white py-2 text-center text-primary">
                               EDIT/VIEW DETAILS
                             </div>
                           </Link>

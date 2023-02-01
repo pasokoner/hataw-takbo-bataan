@@ -9,6 +9,7 @@ type Props = {
   raceFinished: boolean;
   timeStart: Date | null;
   eventId: string;
+  color: "km3" | "km5" | "km10";
   refetchEvent: () => void;
 };
 
@@ -18,6 +19,7 @@ const StartButton = ({
   eventId,
   raceFinished,
   refetchEvent,
+  color,
 }: Props) => {
   const { mutate: startRace } = api.event.start.useMutation({
     onSuccess: () => {
@@ -48,7 +50,7 @@ const StartButton = ({
   if (timeStart) {
     content = (
       <>
-        <p className="text-4xl sm:text-5xl">
+        <p className="text-2xl text-gray-700 sm:text-3xl">
           {dayjs(timeStart).format("hh")}
           {" : "}
           {dayjs(timeStart).format("mm")}
@@ -56,7 +58,9 @@ const StartButton = ({
           {dayjs(timeStart).format("ss")} {dayjs(timeStart).format("A")}
         </p>
         {raceFinished ? (
-          <div className="flex w-full items-center justify-center gap-4 border-2 bg-slate-600 py-4 px-2 text-4xl font-semibold text-white">
+          <div
+            className={`flex w-8/12 items-center justify-center gap-4 bg-${color} py-3 px-2 text-xl font-semibold text-white`}
+          >
             RACE END
           </div>
         ) : (
@@ -64,10 +68,10 @@ const StartButton = ({
             onClick={() => {
               updateRaceStatus(kilometer, eventId);
             }}
-            className="flex w-full items-center justify-center gap-4 border-2 bg-slate-600 py-4 px-2 text-4xl font-semibold text-white transition-all hover:bg-slate-700"
+            className={`flex w-8/12 items-center justify-center gap-4 bg-${color} py-3 px-2 text-xl font-semibold text-white hover:opacity-80`}
           >
             END RACE
-            <FaStop className="text-red-500" />
+            <FaStop />
           </button>
         )}
       </>
@@ -75,12 +79,12 @@ const StartButton = ({
   } else {
     content = (
       <>
-        <p className="text-4xl sm:text-5xl">-- : -- : -- --</p>
+        <p className="text-2xl text-gray-700 sm:text-3xl">-- : -- : -- --</p>
         <button
           onClick={() => {
             updateTimeStart(kilometer, new Date(), eventId);
           }}
-          className="flex w-full items-center justify-center gap-4 border-2 bg-slate-600 py-4 px-2 text-4xl font-semibold text-white transition-all hover:bg-slate-700"
+          className={`flex w-8/12 items-center justify-center gap-4 bg-${color} py-3 px-2 text-xl font-semibold text-white hover:opacity-80`}
         >
           START
           <FaPlay />
