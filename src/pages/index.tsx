@@ -254,9 +254,13 @@ const Home: NextPage = () => {
             <p>In case of emergency, contact: ______________</p>
             <p className="mb-5">Contact No.: _____________</p>
 
-            <button className="col-span-1 flex items-center justify-center gap-2 rounded-md border-2 border-solid border-black py-4 font-semibold shadow-md hover:bg-slate-100 sm:max-w-[20rem]">
+            <a
+              href="/race-agreement.pdf"
+              download="race-waiver.pdf"
+              className="col-span-1 flex items-center justify-center gap-2 rounded-md border-2 border-solid border-black py-4 font-semibold shadow-md hover:bg-slate-100 sm:max-w-[20rem]"
+            >
               DOWNLOAD WAIVER <FiDownload />
-            </button>
+            </a>
           </div>
           <div className="col-span-6 mx-auto mb-14 w-6/12 lg:col-span-2 lg:mb-0 lg:w-full">
             <Image src={WaiverImg} alt="Waiver Image" />
