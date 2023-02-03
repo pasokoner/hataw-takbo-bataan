@@ -40,7 +40,7 @@ module.exports = {
       },
 
       animation: {
-        run: "run 1s linear infinite",
+        run: "run 1.5s linear infinite",
       },
 
       // animation: {

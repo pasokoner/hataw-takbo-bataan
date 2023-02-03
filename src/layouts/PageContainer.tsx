@@ -6,7 +6,7 @@ type Props = {
 };
 
 const PageContainer = ({ children }: Props) => {
-  return (
+  return (  
     <div className="flex min-h-screen w-full flex-col">
       <NavBar />
 

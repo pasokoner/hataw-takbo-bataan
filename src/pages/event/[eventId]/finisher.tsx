@@ -125,7 +125,9 @@ const Finished: NextPage = () => {
 
   return (
     <ScreenContainer className="py-6">
-      <div className="mb-2 grid grid-cols-6 gap-2">
+      <h2 className="mb-2 text-2xl font-semibold">{distance} KM FINISHERS</h2>
+
+      <div className="mb-2 grid w-full grid-cols-6 gap-2 text-sm md:w-6/12">
         <button
           onClick={() => setDistance(3)}
           className="col-span-3 flex items-center justify-center rounded-sm border-2 border-black bg-km3 py-2 font-bold text-white hover:bg-opacity-95 md:col-span-2"
@@ -146,7 +148,6 @@ const Finished: NextPage = () => {
         </button>
       </div>
 
-      <Title value={`${distance} KM FINISHERS`} />
       <div className="flex w-full">
         <div className="flex items-center justify-center rounded-sm border-2 bg-black py-1 px-2 text-2xl font-semibold text-white">
           FINISHERS: {raceData?.pages[0]?.finishersCount}

@@ -9,9 +9,7 @@ import { api } from "../../utils/api";
 import dayjs from "dayjs";
 
 import ScreenContainer from "../../layouts/ScreenContainer";
-import Title from "../../components/Title";
 
-import { BiCog } from "react-icons/bi";
 import { BsJoystick } from "react-icons/bs";
 import { GoPrimitiveDot } from "react-icons/go";
 
@@ -24,7 +22,6 @@ const Event: NextPage = () => {
     return (
       <ScreenContainer>
         <div className="pt-6">
-          <Title value="List of all events" />
           <div className="grid grid-cols-6 gap-4 pt-6">
             <div className="col-span-6 w-full animate-pulse rounded-md border border-slate-400 p-4 shadow sm:col-span-3 lg:col-span-2">
               <div className="">
@@ -99,7 +96,7 @@ const Event: NextPage = () => {
                     key={id}
                     className="col-span-6 w-full sm:col-span-3 lg:col-span-2"
                   >
-                    <div className="rounded-md border-2 border-slate-100">
+                    <div className="rounded-md border-2 border-slate-200">
                       <div className="relative h-28 bg-km3">
                         <div className="absolute top-2 left-2 z-10 rounded-lg bg-white p-1 opacity-70">
                           {!closeRegistration &&

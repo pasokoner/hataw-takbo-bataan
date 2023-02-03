@@ -363,20 +363,20 @@ const Camera: NextPage = () => {
 
   return (
     <ScreenContainer className="pt-6">
-      <div className="mb-4 grid grid-cols-6 gap-3">
-        <h3 className="col-span-3 font-semibold sm:col-span-2 sm:text-xl">
+      <div className="mb-4 grid grid-cols-6 gap-3 text-sm">
+        <h3 className="col-span-3 font-semibold sm:col-span-2">
           <span className="rounded-md bg-km3 p-1 text-white sm:p-2">3KM</span> -{" "}
           {eventData.timeStart3km && eventData.raceFinished3km && "FINISHED"}
           {eventData.timeStart3km && !eventData.raceFinished3km && "ONGOING"}
           {!eventData.timeStart3km && "STANDBY"}
         </h3>
-        <h3 className="col-span-3 font-semibold sm:col-span-2 sm:text-xl">
+        <h3 className="col-span-3 font-semibold sm:col-span-2">
           <span className="rounded-md bg-km5 p-1 text-white sm:p-2">5KM</span> -{" "}
           {eventData.timeStart5km && eventData.raceFinished5km && "FINISHED"}
           {eventData.timeStart5km && !eventData.raceFinished5km && "ONGOING"}
           {!eventData.timeStart5km && "STANDBY"}
         </h3>
-        <h3 className="col-span-3 font-semibold sm:col-span-2 sm:text-xl">
+        <h3 className="col-span-3 font-semibold sm:col-span-2">
           <span className="rounded-md bg-km10 p-1 text-white sm:p-2">10KM</span>{" "}
           -{" "}
           {eventData.timeStart10km && eventData.raceFinished10km && "FINISHED"}
