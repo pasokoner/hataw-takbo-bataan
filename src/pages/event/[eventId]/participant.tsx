@@ -14,37 +14,18 @@ import html2canvas from "html2canvas";
 import LoadSpinner from "../../../components/LoadSpinner";
 import ParticipantForm from "../../../components/ParticipantForm";
 import ScreenContainer from "../../../layouts/ScreenContainer";
-import Title from "../../../components/Title";
 
 import { AiOutlineEdit, AiOutlineClose } from "react-icons/ai";
 import { CgDanger } from "react-icons/cg";
 import { FiDownload } from "react-icons/fi";
 import { RiLoader5Fill } from "react-icons/ri";
+import { getFinishedTime } from "../../../utils/convertion";
 
 type EditForm = {
   firstName: string;
   lastName: string;
   distance: string;
   shirtSize: ShirtSize;
-};
-
-const getFinishedTime = (timeFinished: Date, timeStart: Date) => {
-  return `${Math.floor(
-    (timeFinished.getTime() - timeStart.getTime()) / (1000 * 60 * 60)
-  )
-    .toFixed(0)
-    .toString()
-    .padStart(2, "0")}:${Math.floor(
-    ((timeFinished.getTime() - timeStart.getTime()) / (1000 * 60)) % 60
-  )
-    .toFixed(0)
-    .toString()
-    .padStart(2, "0")}:${Math.floor(
-    ((timeFinished.getTime() - timeStart.getTime()) / 1000) % 60
-  )
-    .toFixed(0)
-    .toString()
-    .padStart(2, "0")}`;
 };
 
 const Participant: NextPage = () => {

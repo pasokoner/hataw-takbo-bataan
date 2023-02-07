@@ -16,6 +16,7 @@ import Title from "../../../components/Title";
 
 import { RiLoader5Fill } from "react-icons/ri";
 import ExportFinisher from "../../../components/ExportFinisher";
+import { getFinishedTime } from "../../../utils/convertion";
 
 const Finished: NextPage = () => {
   const { query } = useRouter();
@@ -56,34 +57,6 @@ const Finished: NextPage = () => {
         refetchInterval: 60000,
       }
     );
-
-  const exportToExcel = () => {
-    if (!tableRef.current) return;
-    const table = tableRef.current;
-    const data: any[] = [];
-    //Get the rows of the table
-    const rows = table.getElementsByTagName("tr");
-    //Get the headers of the table
-
-    const headers = rows[0]!.getElementsByTagName("th");
-    //Iterate through rows
-    for (let i = 1; i < rows.length; i++) {
-      const rowData = {};
-      const cells = rows[i]!.getElementsByTagName("td");
-      //Iterate through cells
-      for (let j = 0; j < cells.length; j++) {
-        /* eslint-disable @typescript-eslint/ban-ts-comment */
-        //@ts-ignore
-        rowData[headers[j].textContent] = cells[j].textContent;
-      }
-      data.push(rowData);
-    }
-    //Convert the data to a workbook
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, `${distance}KM-finishers.xlsx`);
-  };
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -197,32 +170,10 @@ const Finished: NextPage = () => {
                     timeStart = eventData.timeStart10km;
                   }
 
-                  const time = timeStart
-                    ? `${Math.floor(
-                        ((timeFinished as Date).getTime() -
-                          timeStart.getTime()) /
-                          (1000 * 60 * 60)
-                      )
-                        .toFixed(0)
-                        .toString()}:${Math.floor(
-                        (((timeFinished as Date).getTime() -
-                          timeStart.getTime()) /
-                          1000 /
-                          60) %
-                          60
-                      )
-                        .toFixed(0)
-                        .toString()
-                        .padStart(2, "0")}:${Math.floor(
-                        (((timeFinished as Date).getTime() -
-                          timeStart.getTime()) /
-                          1000) %
-                          60
-                      )
-                        .toFixed(0)
-                        .toString()
-                        .padStart(2, "0")}`
-                    : "00:00:00";
+                  const time = getFinishedTime(
+                    timeFinished as Date,
+                    timeStart as Date
+                  );
 
                   const rankers =
                     index < 10 && pageIndex === 0

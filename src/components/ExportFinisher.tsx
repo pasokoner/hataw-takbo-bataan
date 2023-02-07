@@ -2,6 +2,7 @@ import * as XLSX from "xlsx";
 import { api } from "../utils/api";
 import { useEffect, useState } from "react";
 import { type Event } from "@prisma/client";
+import { getFinishedTime } from "../utils/convertion";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   distance: number;
@@ -39,29 +40,7 @@ const ExportFinisher = ({ distance, eventId, eventData, className }: Props) => {
 
       const dataFormatted = data?.map(
         ({ registrationNumber, participant, timeFinished }) => {
-          const time = timeStart
-            ? `${Math.floor(
-                ((timeFinished as Date).getTime() - timeStart.getTime()) /
-                  (1000 * 60 * 60)
-              )
-                .toFixed(0)
-                .toString()}:${Math.floor(
-                (((timeFinished as Date).getTime() - timeStart.getTime()) /
-                  1000 /
-                  60) %
-                  60
-              )
-                .toFixed(0)
-                .toString()
-                .padStart(2, "0")}:${Math.floor(
-                (((timeFinished as Date).getTime() - timeStart.getTime()) /
-                  1000) %
-                  60
-              )
-                .toFixed(0)
-                .toString()
-                .padStart(2, "0")}`
-            : "00:00:00";
+          const time = getFinishedTime(timeFinished as Date, timeStart as Date);
 
           return {
             registrationNumber,
