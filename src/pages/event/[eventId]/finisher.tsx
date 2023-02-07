@@ -15,6 +15,7 @@ import ScreenContainer from "../../../layouts/ScreenContainer";
 import Title from "../../../components/Title";
 
 import { RiLoader5Fill } from "react-icons/ri";
+import ExportFinisher from "../../../components/ExportFinisher";
 
 const Finished: NextPage = () => {
   const { query } = useRouter();
@@ -152,12 +153,17 @@ const Finished: NextPage = () => {
         <div className="flex items-center justify-center rounded-sm border-2 bg-black py-1 px-2 text-2xl font-semibold text-white">
           FINISHERS: {raceData?.pages[0]?.finishersCount}
         </div>
-        <button
+        {/* <button
           onClick={exportToExcel}
           className="ml-auto rounded-sm border-2 bg-emerald-400 py-1 px-2 text-xl font-semibold text-white"
         >
           EXPORT
-        </button>
+        </button> */}
+        <ExportFinisher
+          distance={distance}
+          eventId={eventData.id}
+          eventData={eventData}
+        />
       </div>
 
       <table className="w-full" ref={tableRef}>

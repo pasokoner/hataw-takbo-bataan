@@ -164,7 +164,7 @@ const Participant: NextPage = () => {
 
       <div className="mt-6 w-full rounded border border-slate-400 bg-slate-100 px-4 py-3 text-slate-700 md:w-6/12">
         {edit && (
-          <div className="mt-2 mb-4 rounded-sm border-2 border-red-400  bg-red-100 py-1 px-2 text-xs text-red-700 transition-all md:text-sm">
+          <div className="mt-2 mb-4 rounded-sm border-2 border-red-400 bg-red-50 py-1 px-2 text-xs text-gray-700 transition-all md:text-sm">
             <h3 className="mb-1 flex items-center gap-1 text-lg font-medium md:text-xl">
               NOTICE REMINDER <CgDanger />{" "}
             </h3>
@@ -227,7 +227,7 @@ const Participant: NextPage = () => {
                 }}
                 className="ml-auto flex cursor-pointer items-center justify-center gap-1 rounded-md border-2 border-red-400 bg-red-100  py-1 px-2 font-semibold text-red-700 transition-all hover:bg-red-200 md:mr-4"
               >
-                EXIT{" "}
+                CLOSE{" "}
                 <AiOutlineClose className="text-xl text-red-700 md:text-2xl" />
               </button>
             )}
@@ -239,7 +239,7 @@ const Participant: NextPage = () => {
               }}
               className="ml-auto flex cursor-pointer items-center justify-center gap-1 rounded-md border-2 border-red-400 bg-red-100  py-1 px-2 font-semibold text-red-700 transition-all hover:bg-red-200 md:mr-4"
             >
-              EXIT{" "}
+              CLOSE{" "}
               <AiOutlineClose className="text-xl text-red-700 md:text-2xl" />
             </button>
           )}
