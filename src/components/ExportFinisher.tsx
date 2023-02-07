@@ -3,13 +3,13 @@ import { api } from "../utils/api";
 import { useEffect, useState } from "react";
 import { type Event } from "@prisma/client";
 
-type Props = {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   distance: number;
   eventId: string;
   eventData: Event | null | undefined;
-};
+}
 
-const ExportFinisher = ({ distance, eventId, eventData }: Props) => {
+const ExportFinisher = ({ distance, eventId, eventData, className }: Props) => {
   const [enableFetch, setEnableFetch] = useState(false);
 
   const { data } = api.km.getFinishers.useQuery(
@@ -89,7 +89,7 @@ const ExportFinisher = ({ distance, eventId, eventData }: Props) => {
 
   return (
     <button
-      className="ml-auto rounded-sm border-2 bg-emerald-400 py-1 px-2 text-xl font-semibold text-white"
+      className={className}
       onClick={() => {
         convertDownload();
       }}

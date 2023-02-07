@@ -163,6 +163,7 @@ const Finished: NextPage = () => {
           distance={distance}
           eventId={eventData.id}
           eventData={eventData}
+          className="ml-auto rounded-sm border-2 bg-emerald-400 py-1 px-2 text-xl font-semibold text-white"
         />
       </div>
 
