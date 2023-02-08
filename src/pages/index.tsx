@@ -107,7 +107,7 @@ const Home: NextPage = () => {
 
       <div className="w-full">
         <ScreenContainer className="pt-20 text-gray-500">
-          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-yellow-400 p-2 text-xl font-semibold md:gap-4">
+          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-yellow-400 p-2 text-3xl font-semibold md:gap-4">
             RACE GUIDE <RiGuideLine className="text-yellow-400" />
           </h2>
           <div className="grid grid-cols-2 gap-4">
@@ -129,7 +129,7 @@ const Home: NextPage = () => {
 
       <div className="w-full">
         <ScreenContainer className="py-20 text-gray-500 ">
-          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-yellow-400 p-2 text-xl font-semibold md:gap-4">
+          <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-yellow-400 p-2 text-3xl font-semibold md:gap-4">
             PUBLIC NOTICE <AiOutlineNotification className="text-yellow-400" />
           </h2>
           <div className="grid grid-cols-2 gap-10">
