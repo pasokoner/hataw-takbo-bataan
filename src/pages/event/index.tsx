@@ -158,11 +158,13 @@ const Event: NextPage = () => {
                           <p>No. of participants {_count.participant}</p>
                         </div>
 
-                        <Link href={`/event/${id}/register`}>
-                          <div className="mb-2 w-full rounded-sm border-[1px] bg-primary py-2 text-center text-white hover:bg-primary-hover">
-                            REGISTER
-                          </div>
-                        </Link>
+                        {!closeRegistration && (
+                          <Link href={`/event/${id}/register`}>
+                            <div className="mb-2 w-full rounded-sm border-[1px] bg-primary py-2 text-center text-white hover:bg-primary-hover">
+                              REGISTER
+                            </div>
+                          </Link>
+                        )}
 
                         {/* {eventData} */}
                         {closeRegistration &&

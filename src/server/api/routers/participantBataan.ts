@@ -8,6 +8,7 @@ import {
   Prisma,
   Participant,
 } from "@prisma/client";
+import { getFinishedTime } from "../../../utils/convertion";
 
 export const participantSchema = z.object({
   firstName: z.string(),
@@ -88,8 +89,31 @@ export const participantRouter = createTRPCRouter({
         },
         include: {
           kilometers: true,
+          // event: true,
         },
       });
+
+      // if (data?.kilometers[0]?.timeFinished) {
+      //   const distance = data?.kilometers[0].distance;
+      //   const time = data?.kilometers[0].timeFinished;
+
+      //   if (distance === 3) {
+      //     return {
+      //       ...data,
+      //       time: getFinishedTime(time, data.event.timeStart3km as Date),
+      //     };
+      //   } else if (distance === 5) {
+      //     return {
+      //       ...data,
+      //       time: getFinishedTime(time, data.event.timeStart5km as Date),
+      //     };
+      //   } else if (distance === 10) {
+      //     return {
+      //       ...data,
+      //       time: getFinishedTime(time, data.event.timeStart5km as Date),
+      //     };
+      //   }
+      // }
 
       return data;
     }),
@@ -115,12 +139,34 @@ export const participantRouter = createTRPCRouter({
           firstName: firstName,
           lastName: lastName,
           registrationNumber: registrationNumber,
-          // birthdate: birthdate,
         },
         include: {
           kilometers: true,
+          event: true,
         },
       });
+
+      // if (data?.kilometers[0]?.timeFinished) {
+      //   const distance = data?.kilometers[0].distance;
+      //   const time = data?.kilometers[0].timeFinished;
+
+      //   if (distance === 3) {
+      //     return {
+      //       ...data,
+      //       time: getFinishedTime(time, data.event.timeStart3km as Date),
+      //     };
+      //   } else if (distance === 5) {
+      //     return {
+      //       ...data,
+      //       time: getFinishedTime(time, data.event.timeStart5km as Date),
+      //     };
+      //   } else if (distance === 10) {
+      //     return {
+      //       ...data,
+      //       time: getFinishedTime(time, data.event.timeStart5km as Date),
+      //     };
+      //   }
+      // }
 
       return data;
     }),

@@ -14,6 +14,7 @@ import html2canvas from "html2canvas";
 import LoadSpinner from "../../../components/LoadSpinner";
 import ParticipantForm from "../../../components/ParticipantForm";
 import ScreenContainer from "../../../layouts/ScreenContainer";
+import Title from "../../../components/Title";
 
 import { AiOutlineEdit, AiOutlineClose } from "react-icons/ai";
 import { CgDanger } from "react-icons/cg";
@@ -64,7 +65,7 @@ const Participant: NextPage = () => {
   const [showCertificate, setShowCertificate] = useState(false);
 
   const handleParticipant = (
-    participant: Participant & { kilometers: Kilometer[] }
+    participant: (Participant & { kilometers: Kilometer[] }) | null
   ) => {
     setParticipant(participant);
   };
