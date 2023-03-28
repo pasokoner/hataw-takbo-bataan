@@ -13,7 +13,6 @@ import QrMaker from "../../../components/QrMaker";
 
 import html2canvas from "html2canvas";
 
-import BidsLogo from "../../../assets/bids-logo.png";
 import HTBLogo from "../../../assets/hataw-takbo-bataan.png";
 import OneBataanLogo from "../../../assets/1bataan.png";
 import SeekPhorLogo from "../../../assets/seekphor.png";
@@ -34,7 +33,7 @@ const Generate: NextPage = () => {
   );
 
   const bibRef = useRef<HTMLDivElement>(null);
-  const [printStart, setPrintStart] = useState(2650);
+  const [printStart, setPrintStart] = useState(0);
   const [bibCanvas, setBibCanvas] = useState<Kilometer>();
 
   const handleDownloadImage = async (registrationNumber?: number) => {
@@ -175,7 +174,7 @@ const Generate: NextPage = () => {
             <Image
               src={SeekPhorLogo}
               alt="Seek Phor"
-              className="col-span-1"
+              className="z-10 col-span-1"
               width={150}
             />
             <Image

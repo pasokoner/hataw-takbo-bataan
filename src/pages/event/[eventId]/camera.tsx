@@ -32,7 +32,6 @@ type ManualRecord = {
 
 type ScanRecord = {
   kilometerId: string;
-  status: "success" | "error" | "loading" | "standby";
   timeFinished: Date;
   id: string;
 };

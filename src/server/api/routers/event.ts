@@ -55,6 +55,47 @@ export const eventRouter = createTRPCRouter({
       },
     });
   }),
+  getBreakdown: publicProcedure
+    .input(
+      z.object({
+        finishers: z.boolean(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { prisma } = ctx;
+
+      const events = await prisma.event.findMany({
+        where: {
+          NOT: {
+            id: "clde678wm0004f1k4bofoulll",
+          },
+        },
+
+        include: {
+          kilometer: true,
+        },
+      });
+
+      return events.map(({ name, kilometer }) => {
+        const three = kilometer.filter(({ timeFinished, distance }) =>
+          input.finishers ? !timeFinished && distance === 3 : distance === 3
+        );
+        const five = kilometer.filter(({ timeFinished, distance }) =>
+          input.finishers ? !timeFinished && distance === 5 : distance === 5
+        );
+        const ten = kilometer.filter(({ timeFinished, distance }) =>
+          input.finishers ? !timeFinished && distance === 10 : distance === 10
+        );
+
+        return {
+          name,
+          three: three.length,
+          five: five.length,
+          ten: ten.length,
+        };
+      });
+
+    }),
   config: publicProcedure
     .input(
       z.object({

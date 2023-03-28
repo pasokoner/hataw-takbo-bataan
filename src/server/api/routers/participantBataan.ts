@@ -8,7 +8,6 @@ import {
   Prisma,
   Participant,
 } from "@prisma/client";
-import { getFinishedTime } from "../../../utils/convertion";
 
 export const participantSchema = z.object({
   firstName: z.string(),
@@ -53,7 +52,7 @@ export const participantRouter = createTRPCRouter({
           distance: distance,
           registrationNumber: data[0]?.registrationNumber
             ? data[0]?.registrationNumber + 1
-            : 27,
+            : 50,
         };
 
         return await prisma.participant.create({
@@ -173,7 +172,7 @@ export const participantRouter = createTRPCRouter({
   check: publicProcedure
     .input(
       z.object({
-        kilometerId: string(),
+        kilometerId: z.string(),
         timeFinished: z.date(),
       })
     )

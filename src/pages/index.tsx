@@ -36,11 +36,9 @@ const Home: NextPage = () => {
         <ScreenContainer className="py:10 grid grid-cols-6 gap-14 sm:gap-0 sm:py-16">
           <div className="order-last col-span-6 mb-20  flex flex-col items-center justify-center sm:-order-1 sm:col-span-3 sm:mb-0">
             <div>
-              <h1 className="mb-2 text-3xl font-semibold sm:text-5xl">
-                HERMOSA
-              </h1>
+              <h1 className="mb-2 text-3xl font-semibold sm:text-5xl">BAGAC</h1>
               <div className="mb-4 text-lg font-medium">
-                <p>Event Date: January 29, 2023</p>
+                <p>Event Date: February 25, 2023</p>
                 <p>Brgy. Mabuco, Hermosa Bataan</p>
               </div>
               <p className="mb-4 text-sm">
@@ -111,12 +109,12 @@ const Home: NextPage = () => {
             RACE GUIDE <RiGuideLine className="text-yellow-400" />
           </h2>
           <div className="grid grid-cols-2 gap-4">
-            <Image
+            {/* <Image
               width={800}
               src={RouteImg}
               alt="Hermosa Route Image"
               className="col-span-2 md:col-span-1"
-            />
+            /> */}
             <Image
               width={800}
               src={StretchImg}
@@ -127,7 +125,7 @@ const Home: NextPage = () => {
         </ScreenContainer>
       </div>
 
-      <div className="w-full">
+      {/* <div className="w-full">
         <ScreenContainer className="py-20 text-gray-500 ">
           <h2 className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-yellow-400 p-2 text-3xl font-semibold md:gap-4">
             PUBLIC NOTICE <AiOutlineNotification className="text-yellow-400" />
@@ -159,7 +157,7 @@ const Home: NextPage = () => {
             />
           </div>
         </ScreenContainer>
-      </div>
+      </div> */}
 
       <div className="w-full">
         <ScreenContainer className="py-20 text-gray-500 md:py-28">
