@@ -432,7 +432,7 @@ const Participant: NextPage = () => {
                 className="relative hidden h-[571px] w-[800px] lg:block"
               >
                 <img
-                  src={`/cerfifates/${eventData.name.toLocaleLowerCase()}.jpg`}
+                  src={`/certificates/${eventData.name.toLocaleLowerCase()}.jpg`}
                   // width={800}
                   // height={1000}
                   alt="hermosa certificate"
@@ -491,7 +491,7 @@ const Participant: NextPage = () => {
                 className="relative hidden h-[428px] max-h-[500px] w-[600px] max-w-[600px] md:block lg:hidden"
               >
                 <img
-                  src={`/cerfifates/${eventData.name.toLocaleLowerCase()}.jpg`}
+                  src={`/certificates/${eventData.name.toLocaleLowerCase()}.jpg`}
                   // width={1000}
                   // height={1000}
                   onContextMenu={(e) => e.preventDefault()}
@@ -551,7 +551,7 @@ const Participant: NextPage = () => {
                 className="relative hidden h-[356px] max-h-[500px] w-[500px] max-w-[500px] sm:block md:hidden lg:hidden"
               >
                 <img
-                  src={`/cerfifates/${eventData.name.toLocaleLowerCase()}.jpg`}
+                  src={`/certificates/${eventData.name.toLocaleLowerCase()}.jpg`}
                   // width={1000}
                   // height={1000}
                   onContextMenu={(e) => e.preventDefault()}
@@ -610,7 +610,7 @@ const Participant: NextPage = () => {
                 className="relative h-[214px] max-h-[300px] w-[300px] max-w-[300px] sm:hidden md:hidden lg:hidden"
               >
                 <img
-                  src={`/cerfifates/${eventData.name.toLocaleLowerCase()}.jpg`}
+                  src={`/certificates/${eventData.name.toLocaleLowerCase()}.jpg`}
                   // width={1000}
                   // height={1000}
                   onContextMenu={(e) => e.preventDefault()}
